@@ -168,7 +168,7 @@ fig_hourly_animated.write_image("6.png", scale=3)
 fig_hourly_animated.write_html("moving.html")
 
 
-from moviepy import *
+from moviepy.video.io.ImageSequenceClip import ImageSequenceClip
 clip = mp.ImageSequenceClip(image_paths, fps=1)
 clip.write_videofile("bike_demand.mp4", codec="libx264")
 
