@@ -1,3 +1,4 @@
 streamlit
 plotly
-pandas  # Add other dependencies if needed
+pandas  
+kaleido
