@@ -168,11 +168,6 @@ fig_hourly_animated.write_image("6.png", scale=3)
 fig_hourly_animated.write_html("moving.html")
 
 
-import moviepy.editor as mp
-clip = mp.ImageSequenceClip(image_paths, fps=1)
-
-clip.write_videofile("bike_demand.mp4", codec="libx264")
-
 
 
 # How do bike rentals differ between holidays, weekends, and workdays at different times of the day?
