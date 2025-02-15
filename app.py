@@ -1,5 +1,6 @@
 import streamlit as st
 
+st.write("Debug: The script is running!")
 st.title("My Streamlit App")
 
 # Add interactivity here (sliders, buttons, inputs, etc.)
@@ -370,6 +371,14 @@ fig_weekly_trends_box.write_image("11.png", scale=3)
 
 
 
+
+
+
+
+
+
+if __name__ == "__main__":
+    main()
 
 
 
