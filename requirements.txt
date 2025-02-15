@@ -3,3 +3,4 @@ plotly
 pandas  
 kaleido
 moviepy
+imageio[ffmpeg]
