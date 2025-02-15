@@ -3,8 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.io as pio
 
-st.write("Debug: The script is running!")
-st.title("My Streamlit App")
+st.title("Unlocking the Secrets of Bike-Sharing: A Data Story")
 
 # Load the dataset once
 @st.cache_data
