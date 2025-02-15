@@ -174,9 +174,6 @@ clip.write_videofile("bike_demand.mp4", codec="libx264")
 
 
 
-
-pip install move
-
 # How do bike rentals differ between holidays, weekends, and workdays at different times of the day?
 
 import plotly.express as px
