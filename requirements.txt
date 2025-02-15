@@ -4,3 +4,8 @@ pandas
 kaleido
 moviepy
 imageio[ffmpeg]
+moviepy
+numpy
+scipy
+tqdm
+decorator
