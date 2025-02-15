@@ -23,6 +23,8 @@ day_df['season_name'] = day_df['season'].map(season_map)
 # Set dark theme
 pio.templates.default = "plotly_dark"
 
+st.subheader("Authors: Anika Achari & Prabhnoor Virk")
+
 # Bike Usage Across Different Seasons
 st.subheader("Bike Usage Across Different Seasons")
 fig_season_box = px.box(day_df, x='season_name', y='cnt', color='season_name',
