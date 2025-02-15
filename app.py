@@ -380,7 +380,10 @@ fig_weekly_trends_box.write_image("11.png", scale=3)
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+os.system("pip install seaborn")
 import seaborn as sns
+
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
