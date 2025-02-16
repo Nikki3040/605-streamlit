@@ -65,6 +65,46 @@ fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="we
 st.plotly_chart(fig_hourly_animated)
 st.markdown("Analysis: The interactive bar chart provides a detailed view of hourly bike demand across different days of the week, offering insights into how usage patterns vary between weekdays and weekends. On weekdays (Monday to Friday), there are two distinct peaks in bike rentals: one in the morning between 7-9 AM and another in the evening between 4-7 PM. These trends indicate that a significant portion of users rely on bike-sharing services for commuting to work or school. In contrast, weekends (Saturday and Sunday) exhibit a more gradual increase in demand throughout the day, with peak usage occurring later in the morning and early afternoon, around 10 AM - 6 PM. This suggests a shift from structured commuting-based rentals to recreational or leisurely bike rides. Late-night and early-morning bike rentals remain consistently low across all days, with minimal activity between 12 AM and 5 AM, indicating limited demand during these hours. However, weekend nights show slightly higher late-night rentals, likely due to social outings or nightlife activities. Additionally, Fridays stand out as a transitional day, displaying characteristics of both weekday commuting behavior and increasing evening leisure activity. Unlike other weekdays, Friday’s evening peak extends later into the night, reflecting a gradual shift into weekend patterns. Overall, this visualization highlights the clear distinction between weekday and weekend bike rental behaviors. Weekdays are characterized by structured demand tied to work and school schedules, while weekends cater more to flexible, leisure-oriented biking. These insights can be valuable for bike-sharing companies and urban planners, helping them optimize bike availability, adjust station placements, and enhance overall user experience based on demand fluctuations.")
 
+
+# Bike Usage Trends Over the Week
+# Map weekday numbers (0-6) to actual names
+weekday_mapping = {
+    0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
+    4: "Thursday", 5: "Friday", 6: "Saturday"
+}
+day_df["weekday_name"] = day_df["weekday"].map(weekday_mapping)
+
+# Aggregate bike rentals by weekday
+weekly_trends = day_df.groupby("weekday_name")["cnt"].mean().reset_index()
+
+# Sort the days of the week properly
+weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+weekly_trends["weekday_name"] = pd.Categorical(weekly_trends["weekday_name"], categories=weekday_order, ordered=True)
+weekly_trends = weekly_trends.sort_values("weekday_name")
+
+# Create a line chart to show bike rental trends across the week
+fig_weekly_trends_line = px.line(
+    weekly_trends, 
+    x="weekday_name", 
+    y="cnt", 
+    text=weekly_trends["cnt"].round(2),  # Round to 2 decimal places
+    title="Bike Usage Trends Over the Week",
+    labels={"cnt": "Average Bike Rentals", "weekday_name": "Day of the Week"},
+    markers=True,
+    template="plotly_dark"
+)
+
+# Adjust aesthetics
+fig_weekly_trends_line.update_traces(line=dict(width=3), textposition="top center")
+fig_weekly_trends_line.update_layout(width=800)
+
+# Streamlit App
+st.title("Bike Usage Trends Over the Week")
+st.plotly_chart(fig_weekly_trends_line)
+
+
+
+
 # Bike Usage Trends Over the Week
 st.subheader("Bike Usage Trends Over the Week")
 weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
