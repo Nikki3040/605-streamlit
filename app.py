@@ -446,6 +446,45 @@ st.write("### 📊 Model Performance Comparison")
 st.dataframe(results_df)
 
 
+import streamlit as st
+import pandas as pd
+from tabulate import tabulate
+
+# **Grid Search Results**
+results = {
+    "Model": [
+        "Random Forest",
+        "Gradient Boosting",
+        "k-Nearest Neighbors",
+        "Decision Tree",
+        "Extra Trees"
+    ],
+    "Best Parameters": [
+        "{'max_depth': 20, 'min_samples_leaf': 1}",
+        "{'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}",
+        "{'n_neighbors': 9, 'p': 2, 'weights': 'distance'}",
+        "{'max_depth': 10, 'min_samples_leaf': 4}",
+        "{'max_depth': 20, 'min_samples_leaf': 1}"
+    ],
+    "Best R² Score": [
+        0.836,
+        0.847,
+        0.775,
+        0.792,
+        0.835
+    ]
+}
+
+# Convert results to DataFrame
+results_df = pd.DataFrame(results)
+
+# **Display the table in Streamlit**
+st.subheader("🏆 Grid Search Results - Best Model Parameters & R² Scores")
+st.dataframe(results_df)
+
+# Optional: Print a formatted table (for debugging/logging)
+table = tabulate(results_df, headers="keys", tablefmt="fancy_grid", showindex=False)
+st.text(table)  # Show the table in Streamlit text output (for structured view)
 
 
 
