@@ -46,9 +46,7 @@ st.markdown("A separate approach was taken to cluster rental demand patterns bas
 st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
 #############################################################
 # VISUALIZATION 1: Bike Usage Across Different Seasons
-st.markdown("<h4>Bike Usage Across Different Seasons</h4>", unsafe_allow_html=True)
-
-st.markdown("**1A. How does bike usage vary across different seasons?**")
+st.markdown("<h4>1A. How does bike usage vary across different seasons?</h4>", unsafe_allow_html=True)
 fig_season_box = px.box(day_df, x='season_name', y='cnt', color='season_name',
                         title="Bike Usage Across Different Seasons",
                         labels={'cnt': 'Total Bike Rentals', 'season_name': 'Season'})
@@ -56,14 +54,14 @@ st.plotly_chart(fig_season_box)
 st.markdown("**Analysis**: The box plot illustrating bike rentals across seasons reveals the presence of clear seasonal trends in bike rentals, with significantly higher usage during warmer months (Spring and Summer seasons) and lower usage in colder seasons (Winter and Fall). Spring and Summer show the highest median rentals, exceeding 4000, with a wide range of variability, suggesting that factors like weather conditions and special events influence demand. Contrastingly, Winter has the lowest median rentals, around 2000, with some days experiencing near-zero usage, which may be due to typical harsh weather conditions that occur during the Winter months. Fall exhibits moderate bike usage, but with a few extreme outliers. The variability in Summer and Spring highlights fluctuating demand, while Winter and Fall rentals are more consistent but lower overall. This analysis underscores the strong influence of seasonality on bike rentals, indicating that bike-sharing programs should optimize bike availability based on seasonal trends to maximize efficiency and rider satisfaction.")
 #############################################################
 # VISUALIZATION 2: Long-term Trends in Bike Usage
-st.markdown("**1B. What are the long-term trends in bike usage over the years?**")
+st.markdown("<h4>1B. What are the long-term trends in bike usage over the years?</h4>", unsafe_allow_html=True)
 fig_trend = px.line(day_df, x='dteday', y='cnt', title="Long-term Trends in Bike Usage Over the Years",
                     labels={'dteday': 'Date', 'cnt': 'Total Bike Rentals'}, markers=True)
 st.plotly_chart(fig_trend)
 st.markdown("**Analysis**: The time series plot shows clear long-term trends in bike usage, with strong seasonal patterns and overall fluctuations in bike rentals. There is an evident increase in bike rentals starting in early 2011, reaching peaks during the warmer months and declining in the winter, a pattern that repeats across multiple years. The highest usage is observed in mid-2012, which might be explained by either increased adoption of bike-sharing programs or favorable weather and infrastructure improvements. However, there is a visible decline in ridership toward the end of 2012 and into early 2013, likely due to seasonal effects rather than a long-term downward trend. These fluctuations indicate that while ridership has generally grown, external factors such as weather, policy changes, and infrastructure development may influence the consistency of bike usage over time.")
 #############################################################
 # VISUALIZATION 3: Hourly Bike Demand Across Days of the Week
-st.markdown("**1C. How does bike demand fluctuate throughout the day?**")
+st.markdown("<h4>1C. How does bike demand fluctuate throughout the day?</h4>", unsafe_allow_html=True)
 weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
                    4: "Thursday", 5: "Friday", 6: "Saturday"}
 hour_df["weekday"] = hour_df["weekday"].map(weekday_mapping)
@@ -76,7 +74,7 @@ st.plotly_chart(fig_hourly_animated)
 st.markdown("**Analysis**: The interactive bar chart provides a detailed view of hourly bike demand across different days of the week, offering insights into how usage patterns vary between weekdays and weekends. On weekdays (Monday to Friday), there are two distinct peaks in bike rentals: one in the morning between 7-9 AM and another in the evening between 4-7 PM. These trends indicate that a significant portion of users rely on bike-sharing services for commuting to work or school. In contrast, weekends (Saturday and Sunday) exhibit a more gradual increase in demand throughout the day, with peak usage occurring later in the morning and early afternoon, around 10 AM - 6 PM. This suggests a shift from structured commuting-based rentals to recreational or leisurely bike rides. Late-night and early-morning bike rentals remain consistently low across all days, with minimal activity between 12 AM and 5 AM, indicating limited demand during these hours. However, weekend nights show slightly higher late-night rentals, likely due to social outings or nightlife activities. Additionally, Fridays stand out as a transitional day, displaying characteristics of both weekday commuting behavior and increasing evening leisure activity. Unlike other weekdays, Friday’s evening peak extends later into the night, reflecting a gradual shift into weekend patterns. Overall, this visualization highlights the clear distinction between weekday and weekend bike rental behaviors. Weekdays are characterized by structured demand tied to work and school schedules, while weekends cater more to flexible, leisure-oriented biking. These insights can be valuable for bike-sharing companies and urban planners, helping them optimize bike availability, adjust station placements, and enhance overall user experience based on demand fluctuations.")
 #############################################################
 # VISUALIZATION 4: Bike Usage Trends Over the Week
-st.markdown("**1D. Are there noticeable weekly trends in bike usage?**")
+st.markdown("<h4>1D. Are there noticeable weekly trends in bike usage?</h4>", unsafe_allow_html=True)
 # Map weekday numbers (0-6) to actual names
 weekday_mapping = {
     0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
@@ -113,7 +111,7 @@ st.markdown("**Analysis**: The line chart shows a gradual increase in bike renta
 
 #############################################################
 # VISUALIZATION 6: Hourly Bike Rental Trends Across Months
-st.markdown("**1F. How does bike rental demand fluctuate across different months of the year? Are there noticeable seasonal patterns in hourly usage?**")
+st.markdown("<h4>1F. How does bike rental demand fluctuate across different months of the year? Are there noticeable seasonal patterns in hourly usage?</h4>", unsafe_allow_html=True)
 # Map numeric month to names
 month_mapping = {
     1: "January", 2: "February", 3: "March", 4: "April",
