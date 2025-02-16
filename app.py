@@ -230,49 +230,8 @@ st.plotly_chart(fig_heatmap, use_container_width=True)
 st.markdown("**Analysis**: A clear trend of interaction between temperature, humidity, and bike rentals, emerges from the heatmap. The intensity of rentals is higher in mid to high-range temperatures (0.5 - 0.9 normalized scale), where demand increases significantly. The most significant observation is the sharp increase in bike rentals when temperatures are at their peak, suggesting that warmer weather encourages higher ridership. In contrast, humidity exhibits a more gradual and less pronounced effect on rentals. While extreme humidity levels (both low and high) seem to slightly suppress demand, bike rentals remain relatively stable across most humidity ranges. This suggests that while riders may be slightly deterred by excessive humidity, temperature plays a far greater role in influencing ridership patterns. The brightest yellow sections (indicating the highest rental volumes) align with warmer temperatures rather than specific humidity levels. This reinforces the idea that bike-sharing systems should prioritize temperature forecasts over humidity when optimizing fleet distribution and availability.")
             
 #############################################################
-
-# New 2D
-# Adjusted 2D Visualization: Wind Speed vs. Bike Rentals
-
-st.markdown("<h4>2D. What are the effects of wind speed on bike usage?</h4>", unsafe_allow_html=True)
-
-# Create scatter plot
-fig_wind1 = px.scatter(
-    hour_df, 
-    x='windspeed', 
-    y='cnt',
-    title='Effect of Wind Speed on Bike Rentals',
-    labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
-    opacity=0.5,
-    color='cnt',
-    color_continuous_scale='Viridis',  # Matches heatmap style
-    template='plotly_dark'
-)
-
-# Adjust layout for consistency with 2C
-fig_wind1.update_layout(
-    template="plotly_dark",
-    font=dict(size=14),  # Matches 2C general font size
-    title_font=dict(size=20),  # Matches 2C title size
-    xaxis_title_font=dict(size=16),  # Matches 2C axis title size
-    yaxis_title_font=dict(size=16),
-    width=900,  # Reduce width to match 2C
-    height=550  # Reduce height to match 2C
-)
-
-# Display in Streamlit
-st.plotly_chart(fig_wind1, use_container_width=True)
-
-
-
-
-
-
-
-
 # VISUALIZATION 11: What are the effects of wind speed on bike usage?
 st.markdown("<h4>2D. What are the effects of wind speed on bike usage?</h4>", unsafe_allow_html=True)
-# Create scatter plot
 fig_wind1 = px.scatter(
     hour_df, 
     x='windspeed', 
@@ -281,21 +240,73 @@ fig_wind1 = px.scatter(
     labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
     opacity=0.5,
     color='cnt',
+    color_continuous_scale='Viridis', 
     template='plotly_dark')
+
 fig_wind1.update_layout(
     template="plotly_dark",
-    font=dict(size=20),
-    title_font=dict(size=32),
-    xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24),
-    width=1000, 
-    height=600)
+    font=dict(size=14),
+    title_font=dict(size=20),
+    xaxis_title_font=dict(size=16),
+    yaxis_title_font=dict(size=16),
+    width=900,  
+    height=550)
 st.plotly_chart(fig_wind1, use_container_width=True)
 st.markdown("**Analysis**: The scatter plot reveals an interesting insight: wind speed has a relatively weak impact on total bike rentals. The density of high-rental points remains fairly consistent across lower wind speeds (0.0 - 0.5 normalized scale), suggesting that most riders are not significantly discouraged by mild to moderate wind conditions. However, as wind speed increases beyond 0.5 normalized scale, rental numbers begin to decline, with fewer instances of high usage. This trend indicates that while riders may tolerate light winds, stronger winds likely dissuade potential users, reducing ridership. The bright yellow clusters are concentrated in low-wind conditions, suggesting that bike-sharing programs should account for high-wind days when predicting demand. Although wind speed is not as influential as temperature, extreme wind conditions could warrant strategic bike redistribution to areas with more shelter or alternative transport options.")
 
 #############################################################
 # VISUALIZATION 12: How does different weather conditions (e.g., clear, misty, rainy) affect ridership?
+st.markdown("<h4>2E. How does different weather conditions (e.g., clear, misty, rainy) affect ridership?</h4>", unsafe_allow_html=True)
 
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import numpy as np
+
+# **Map weathersit to category names**
+weather_map = {
+    1: 'Clear',
+    2: 'Misty',
+    3: 'Light Rain/Snow',
+    4: 'Heavy Rain/Snow'}
+hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
+
+# **Add header with proper scaling**
+st.markdown("<h4>How do weather conditions affect bike rentals?</h4>", unsafe_allow_html=True)
+
+# **Create box plot with scaled adjustments**
+fig_weather = px.box(
+    hour_df, x='weathersit_name', y='cnt', color='weathersit_name',
+    title='Bike Rentals by Weather Condition',
+    labels={'weathersit_name': 'Weather Condition', 'cnt': 'Total Bike Rentals'},
+    color_discrete_sequence=['#E63946', '#F4A261', '#2A9D8F', '#E9C46A'],
+    points=False)
+
+# **Adjust layout for consistency with 2C & 2D**
+fig_weather.update_layout(
+    template="plotly_dark",
+    font=dict(size=14),  # Matches 2C & 2D general font size
+    title_font=dict(size=20),  # Matches 2C & 2D title size
+    xaxis_title_font=dict(size=16),  # Matches 2C & 2D axis title size
+    yaxis_title_font=dict(size=16),
+    width=900,  # Reduce width to match 2C & 2D
+    height=550  # Reduce height to match 2C & 2D
+)
+
+# **Update hover details**
+fig_weather.update_traces(
+    hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}")
+
+# **Display in Streamlit**
+st.plotly_chart(fig_weather, use_container_width=True)
+
+
+
+
+
+
+######
 import streamlit as st
 import pandas as pd
 import plotly.express as px
