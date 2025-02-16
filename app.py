@@ -333,7 +333,7 @@ fig_rental_comparison.add_trace(go.Bar(
     name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False), row=3, col=1)
 
 fig_rental_comparison.update_layout(
-    title="Peak Rental Times: Casual Riders vs. Registered Users (Average Rentals)",
+    title="Casual Riders vs. Registered Users (Average Rentals)",
     xaxis=dict(title="Hour of the Day", tickmode="array", tickvals=list(range(24)), ticktext=[str(i) for i in range(24)]),
     xaxis2=dict(title="Hour of the Day", tickmode="array", tickvals=list(range(24)), ticktext=[str(i) for i in range(24)]),
     xaxis3=dict(title="Hour of the Day", tickmode="array", tickvals=list(range(24)), ticktext=[str(i) for i in range(24)]),
@@ -355,45 +355,30 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-# Debugging: Ensure the dataset loads
-st.write("Dataset Loaded Successfully ✅")
-st.write(hour_df.head())  # Display first 5 rows
-
-# **Map season numbers to names**
 season_map = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
 seasonal_rentals_avg = hour_df.groupby('season')[['casual', 'registered']].mean().reset_index()
 seasonal_rentals_avg['season'] = seasonal_rentals_avg['season'].map(season_map)
 
-# Debugging: Check if grouping worked
-st.write("Seasonal Rental Averages ✅")
-st.write(seasonal_rentals_avg)
+casual_color = "#1E90FF" 
+registered_color = "#FF6347" 
 
-# **Define colors**
-casual_color = "#1E90FF"  # Dodger Blue
-registered_color = "#FF6347"  # Tomato Red
-
-# **Create Stacked Bar Chart**
 fig_seasonal_stacked_avg = go.Figure()
-
 fig_seasonal_stacked_avg.add_trace(go.Bar(
     x=seasonal_rentals_avg['season'],
     y=seasonal_rentals_avg['casual'],
     name='Casual Riders',
     marker_color=casual_color,
-    opacity=0.8
-))
+    opacity=0.8))
 
 fig_seasonal_stacked_avg.add_trace(go.Bar(
     x=seasonal_rentals_avg['season'],
     y=seasonal_rentals_avg['registered'],
     name='Registered Users',
     marker_color=registered_color,
-    opacity=0.6
-))
+    opacity=0.6))
 
-# **Layout Configuration**
 fig_seasonal_stacked_avg.update_layout(
-    title="Seasonal Preferences: Casual Riders vs. Registered Users (Average Rentals)",
+    title="Casual Riders vs. Registered Users (Average Rentals)",
     xaxis_title="Season",
     yaxis_title="Average Rentals per Hour",
     barmode="stack",
