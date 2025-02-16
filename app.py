@@ -211,9 +211,6 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-# Load the dataset
-file_path = "/mnt/data/hour.csv"
-hour_df = pd.read_csv(file_path)
 
 # **Map weathersit to category names**
 weather_map = {
