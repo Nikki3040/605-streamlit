@@ -213,6 +213,7 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
+
 # Mapping weather conditions
 weather_map = {
     1: 'Clear',
@@ -233,60 +234,60 @@ fig_temp = px.scatter(
     hour_df, x='temp', y='cnt', color='weathersit_name',
     title="Effect of Temperature on Bike Rentals by Weather Condition",
     labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals'},
-    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.1  # Spreads plots out
+    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.2  # Increased spacing
 )
 fig_temp.update_layout(
     template="plotly_dark",
     font=dict(size=font_size),
     title_font=dict(size=title_size),
-    xaxis=dict(tickangle=-45),  # Rotates x-axis labels
-    xaxis_title_font=dict(size=font_size),
+    xaxis_title=None,  # Removes repeated x-axis titles
     yaxis_title_font=dict(size=font_size),
     legend_font=dict(size=font_size),
-    width=2000, height=500,  # Adjusted width for better spacing
-    margin=dict(t=100, b=100, l=80, r=80)
+    width=2000, height=550,  # Increased height for more space
+    margin=dict(t=120, b=80, l=80, r=80)  # More top margin
 )
 fig_temp.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
+fig_temp.update_xaxes(matches='x')  # Ensures only one x-axis title at bottom
 
 ### **2. Humidity vs. Bike Rentals**
 fig_hum = px.scatter(
     hour_df, x='hum', y='cnt', color='weathersit_name',
     title="Effect of Humidity on Bike Rentals by Weather Condition",
     labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals'},
-    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.1
+    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.2
 )
 fig_hum.update_layout(
     template="plotly_dark",
     font=dict(size=font_size),
     title_font=dict(size=title_size),
-    xaxis=dict(tickangle=-45),
-    xaxis_title_font=dict(size=font_size),
+    xaxis_title=None,
     yaxis_title_font=dict(size=font_size),
     legend_font=dict(size=font_size),
-    width=2000, height=500,
-    margin=dict(t=100, b=100, l=80, r=80)
+    width=2000, height=550,
+    margin=dict(t=120, b=80, l=80, r=80)
 )
 fig_hum.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
+fig_hum.update_xaxes(matches='x')
 
 ### **3. Wind Speed vs. Bike Rentals**
 fig_wind = px.scatter(
     hour_df, x='windspeed', y='cnt', color='weathersit_name',
     title="Effect of Wind Speed on Bike Rentals by Weather Condition",
     labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
-    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.1
+    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.2
 )
 fig_wind.update_layout(
     template="plotly_dark",
     font=dict(size=font_size),
     title_font=dict(size=title_size),
-    xaxis=dict(tickangle=-45),
-    xaxis_title_font=dict(size=font_size),
+    xaxis_title=None,
     yaxis_title_font=dict(size=font_size),
     legend_font=dict(size=font_size),
-    width=2000, height=500,
-    margin=dict(t=100, b=100, l=80, r=80)
+    width=2000, height=550,
+    margin=dict(t=120, b=80, l=80, r=80)
 )
 fig_wind.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
+fig_wind.update_xaxes(matches='x')
 
 # **Display plots in Streamlit**
 st.plotly_chart(fig_temp, use_container_width=False)  
