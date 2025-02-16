@@ -303,10 +303,10 @@ hourly_rentals_holiday = hour_df[hour_df['holiday'] == 1].groupby('hr')[['casual
 hourly_rentals_non_holiday = hour_df[hour_df['holiday'] == 0].groupby('hr')[['casual', 'registered']].mean().reset_index()
 hourly_rentals_total = hour_df.groupby('hr')[['casual', 'registered']].mean().reset_index()
 
-# Create subplots
+# ✅ Add the missing comma before shared_xaxes=True
 fig_rental_comparison = make_subplots(
     rows=3, cols=1, 
-    subplot_titles=["Holiday Rentals", "Non-Holiday Rentals", "Total Rentals"], 
+    subplot_titles=["Holiday Rentals", "Non-Holiday Rentals", "Total Rentals"],
     shared_xaxes=True  # Ensures the x-axis is shared across all subplots
 )
 
@@ -338,24 +338,22 @@ fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_total["hr"], y=hourly_rentals_total["registered"],
     name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False), row=3, col=1)
 
-# Apply scaled-down formatting to match 2E
+# ✅ Restore the missing x-axis label
 fig_rental_comparison.update_layout(
     title="Casual Riders vs. Registered Users (Average Rentals)",
     template='plotly_dark',
     width=900, height=550,  # Adjusted dimensions
-    font=dict(size=14),  # Scaled down from previous 18
+    font=dict(size=14),  # Scaled down
     title_font=dict(size=20),  # Title font size matches 2E
     xaxis_title="Hour of the Day",  # **Restored x-axis label**
     xaxis_title_font=dict(size=16),
     yaxis_title="Avg Rentals per Hour",
     yaxis_title_font=dict(size=16),
-    margin=dict(t=60, b=60, l=50, r=50)  # Adjusted margins
+    margin=dict(t=60, b=60, l=50, r=50)
 )
 
 # Display in Streamlit
 st.plotly_chart(fig_rental_comparison, use_container_width=True)
-
-
 
 
 
