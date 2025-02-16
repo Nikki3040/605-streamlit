@@ -383,9 +383,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from xgboost import XGBRegressor
 from tabulate import tabulate
 
-# Load dataset
-file_path = "/mnt/data/hour.csv"
-hour_df = pd.read_csv(file_path)
+# Load datas
 
 # Feature selection
 features = ['temp', 'hum', 'windspeed', 'hr', 'weekday', 'weathersit', 'holiday']
