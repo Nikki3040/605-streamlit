@@ -146,11 +146,9 @@ st.plotly_chart(fig_humidity)
 st.markdown("Analysis: The scatter plot illustrates the relationship between humidity and bike rental demand, showing a weak but noticeable trend. At lower humidity levels (below 0.4), bike rentals vary widely but tend to be lower on average, with fewer instances of peak usage. As humidity increases, rental counts remain relatively stable, suggesting that moderate humidity does not significantly impact ridership. However, at very high humidity levels (above 0.8), bike rentals appear to slightly decline, indicating that extreme humidity may discourage biking due to discomfort or unfavorable weather conditions such as heavy moisture or rain. While humidity does not exhibit a strong linear relationship with bike rentals, there may be an optimal mid-range where ridership is less affected, whereas extreme conditions—either too dry or too humid—might contribute to decreased demand. Understanding this relationship can help in predicting rental fluctuations and planning for weather-related ridership patterns.")
 #############################################################
 # VISUALIZATION 9: Are bike rentals more affected by temperature or humidity?
-import numpy as np  # Ensure numpy is imported
-
+import numpy as np  
 num_bins = 10
 
-# Ensure 'hour_df' is used instead of 'hour'
 temp_bins = np.linspace(hour_df['temp'].min(), hour_df['temp'].max(), num_bins + 1)
 hum_bins = np.linspace(0, hour_df['hum'].max(), num_bins + 1)
 
@@ -185,12 +183,8 @@ fig_heatmap.update_layout(
     font=dict(size=14),
     title_font=dict(size=20),
     xaxis_title_font=dict(size=16),
-    yaxis_title_font=dict(size=16)
-)
-
-# Display the plot in Streamlit
+    yaxis_title_font=dict(size=16))
 st.plotly_chart(fig_heatmap, use_container_width=True)
-
 
 #############################################################
 # VISUALIZATION 10: What are the effects of wind speed on bike usage?
@@ -198,15 +192,14 @@ st.title("Effect of Wind Speed on Bike Rentals")
 
 # Create scatter plot
 fig_wind1 = px.scatter(
-    hour, 
+    hour_df, 
     x='windspeed', 
     y='cnt',
     title='Effect of Wind Speed on Bike Rentals',
     labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
     opacity=0.5,
     color='cnt',
-    template='plotly_dark'
-)
+    template='plotly_dark')
 
 fig_wind1.update_layout(
     template="plotly_dark",
@@ -214,11 +207,8 @@ fig_wind1.update_layout(
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
     yaxis_title_font=dict(size=24),
-    width=1000,  # Adjusted for better Streamlit display
-    height=600
-)
-
-# Display the plot in Streamlit
+    width=1000, 
+    height=600)
 st.plotly_chart(fig_wind1, use_container_width=True)
 
 
@@ -228,6 +218,9 @@ st.plotly_chart(fig_wind1, use_container_width=True)
 
 #############################################################
 # VISUALIZATION 12: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
+
+
+
 
 
 #############################################################
