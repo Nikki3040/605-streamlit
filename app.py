@@ -131,12 +131,6 @@ fig_hourly_rentals = px.line(hourly_avg, x="hr", y="cnt", color="day_type",
 fig_hourly_rentals.update_traces(line=dict(width=3))
 fig_hourly_rentals.update_layout(legend_title_text="Day Type")
 
-# Streamlit App
-st.title("Bike Usage Trends")
-
-# Show weekly trends chart
-st.subheader("Bike Usage Trends Over the Week")
-
 # HOURLY RENTAL TRENDS ACROSS MONTHS
 st.subheader("Hourly Bike Rental Trends Across Months")
 
