@@ -12,3 +12,4 @@ decorator
 matplotlib
 seaborn
 scikit-learn
+xgboost
