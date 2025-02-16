@@ -143,6 +143,73 @@ fig_humidity = px.scatter(day_df, x='hum', y='cnt', title="Impact of Humidity on
 st.plotly_chart(fig_humidity)
 st.markdown("Analysis: The scatter plot illustrates the relationship between humidity and bike rental demand, showing a weak but noticeable trend. At lower humidity levels (below 0.4), bike rentals vary widely but tend to be lower on average, with fewer instances of peak usage. As humidity increases, rental counts remain relatively stable, suggesting that moderate humidity does not significantly impact ridership. However, at very high humidity levels (above 0.8), bike rentals appear to slightly decline, indicating that extreme humidity may discourage biking due to discomfort or unfavorable weather conditions such as heavy moisture or rain. While humidity does not exhibit a strong linear relationship with bike rentals, there may be an optimal mid-range where ridership is less affected, whereas extreme conditions—either too dry or too humid—might contribute to decreased demand. Understanding this relationship can help in predicting rental fluctuations and planning for weather-related ridership patterns.")
 #############################################################
+# VISUALIZATION 9: Are bike rentals more affected by temperature or humidity?
+num_bins = 10
+
+# Binning temperature and humidity
+temp_bins = np.linspace(hour['temp'].min(), hour['temp'].max(), num_bins + 1)
+hum_bins = np.linspace(0, hour['hum'].max(), num_bins + 1)
+
+hour['temp_bin'] = pd.cut(hour['temp'], bins=temp_bins, include_lowest=True)
+hour['hum_bin'] = pd.cut(hour['hum'], bins=hum_bins)
+
+# Creating pivot table for heatmap
+heatmap_data = hour.pivot_table(index='temp_bin', columns='hum_bin', values='cnt', aggfunc='mean')
+
+# Formatting bin labels
+heatmap_data.index = [f"{float(bin.left):.2f} - {float(bin.right):.2f}" for bin in heatmap_data.index]
+heatmap_data.columns = [f"{float(bin.left):.2f} - {float(bin.right):.2f}" for bin in heatmap_data.columns]
+
+# Creating the heatmap figure
+fig_heatmap = go.Figure(
+    data=go.Heatmap(
+        z=heatmap_data.values,
+        x=heatmap_data.columns,
+        y=heatmap_data.index,
+        colorscale='Viridis',
+        colorbar=dict(title="Avg Bike Rentals")
+    )
+)
+
+fig_heatmap.update_layout(
+    title='Effect of Temperature and Humidity on Bike Rentals',
+    xaxis_title='Humidity (%)',
+    yaxis_title='Temperature (°C)',
+    template='plotly_dark',
+    width=1000,
+    height=600,
+    font=dict(size=14),
+    title_font=dict(size=20),
+    xaxis_title_font=dict(size=16),
+    yaxis_title_font=dict(size=16)
+)
+
+# Display the plot in Streamlit
+st.plotly_chart(fig_heatmap, use_container_width=True)
+
+
+#############################################################
+# VISUALIZATION 10: What are the effects of wind speed on bike usage?
+
+
+
+#############################################################
+# VISUALIZATION 11: How does different weather conditions (e.g., clear, misty, rainy) affect ridership?
+
+
+#############################################################
+# VISUALIZATION 12: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
+
+
+#############################################################
+st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
+#############################################################
+# VISUALIZATION 13: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
+
+#############################################################
+# VISUALIZATION 14: Do casual riders exhibit different seasonal preferences than registered riders?
+
+
 
 
 
