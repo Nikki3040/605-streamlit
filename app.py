@@ -229,15 +229,15 @@ st.title("Effect of Weather Conditions on Bike Rentals")
 ### **1. Temperature vs. Bike Rentals**
 fig_temp = px.scatter(
     hour_df, x='temp', y='cnt', color='weathersit_name',
-    title="Effect of Temperature on Bike Rentals by Weather Condition",
+    title="Temperature on Bike Rentals by Weather Condition",
     labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
     facet_col='weathersit_name', opacity=0.6,
     facet_col_wrap=4  # Ensures all four appear in one row
 )
 fig_temp.update_layout(
     template="plotly_dark",
-    font=dict(size=18),
-    title_font=dict(size=26),
+    font=dict(size=20),
+    title_font=dict(size=20),
     xaxis_title_font=dict(size=20),
     yaxis_title_font=dict(size=20),
     width=1600, height=400,  # Adjusted size
