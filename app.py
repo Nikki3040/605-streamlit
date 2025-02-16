@@ -25,8 +25,10 @@ pio.templates.default = "plotly_dark"
 
 st.subheader("Authors: Anika Achari & Prabhnoor Virk")
 
+st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
+
 # Bike Usage Across Different Seasons
-st.subheader("Bike Usage Across Different Seasons")
+#st.subheader("Bike Usage Across Different Seasons")
 fig_season_box = px.box(day_df, x='season_name', y='cnt', color='season_name',
                         title="Bike Usage Across Different Seasons",
                         labels={'cnt': 'Total Bike Rentals', 'season_name': 'Season'})
