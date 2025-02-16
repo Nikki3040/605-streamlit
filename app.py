@@ -268,7 +268,6 @@ weather_map = {
     3: 'Light Rain/Snow',
     4: 'Heavy Rain/Snow'}
 hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
-st.markdown("<h4>How do weather conditions affect bike rentals?</h4>", unsafe_allow_html=True)
 fig_weather = px.box(
     hour_df, x='weathersit_name', y='cnt', color='weathersit_name',
     title='Bike Rentals by Weather Condition',
