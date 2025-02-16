@@ -26,6 +26,10 @@ pio.templates.default = "plotly_dark"
 st.subheader("Authors: Anika Achari & Prabhnoor Virk")
 st.markdown("<h3; '>Authors: Anika Achari & Prabhnoor Virk</h3>", unsafe_allow_html=True)
 
+st.subheader("Introduction: Pedaling Towards Smarter Urban Mobility")
+st.markdown("Bike rentals vary significantly across different seasons. This box plot highlights the trends observed in Winter, Spring, Summer, and Fall.")
+
+
 
 st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
 
