@@ -211,6 +211,38 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
+# Load the dataset
+file_path = "/mnt/data/hour.csv"
+hour_df = pd.read_csv(file_path)
+
+# **Map weathersit to category names**
+weather_map = {
+    1: 'Clear',
+    2: 'Misty',
+    3: 'Light Rain/Snow',
+    4: 'Heavy Rain/Snow'
+}
+hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
+
+# **Debugging: Check for issues**
+st.write("Data Overview:")
+st.write(hour_df.head())
+
+st.write("Checking for missing values:")
+st.write(hour_df.isnull().sum())
+
+st.write("Data types:")
+st.write(hour_df.dtypes)
+
+st.write("Unique Weather Conditions:")
+st.write(hour_df['weathersit_name'].unique())
+
+# **Ensure 'cnt' is numeric & 'weathersit_name' is categorical**
+hour_df = hour_df.dropna()  # Drop rows with missing values
+hour_df['cnt'] = pd.to_numeric(hour_df['cnt'], errors='coerce')
+hour_df['weathersit_name'] = hour_df['weathersit_name'].astype(str)
+
+st.title("Bike Rentals by Weather Condition")
 
 # **Create box plot**
 fig_weather = px.box(
