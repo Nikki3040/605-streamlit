@@ -211,35 +211,13 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-
 # **Map weathersit to category names**
 weather_map = {
     1: 'Clear',
     2: 'Misty',
     3: 'Light Rain/Snow',
-    4: 'Heavy Rain/Snow'
-}
+    4: 'Heavy Rain/Snow'}
 hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
-
-# **Debugging: Check for issues**
-st.write("Data Overview:")
-st.write(hour_df.head())
-
-st.write("Checking for missing values:")
-st.write(hour_df.isnull().sum())
-
-st.write("Data types:")
-st.write(hour_df.dtypes)
-
-st.write("Unique Weather Conditions:")
-st.write(hour_df['weathersit_name'].unique())
-
-# **Ensure 'cnt' is numeric & 'weathersit_name' is categorical**
-hour_df = hour_df.dropna()  # Drop rows with missing values
-hour_df['cnt'] = pd.to_numeric(hour_df['cnt'], errors='coerce')
-hour_df['weathersit_name'] = hour_df['weathersit_name'].astype(str)
-
-st.title("Bike Rentals by Weather Condition")
 
 # **Create box plot**
 fig_weather = px.box(
@@ -247,115 +225,20 @@ fig_weather = px.box(
     title='Bike Rentals by Weather Condition',
     labels={'weathersit_name': 'Weather Condition', 'cnt': 'Total Bike Rentals'},
     color_discrete_sequence=['#E63946', '#F4A261', '#2A9D8F', '#E9C46A'],
-    points=False
-)
-
+    points=False)
 fig_weather.update_layout(
     template="plotly_dark",
     font=dict(size=20),
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
     yaxis_title_font=dict(size=24),
-    width=1200, height=600  # Adjusted for Streamlit display
-)
-
+    width=1200, height=600 )
 fig_weather.update_traces(
-    hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}"
-)
-
-# **Display plot in Streamlit**
+    hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}")
 st.plotly_chart(fig_weather, use_container_width=True)
-
-
-
 
 #############################################################
 # VISUALIZATION 12: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-import numpy as np
-
-
-# Mapping weather conditions
-weather_map = {
-    1: 'Clear',
-    2: 'Misty',
-    3: 'Light Rain/Snow',
-    4: 'Heavy Rain/Snow'
-}
-hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
-
-st.title("Effect of Weather Conditions on Bike Rentals")
-
-# Define uniform font sizes
-font_size = 18
-title_size = 24
-
-### **1. Temperature vs. Bike Rentals**
-fig_temp = px.scatter(
-    hour_df, x='temp', y='cnt', color='weathersit_name',
-    title="Effect of Temperature on Bike Rentals by Weather Condition",
-    labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals'},
-    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.2  # Increased spacing
-)
-fig_temp.update_layout(
-    template="plotly_dark",
-    font=dict(size=font_size),
-    title_font=dict(size=title_size),
-    xaxis_title=None,  # Removes repeated x-axis titles
-    yaxis_title_font=dict(size=font_size),
-    legend_font=dict(size=font_size),
-    width=2000, height=550,  # Increased height for more space
-    margin=dict(t=120, b=80, l=80, r=80)  # More top margin
-)
-fig_temp.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
-fig_temp.update_xaxes(matches='x')  # Ensures only one x-axis title at bottom
-
-### **2. Humidity vs. Bike Rentals**
-fig_hum = px.scatter(
-    hour_df, x='hum', y='cnt', color='weathersit_name',
-    title="Effect of Humidity on Bike Rentals by Weather Condition",
-    labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals'},
-    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.2
-)
-fig_hum.update_layout(
-    template="plotly_dark",
-    font=dict(size=font_size),
-    title_font=dict(size=title_size),
-    xaxis_title=None,
-    yaxis_title_font=dict(size=font_size),
-    legend_font=dict(size=font_size),
-    width=2000, height=550,
-    margin=dict(t=120, b=80, l=80, r=80)
-)
-fig_hum.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
-fig_hum.update_xaxes(matches='x')
-
-### **3. Wind Speed vs. Bike Rentals**
-fig_wind = px.scatter(
-    hour_df, x='windspeed', y='cnt', color='weathersit_name',
-    title="Effect of Wind Speed on Bike Rentals by Weather Condition",
-    labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
-    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.2
-)
-fig_wind.update_layout(
-    template="plotly_dark",
-    font=dict(size=font_size),
-    title_font=dict(size=title_size),
-    xaxis_title=None,
-    yaxis_title_font=dict(size=font_size),
-    legend_font=dict(size=font_size),
-    width=2000, height=550,
-    margin=dict(t=120, b=80, l=80, r=80)
-)
-fig_wind.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
-fig_wind.update_xaxes(matches='x')
-
-# **Display plots in Streamlit**
-st.plotly_chart(fig_temp, use_container_width=False)  
-st.plotly_chart(fig_hum, use_container_width=False)
-st.plotly_chart(fig_wind, use_container_width=False)
 
 
 #############################################################
