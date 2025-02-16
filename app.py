@@ -102,7 +102,13 @@ fig_weekly_trends_line.update_layout(width=800)
 st.title("Bike Usage Trends Over the Week")
 st.plotly_chart(fig_weekly_trends_line)
 
-
+# Distribution of Bike Rentals Across the Week
+st.subheader("Distribution of Bike Rentals Across the Week")
+fig_weekly_trends_box = px.box(day_df, x="weekday_name", y="cnt",
+                               title="Distribution of Bike Rentals Across the Week",
+                               labels={"cnt": "Total Bike Rentals", "weekday_name": "Day of the Week"},
+                               color="weekday_name")
+st.plotly_chart(fig_weekly_trends_box)
 
 
 # Bike Usage Trends Over the Week
