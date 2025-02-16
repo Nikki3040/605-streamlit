@@ -110,7 +110,41 @@ fig_weekly_trends_box = px.box(day_df, x="weekday_name", y="cnt",
                                color="weekday_name")
 st.plotly_chart(fig_weekly_trends_box)
 
+# Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays
+# Convert date columns to datetime format
+day_df["dteday"] = pd.to_datetime(day_df["dteday"])
+hour_df["dteday"] = pd.to_datetime(hour_df["dteday"])
 
+# Map weekday and holiday labels
+hour_df["day_type"] = hour_df.apply(lambda row: 
+                                    "Holiday" if row["holiday"] == 1 else 
+                                    ("Weekend" if row["weekday"] in [0, 6] else "Workday"), axis=1)
+
+# Aggregate hourly rentals based on the new categories
+hourly_avg = hour_df.groupby(["hr", "day_type"])["cnt"].mean().reset_index()
+
+# Reduce figure width for better visualization
+fig_width = 1000
+
+# Line chart to show rental trends across different times of day
+fig_hourly_rentals = px.line(hourly_avg, x="hr", y="cnt", color="day_type",
+                             title="Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays",
+                             labels={"hr": "Hour of the Day", "cnt": "Average Rentals", "day_type": "Day Type"},
+                             template="plotly_dark", markers=True, width=fig_width)
+
+fig_hourly_rentals.update_traces(line=dict(width=3))
+fig_hourly_rentals.update_layout(legend_title_text="Day Type")
+
+# Streamlit App
+st.title("Bike Usage Trends")
+
+# Show weekly trends chart
+st.subheader("Bike Usage Trends Over the Week")
+st.plotly_chart(fig_weekly_trends_line)
+
+# Show hourly rental trends chart
+st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
+st.plotly_chart(fig_hourly_rentals)
 
 
 
