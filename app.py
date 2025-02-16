@@ -230,6 +230,60 @@ st.plotly_chart(fig_heatmap, use_container_width=True)
 st.markdown("**Analysis**: A clear trend of interaction between temperature, humidity, and bike rentals, emerges from the heatmap. The intensity of rentals is higher in mid to high-range temperatures (0.5 - 0.9 normalized scale), where demand increases significantly. The most significant observation is the sharp increase in bike rentals when temperatures are at their peak, suggesting that warmer weather encourages higher ridership. In contrast, humidity exhibits a more gradual and less pronounced effect on rentals. While extreme humidity levels (both low and high) seem to slightly suppress demand, bike rentals remain relatively stable across most humidity ranges. This suggests that while riders may be slightly deterred by excessive humidity, temperature plays a far greater role in influencing ridership patterns. The brightest yellow sections (indicating the highest rental volumes) align with warmer temperatures rather than specific humidity levels. This reinforces the idea that bike-sharing systems should prioritize temperature forecasts over humidity when optimizing fleet distribution and availability.")
             
 #############################################################
+
+
+# Adjusted 2D Visualization: Effect of Wind Speed on Bike Usage
+
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
+
+num_bins = 10  # Adjusted number of bins for better scaling
+
+# Creating bins for wind speed
+wind_bins = np.linspace(hour_df['windspeed'].min(), hour_df['windspeed'].max(), num_bins + 1)
+hour_df['wind_bin'] = pd.cut(hour_df['windspeed'], bins=wind_bins, include_lowest=True)
+
+# Pivot table for heatmap
+heatmap_data_wind = hour_df.pivot_table(index='wind_bin', columns='hr', values='cnt', aggfunc='mean')
+
+# Formatting bin labels
+heatmap_data_wind.index = [f"{float(bin.left):.2f} - {float(bin.right):.2f}" for bin in heatmap_data_wind.index]
+heatmap_data_wind.columns = [str(int(hour)) for hour in heatmap_data_wind.columns]
+
+# Creating heatmap figure
+fig_wind_heatmap = go.Figure(
+    data=go.Heatmap(
+        z=heatmap_data_wind.values,
+        x=heatmap_data_wind.columns,
+        y=heatmap_data_wind.index,
+        colorscale='Viridis',
+        colorbar=dict(title="Avg Bike Rentals")
+    )
+)
+
+# Layout adjustments to match 2C
+fig_wind_heatmap.update_layout(
+    title="Effect of Wind Speed on Bike Rentals",
+    xaxis_title="Hour of the Day",
+    yaxis_title="Wind Speed (Normalized)",
+    template='plotly_dark',
+    font=dict(size=14),  # Matches 2C styling
+    title_font=dict(size=20),
+    xaxis_title_font=dict(size=16),
+    yaxis_title_font=dict(size=16),
+    width=900,  # Adjusted width
+    height=550  # Adjusted height
+)
+
+# Display in Streamlit
+st.plotly_chart(fig_wind_heatmap, use_container_width=True)
+
+
+
+
+
+
 # VISUALIZATION 11: What are the effects of wind speed on bike usage?
 st.markdown("<h4>2D. What are the effects of wind speed on bike usage?</h4>", unsafe_allow_html=True)
 # Create scatter plot
@@ -286,10 +340,6 @@ fig_weather.update_layout(
 fig_weather.update_traces(
     hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}")
 st.plotly_chart(fig_weather, use_container_width=True)
-
-#############################################################
-# VISUALIZATION 13: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
-
 
 #############################################################
 st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
