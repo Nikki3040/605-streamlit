@@ -52,7 +52,7 @@ st.markdown("Analysis: The time series plot shows clear long-term trends in bike
 
 
 # VISUALIZATION: Hourly Bike Demand Across Days of the Week
-st.subheader("Hourly Bike Demand Across Days of the Week")
+#st.subheader("Hourly Bike Demand Across Days of the Week")
 weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
                    4: "Thursday", 5: "Friday", 6: "Saturday"}
 hour_df["weekday"] = hour_df["weekday"].map(weekday_mapping)
