@@ -148,20 +148,15 @@ st.markdown("Analysis: The scatter plot illustrates the relationship between hum
 # VISUALIZATION 9: Are bike rentals more affected by temperature or humidity?
 import numpy as np  
 num_bins = 10
-
 temp_bins = np.linspace(hour_df['temp'].min(), hour_df['temp'].max(), num_bins + 1)
 hum_bins = np.linspace(0, hour_df['hum'].max(), num_bins + 1)
-
 hour_df['temp_bin'] = pd.cut(hour_df['temp'], bins=temp_bins, include_lowest=True)
 hour_df['hum_bin'] = pd.cut(hour_df['hum'], bins=hum_bins)
-
 # Creating pivot table for heatmap
 heatmap_data = hour_df.pivot_table(index='temp_bin', columns='hum_bin', values='cnt', aggfunc='mean')
-
 # Formatting bin labels
 heatmap_data.index = [f"{float(bin.left):.2f} - {float(bin.right):.2f}" for bin in heatmap_data.index]
 heatmap_data.columns = [f"{float(bin.left):.2f} - {float(bin.right):.2f}" for bin in heatmap_data.columns]
-
 # Creating the heatmap figure
 fig_heatmap = go.Figure(
     data=go.Heatmap(
@@ -172,7 +167,6 @@ fig_heatmap = go.Figure(
         colorbar=dict(title="Avg Bike Rentals")
     )
 )
-
 fig_heatmap.update_layout(
     title='Effect of Temperature and Humidity on Bike Rentals',
     xaxis_title='Humidity (%)',
@@ -188,7 +182,6 @@ st.plotly_chart(fig_heatmap, use_container_width=True)
 
 #############################################################
 # VISUALIZATION 10: What are the effects of wind speed on bike usage?
-st.title("Effect of Wind Speed on Bike Rentals")
 
 # Create scatter plot
 fig_wind1 = px.scatter(
@@ -200,7 +193,6 @@ fig_wind1 = px.scatter(
     opacity=0.5,
     color='cnt',
     template='plotly_dark')
-
 fig_wind1.update_layout(
     template="plotly_dark",
     font=dict(size=20),
@@ -211,10 +203,29 @@ fig_wind1.update_layout(
     height=600)
 st.plotly_chart(fig_wind1, use_container_width=True)
 
-
 #############################################################
 # VISUALIZATION 11: How does different weather conditions (e.g., clear, misty, rainy) affect ridership?
+fig_weather = px.box(
+    hour_df, 
+    x='weathersit_name', 
+    y='cnt', 
+    color='weathersit_name',
+    title='Bike Rentals by Weather Condition',
+    labels={'weathersit_name': 'Weather Condition', 'cnt': 'Total Bike Rentals'},
+    color_discrete_sequence=['#E63946', '#F4A261', '#2A9D8F', '#E9C46A'],
+    points=False)
+fig_weather.update_layout(
+    template="plotly_dark",
+    font=dict(size=20),
+    title_font=dict(size=32),
+    xaxis_title_font=dict(size=24),
+    yaxis_title_font=dict(size=24),
+    width=1000,
+    height=600)
 
+fig_weather.update_traces(
+    hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}")
+st.plotly_chart(fig_weather, use_container_width=True)
 
 #############################################################
 # VISUALIZATION 12: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
