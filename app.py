@@ -63,89 +63,51 @@ fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="we
 st.plotly_chart(fig_hourly_animated)
 st.markdown("Analysis: The interactive bar chart provides a detailed view of hourly bike demand across different days of the week, offering insights into how usage patterns vary between weekdays and weekends. On weekdays (Monday to Friday), there are two distinct peaks in bike rentals: one in the morning between 7-9 AM and another in the evening between 4-7 PM. These trends indicate that a significant portion of users rely on bike-sharing services for commuting to work or school. In contrast, weekends (Saturday and Sunday) exhibit a more gradual increase in demand throughout the day, with peak usage occurring later in the morning and early afternoon, around 10 AM - 6 PM. This suggests a shift from structured commuting-based rentals to recreational or leisurely bike rides. Late-night and early-morning bike rentals remain consistently low across all days, with minimal activity between 12 AM and 5 AM, indicating limited demand during these hours. However, weekend nights show slightly higher late-night rentals, likely due to social outings or nightlife activities. Additionally, Fridays stand out as a transitional day, displaying characteristics of both weekday commuting behavior and increasing evening leisure activity. Unlike other weekdays, Friday’s evening peak extends later into the night, reflecting a gradual shift into weekend patterns. Overall, this visualization highlights the clear distinction between weekday and weekend bike rental behaviors. Weekdays are characterized by structured demand tied to work and school schedules, while weekends cater more to flexible, leisure-oriented biking. These insights can be valuable for bike-sharing companies and urban planners, helping them optimize bike availability, adjust station placements, and enhance overall user experience based on demand fluctuations.")
 
-# Bike Usage Trends Over the Week
+# VISUALIZATION: Bike Usage Trends Over the Week
 # Map weekday numbers (0-6) to actual names
 weekday_mapping = {
     0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
     4: "Thursday", 5: "Friday", 6: "Saturday"}
 day_df["weekday_name"] = day_df["weekday"].map(weekday_mapping)
-
 # Aggregate bike rentals by weekday
 weekly_trends = day_df.groupby("weekday_name")["cnt"].mean().reset_index()
-
 # Sort the days of the week properly
 weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 weekly_trends["weekday_name"] = pd.Categorical(weekly_trends["weekday_name"], categories=weekday_order, ordered=True)
 weekly_trends = weekly_trends.sort_values("weekday_name")
-
 # Create a line chart to show bike rental trends across the week
 fig_weekly_trends_line = px.line(
     weekly_trends, 
     x="weekday_name", 
     y="cnt", 
-    text=weekly_trends["cnt"].round(2),  # Round to 2 decimal places
+    text=weekly_trends["cnt"].round(2),
     title="Bike Usage Trends Over the Week",
     labels={"cnt": "Average Bike Rentals", "weekday_name": "Day of the Week"},
     markers=True,
     template="plotly_dark")
-
 fig_weekly_trends_line.update_traces(line=dict(width=3), textposition="top center")
 fig_weekly_trends_line.update_layout(width=800)
 st.title("Bike Usage Trends Over the Week")
 st.plotly_chart(fig_weekly_trends_line)
 
-# Distribution of Bike Rentals Across the Week
-st.subheader("Distribution of Bike Rentals Across the Week")
+# VISUALIZATION: Distribution of Bike Rentals Across the Week
 fig_weekly_trends_box = px.box(day_df, x="weekday_name", y="cnt",
                                title="Distribution of Bike Rentals Across the Week",
                                labels={"cnt": "Total Bike Rentals", "weekday_name": "Day of the Week"},
                                color="weekday_name")
 st.plotly_chart(fig_weekly_trends_box)
 
-
-
-
-
-# Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays
-# Convert date columns to datetime format
-day_df["dteday"] = pd.to_datetime(day_df["dteday"])
-hour_df["dteday"] = pd.to_datetime(hour_df["dteday"])
-
-# Map weekday and holiday labels
-hour_df["day_type"] = hour_df.apply(lambda row: 
-                                    "Holiday" if row["holiday"] == 1 else 
-                                    ("Weekend" if row["weekday"] in [0, 6] else "Workday"), axis=1)
-
-# Aggregate hourly rentals based on the new categories
-hourly_avg = hour_df.groupby(["hr", "day_type"])["cnt"].mean().reset_index()
-
-# Reduce figure width for better visualization
-fig_width = 1000
-
-# Line chart to show rental trends across different times of day
-fig_hourly_rentals = px.line(hourly_avg, x="hr", y="cnt", color="day_type",
-                             title="Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays",
-                             labels={"hr": "Hour of the Day", "cnt": "Average Rentals", "day_type": "Day Type"},
-                             template="plotly_dark", markers=True, width=fig_width)
-
-fig_hourly_rentals.update_traces(line=dict(width=3))
-fig_hourly_rentals.update_layout(legend_title_text="Day Type")
-
-# HOURLY RENTAL TRENDS ACROSS MONTHS
-st.subheader("Hourly Bike Rental Trends Across Months")
-
+# VISUALIZATION: Hourly Bike Rental Trends Across Months
 # Map numeric month to names
 month_mapping = {
     1: "January", 2: "February", 3: "March", 4: "April",
     5: "May", 6: "June", 7: "July", 8: "August",
-    9: "September", 10: "October", 11: "November", 12: "December"
-}
+    9: "September", 10: "October", 11: "November", 12: "December"}
 hour_df["month_name"] = hour_df["mnth"].map(month_mapping)
 
 # Group by hour and month to get average rentals
 hourly_monthly_rentals = hour_df.groupby(["month_name", "hr"])["cnt"].mean().reset_index()
 
-# Create an interactive faceted line plot
 fig_facet_interactive = px.line(
     hourly_monthly_rentals, x="hr", y="cnt", color="month_name",
     title="Hourly Bike Rental Trends Across Months",
@@ -154,23 +116,21 @@ fig_facet_interactive = px.line(
     facet_col="month_name",
     facet_col_wrap=4,  # Display facets in a grid format
     line_group="month_name",
-    markers=True
-)
+    markers=True)
 
-# Remove "Month=" from facet labels
 fig_facet_interactive.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
 
-# Improve layout aesthetics
 fig_facet_interactive.update_layout(
     font=dict(size=12),
-    showlegend=False,  # Remove legend to avoid redundancy in facets
+    showlegend=False,
     height=700,
-    width=1000  # Adjust width for better readability
-)
-
-# Show the visualization
+    width=1000)
 st.plotly_chart(fig_facet_interactive)
 
+
+
+
+st.subheader("Part 2. Riding with the Weather: What Influences Bike Demand?")
 
 
 
