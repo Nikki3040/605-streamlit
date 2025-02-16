@@ -194,7 +194,32 @@ st.plotly_chart(fig_heatmap, use_container_width=True)
 
 #############################################################
 # VISUALIZATION 10: What are the effects of wind speed on bike usage?
+st.title("Effect of Wind Speed on Bike Rentals")
 
+# Create scatter plot
+fig_wind1 = px.scatter(
+    hour, 
+    x='windspeed', 
+    y='cnt',
+    title='Effect of Wind Speed on Bike Rentals',
+    labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
+    opacity=0.5,
+    color='cnt',
+    template='plotly_dark'
+)
+
+fig_wind1.update_layout(
+    template="plotly_dark",
+    font=dict(size=20),
+    title_font=dict(size=32),
+    xaxis_title_font=dict(size=24),
+    yaxis_title_font=dict(size=24),
+    width=1000,  # Adjusted for better Streamlit display
+    height=600
+)
+
+# Display the plot in Streamlit
+st.plotly_chart(fig_wind1, use_container_width=True)
 
 
 #############################################################
