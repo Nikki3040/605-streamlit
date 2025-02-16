@@ -257,13 +257,10 @@ st.markdown("**Analysis**: The scatter plot reveals an interesting insight: wind
 #############################################################
 # VISUALIZATION 12: How does different weather conditions (e.g., clear, misty, rainy) affect ridership?
 st.markdown("<h4>2E. How does different weather conditions (e.g., clear, misty, rainy) affect ridership?</h4>", unsafe_allow_html=True)
-
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import numpy as np
-
 # **Map weathersit to category names**
 weather_map = {
     1: 'Clear',
@@ -271,73 +268,26 @@ weather_map = {
     3: 'Light Rain/Snow',
     4: 'Heavy Rain/Snow'}
 hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
-
-# **Add header with proper scaling**
 st.markdown("<h4>How do weather conditions affect bike rentals?</h4>", unsafe_allow_html=True)
-
-# **Create box plot with scaled adjustments**
 fig_weather = px.box(
     hour_df, x='weathersit_name', y='cnt', color='weathersit_name',
     title='Bike Rentals by Weather Condition',
     labels={'weathersit_name': 'Weather Condition', 'cnt': 'Total Bike Rentals'},
     color_discrete_sequence=['#E63946', '#F4A261', '#2A9D8F', '#E9C46A'],
     points=False)
-
-# **Adjust layout for consistency with 2C & 2D**
 fig_weather.update_layout(
     template="plotly_dark",
-    font=dict(size=14),  # Matches 2C & 2D general font size
-    title_font=dict(size=20),  # Matches 2C & 2D title size
-    xaxis_title_font=dict(size=16),  # Matches 2C & 2D axis title size
+    font=dict(size=14),
+    title_font=dict(size=20), 
+    xaxis_title_font=dict(size=16), 
     yaxis_title_font=dict(size=16),
-    width=900,  # Reduce width to match 2C & 2D
-    height=550  # Reduce height to match 2C & 2D
-)
-
-# **Update hover details**
-fig_weather.update_traces(
-    hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}")
-
-# **Display in Streamlit**
-st.plotly_chart(fig_weather, use_container_width=True)
-
-
-
-
-
-
-######
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-import numpy as np
-
-# **Map weathersit to category names**
-weather_map = {
-    1: 'Clear',
-    2: 'Misty',
-    3: 'Light Rain/Snow',
-    4: 'Heavy Rain/Snow'}
-hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
-
-# **Create box plot**
-fig_weather = px.box(
-    hour_df, x='weathersit_name', y='cnt', color='weathersit_name',
-    title='Bike Rentals by Weather Condition',
-    labels={'weathersit_name': 'Weather Condition', 'cnt': 'Total Bike Rentals'},
-    color_discrete_sequence=['#E63946', '#F4A261', '#2A9D8F', '#E9C46A'],
-    points=False)
-fig_weather.update_layout(
-    template="plotly_dark",
-    font=dict(size=20),
-    title_font=dict(size=32),
-    xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24),
-    width=1200, height=600 )
+    width=900,
+    height=550)
 fig_weather.update_traces(
     hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}")
 st.plotly_chart(fig_weather, use_container_width=True)
-
+st.markdown("**Analysis**: Weather plays a crucial role in shaping bike-sharing patterns, as seen in the visualizations above. Clear weather consistently sees the highest ridership, with a wide range of total rentals. This suggests that more users are comfortable cycling in favorable conditions. As conditions shift to misty/ cloudy or light rain/ snow, the median number of rentals declines, and variability narrows, indicating fewer peak usage days. However, ridership remains relatively stable, suggesting that moderate weather changes do not completely deter riders. In heavy rain/ ice pellets/ thunderstorms, bike rentals drop significantly. The box plot reveals a much lower median with minimal variation, and scatter plots show very few high-rental points under these conditions. This suggests that extreme weather acts as a strong deterrent, reducing overall riders. For bike-sharing operators, this means optimizing fleet distribution on clear days to accommodate higher demand while considering alternative transportation incentives or service modifications during severe weather.")
+          
 #############################################################
 st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
 #############################################################
