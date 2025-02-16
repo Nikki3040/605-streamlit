@@ -13,3 +13,4 @@ matplotlib
 seaborn
 scikit-learn
 xgboost
+tabulate
