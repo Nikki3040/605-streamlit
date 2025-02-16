@@ -136,7 +136,53 @@ st.title("Bike Usage Trends")
 
 # Show weekly trends chart
 st.subheader("Bike Usage Trends Over the Week")
-#st.plotly_chart(fig_weekly_trends_line)
+
+# HOURLY RENTAL TRENDS ACROSS MONTHS
+st.subheader("Hourly Bike Rental Trends Across Months")
+
+# Map numeric month to names
+month_mapping = {
+    1: "January", 2: "February", 3: "March", 4: "April",
+    5: "May", 6: "June", 7: "July", 8: "August",
+    9: "September", 10: "October", 11: "November", 12: "December"
+}
+hour_df["month_name"] = hour_df["mnth"].map(month_mapping)
+
+# Group by hour and month to get average rentals
+hourly_monthly_rentals = hour_df.groupby(["month_name", "hr"])["cnt"].mean().reset_index()
+
+# Create an interactive faceted line plot
+fig_facet_interactive = px.line(
+    hourly_monthly_rentals, x="hr", y="cnt", color="month_name",
+    title="Hourly Bike Rental Trends Across Months",
+    labels={"cnt": "Avg Rentals", "hr": "Hour of the Day", "month_name": "Month"},
+    template="plotly_dark",
+    facet_col="month_name",
+    facet_col_wrap=4,  # Display facets in a grid format
+    line_group="month_name",
+    markers=True
+)
+
+# Remove "Month=" from facet labels
+fig_facet_interactive.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
+
+# Improve layout aesthetics
+fig_facet_interactive.update_layout(
+    font=dict(size=12),
+    showlegend=False,  # Remove legend to avoid redundancy in facets
+    height=700,
+    width=1000  # Adjust width for better readability
+)
+
+# Show the visualization
+st.plotly_chart(fig_facet_interactive)
+
+
+
+
+
+
+
 
 # Show hourly rental trends chart
 st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
