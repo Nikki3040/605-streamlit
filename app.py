@@ -246,59 +246,46 @@ st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
 #############################################################
 # VISUALIZATION 13: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
 
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 
-# **Grouping data**
 hourly_rentals_holiday = hour_df[hour_df['holiday'] == 1].groupby('hr')[['casual', 'registered']].mean().reset_index()
 hourly_rentals_non_holiday = hour_df[hour_df['holiday'] == 0].groupby('hr')[['casual', 'registered']].mean().reset_index()
 hourly_rentals_total = hour_df.groupby('hr')[['casual', 'registered']].mean().reset_index()
 
-# **Create subplots**
 fig_rental_comparison = make_subplots(
-    rows=3, cols=1, subplot_titles=["Holiday Rentals", "Non-Holiday Rentals", "Total Rentals"]
-)
+    rows=3, cols=1, subplot_titles=["Holiday Rentals", "Non-Holiday Rentals", "Total Rentals"])
 
-# **Colors**
-casual_color = "#1E90FF"  # Dodger Blue
-registered_color = "#FF6347"  # Tomato Red
+casual_color = "#1E90FF"
+registered_color = "#FF6347"
 
-# **Add traces for each category**
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_holiday["hr"], y=hourly_rentals_holiday["casual"],
-    name="Casual Riders", marker_color=casual_color, opacity=0.8
-), row=1, col=1)
+    name="Casual Riders", marker_color=casual_color, opacity=0.8), row=1, col=1)
 
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_holiday["hr"], y=hourly_rentals_holiday["registered"],
-    name="Registered Users", marker_color=registered_color, opacity=0.6
-), row=1, col=1)
+    name="Registered Users", marker_color=registered_color, opacity=0.6), row=1, col=1)
 
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_non_holiday["hr"], y=hourly_rentals_non_holiday["casual"],
-    name="Casual Riders", marker_color=casual_color, opacity=0.8, showlegend=False
-), row=2, col=1)
+    name="Casual Riders", marker_color=casual_color, opacity=0.8, showlegend=False), row=2, col=1)
 
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_non_holiday["hr"], y=hourly_rentals_non_holiday["registered"],
-    name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False
-), row=2, col=1)
+    name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False), row=2, col=1)
 
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_total["hr"], y=hourly_rentals_total["casual"],
-    name="Casual Riders", marker_color=casual_color, opacity=0.8, showlegend=False
-), row=3, col=1)
+    name="Casual Riders", marker_color=casual_color, opacity=0.8, showlegend=False), row=3, col=1)
 
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_total["hr"], y=hourly_rentals_total["registered"],
-    name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False
-), row=3, col=1)
+    name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False), row=3, col=1)
 
-# **Layout updates**
 fig_rental_comparison.update_layout(
     title="Peak Rental Times: Casual Riders vs. Registered Users (Average Rentals)",
     xaxis=dict(title="Hour of the Day", tickmode="array", tickvals=list(range(24)), ticktext=[str(i) for i in range(24)]),
@@ -308,32 +295,60 @@ fig_rental_comparison.update_layout(
     yaxis2=dict(title="Avg Rentals per Hour", range=[0, 400]),
     yaxis3=dict(title="Avg Rentals per Hour", range=[0, 400]),
     template='plotly_dark',
-    width=1200, height=900,  # Adjusted for better visibility in Streamlit
+    width=1200, height=900,
     font=dict(size=18),
     title_font=dict(size=24),
     xaxis_title_font=dict(size=20),
     yaxis_title_font=dict(size=20),
-    margin=dict(t=80, b=80, l=60, r=60)  # Adjust margins to avoid text cutoff
-)
-
-# **Display plot in Streamlit**
+    margin=dict(t=80, b=80, l=60, r=60))
 st.plotly_chart(fig_rental_comparison, use_container_width=True)
-
-
-
-
-
-
-
-
 
 #############################################################
 # VISUALIZATION 14: Do casual riders exhibit different seasonal preferences than registered riders?
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
 
+# **Map season numbers to names**
+season_map = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
+seasonal_rentals_avg = hour_df.groupby('season')[['casual', 'registered']].mean().reset_index()
+seasonal_rentals_avg['season'] = seasonal_rentals_avg['season'].map(season_map)
 
+casual_color = "#1E90FF" 
+registered_color = "#FF6347"
 
+fig_seasonal_stacked_avg = go.Figure()
+fig_seasonal_stacked_avg.add_trace(go.Bar(
+    x=seasonal_rentals_avg['season'],
+    y=seasonal_rentals_avg['casual'],
+    name='Casual Riders',
+    marker_color=casual_color,
+    opacity=0.8))
 
+fig_seasonal_stacked_avg.add_trace(go.Bar(
+    x=seasonal_rentals_avg['season'],
+    y=seasonal_rentals_avg['registered'],
+    name='Registered Users',
+    marker_color=registered_color,
+    opacity=0.6))
 
+fig_seasonal_stacked_avg.update_layout(
+    title="Seasonal Preferences: Casual Riders vs. Registered Users (Average Rentals)",
+    xaxis_title="Season",
+    yaxis_title="Average Rentals per Hour",
+    barmode="stack",
+    bargap=0.2,
+    template='plotly_dark',
+    width=1200, height=600,
+    font=dict(size=20),
+    title_font=dict(size=32),
+    xaxis_title_font=dict(size=24),
+    yaxis_title_font=dict(size=24))
+
+st.title("Seasonal Preferences: Casual vs. Registered Riders")
+st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
+
+#############################################################
 
 # Hourly Rental Trends: Holidays vs. Weekends vs. Workdays
 st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
