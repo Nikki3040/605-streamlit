@@ -46,6 +46,8 @@ st.markdown("A separate approach was taken to cluster rental demand patterns bas
 st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
 #############################################################
 # VISUALIZATION 1: Bike Usage Across Different Seasons
+st.markdown("<h4>Bike Usage Across Different Seasons</h4>", unsafe_allow_html=True)
+
 st.markdown("**1A. How does bike usage vary across different seasons?**")
 fig_season_box = px.box(day_df, x='season_name', y='cnt', color='season_name',
                         title="Bike Usage Across Different Seasons",
