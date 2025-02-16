@@ -96,8 +96,9 @@ fig_weekly_trends_box = px.box(day_df, x="weekday_name", y="cnt",
                                labels={"cnt": "Total Bike Rentals", "weekday_name": "Day of the Week"},
                                color="weekday_name")
 st.plotly_chart(fig_weekly_trends_box)
-#############################################################
+st.markdown("Analysis: The line chart shows a gradual increase in bike rentals from Sunday to Friday, with a peak on Thursday and Friday, before dropping slightly on Saturday. This suggests that bike usage is highest during the weekdays, likely driven by commuters using bikes for work or school. The slight decline on weekends could indicate that fewer people are commuting, although there is still significant bike usage. The box plot complements this by showing the distribution and variability of bike rentals for each day. It reveals that while weekdays generally have higher median rentals, the spread is also greater, suggesting higher fluctuations in demand. This could be due to variations in weather, events, or different commuting patterns. Interestingly, weekend rentals have a wider range, indicating some days see substantial usage spikes, possibly due to recreational activities. Together, these two visuals suggest that bike rentals are primarily driven by weekday commuting patterns, but weekends still see significant usage, albeit with more variability. This insight can be useful for bike-sharing companies or city planners to optimize availability based on expected demand throughout the week.")
 
+#############################################################
 # VISUALIZATION 6: Hourly Bike Rental Trends Across Months
 # Map numeric month to names
 month_mapping = {
@@ -123,7 +124,8 @@ fig_facet_interactive.update_layout(
     height=700,
     width=1000)
 st.plotly_chart(fig_facet_interactive)
-
+st.markdown("Analysis: This visualization reveals distinct seasonal patterns in bike rental demand. Warmer months, particularly May through September, exhibit significantly higher peaks, especially in the afternoon and evening, suggesting increased recreational and leisure usage. Conversely, colder months (November to February) show lower overall rentals, likely due to unfavorable weather conditions. A consistent two-peak pattern emerges across most months, with demand surging around 8 AM and 5-6 PM, aligning with typical commuting hours. However, during summer months (June–August), the afternoon peak is notably higher, indicating that more people are renting bikes for activities beyond commuting. Additionally, July and August experience the highest rental volumes, while December and January see the lowest, further emphasizing the correlation between temperature, daylight hours, and biking behavior. Another key insight is that during warmer months, usage remains sustained throughout the day, while in colder months, demand is concentrated primarily around peak commute times. These findings suggest that bike rental usage is strongly season-dependent, with warmer months encouraging more widespread and extended use beyond essential travel needs.")
+            
 #############################################################
 st.subheader("Part 2. Riding with the Weather: What Influences Bike Demand?")
 
