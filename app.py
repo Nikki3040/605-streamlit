@@ -26,7 +26,8 @@ pio.templates.default = "plotly_dark"
 st.subheader("Introduction: Pedaling Towards Smarter Urban Mobility")
 st.markdown("As cities continue to grow and shift towards sustainable transportation, bike-sharing systems have emerged as a crucial component of urban mobility. They provide a flexible, eco-friendly, and cost-effective means of transportation for daily commuters, recreational riders, and tourists alike. However, understanding when and how these bike-sharing systems are utilized is essential for optimizing station locations, adjusting bike availability, and improving overall service efficiency. In this data story, we analyze the UCI Bike Sharing Dataset, which contains detailed records of bike rental activity in Washington, D.C., collected over two years (2011-2012). This dataset provides valuable insights into hourly and daily rental patterns, influenced by factors such as time of day, day of the week, seasonality, and weather conditions. By leveraging visual analytics, we explore how different user behaviors emerge based on commuting patterns, weekday vs. weekend usage, and impact of weather conditions, time of day, seasonal variations, and user behavior.")
 
-
+st.subheader("Objective")
+st.markdown("Through our analysis, we aim to answer key questions about bike-sharing trends: How do rental patterns fluctuate across different timescales? Are there noticeable variations between weekdays and weekends? How do external factors like weather, temperature, and wind speed shape bike-sharing demand? How do rental behaviors differ between registered users and casual riders? By addressing these questions, we seek to uncover actionable insights that can help urban planners, policymakers, and bike-sharing companies optimize service availability, improve user experience, and better accommodate evolving urban mobility needs.")
 
 st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
 
