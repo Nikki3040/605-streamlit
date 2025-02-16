@@ -214,6 +214,7 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
+
 # Mapping weather conditions
 weather_map = {
     1: 'Clear',
@@ -225,61 +226,64 @@ hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
 
 st.title("Effect of Weather Conditions on Bike Rentals")
 
-# **Temperature vs. Bike Rentals**
+### **1. Temperature vs. Bike Rentals**
 fig_temp = px.scatter(
     hour_df, x='temp', y='cnt', color='weathersit_name',
     title="Effect of Temperature on Bike Rentals by Weather Condition",
     labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
     facet_col='weathersit_name', opacity=0.6,
-    facet_col_wrap=2  # Break into multiple rows
+    facet_col_wrap=4  # Ensures all four appear in one row
 )
 fig_temp.update_layout(
     template="plotly_dark",
-    font=dict(size=20),
-    title_font=dict(size=32),
-    xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24),
-    width=1200, height=800  # Increased size
+    font=dict(size=18),
+    title_font=dict(size=26),
+    xaxis_title_font=dict(size=20),
+    yaxis_title_font=dict(size=20),
+    width=1600, height=400,  # Adjusted size
+    margin=dict(l=50, r=50, t=60, b=60)  # Fix facet title cutoff
 )
 
-# **Humidity vs. Bike Rentals**
+### **2. Humidity vs. Bike Rentals**
 fig_hum = px.scatter(
     hour_df, x='hum', y='cnt', color='weathersit_name',
     title="Effect of Humidity on Bike Rentals by Weather Condition",
     labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
     facet_col='weathersit_name', opacity=0.6,
-    facet_col_wrap=2
+    facet_col_wrap=4
 )
 fig_hum.update_layout(
     template="plotly_dark",
-    font=dict(size=20),
-    title_font=dict(size=32),
-    xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24),
-    width=1200, height=800
+    font=dict(size=18),
+    title_font=dict(size=26),
+    xaxis_title_font=dict(size=20),
+    yaxis_title_font=dict(size=20),
+    width=1600, height=400,
+    margin=dict(l=50, r=50, t=60, b=60)
 )
 
-# **Wind Speed vs. Bike Rentals**
+### **3. Wind Speed vs. Bike Rentals**
 fig_wind = px.scatter(
     hour_df, x='windspeed', y='cnt', color='weathersit_name',
     title="Effect of Wind Speed on Bike Rentals by Weather Condition",
     labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
     facet_col='weathersit_name', opacity=0.6,
-    facet_col_wrap=2
+    facet_col_wrap=4
 )
 fig_wind.update_layout(
     template="plotly_dark",
-    font=dict(size=20),
-    title_font=dict(size=32),
-    xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24),
-    width=1200, height=800
+    font=dict(size=18),
+    title_font=dict(size=26),
+    xaxis_title_font=dict(size=20),
+    yaxis_title_font=dict(size=20),
+    width=1600, height=400,
+    margin=dict(l=50, r=50, t=60, b=60)
 )
 
 # **Display plots in Streamlit**
-st.plotly_chart(fig_temp, use_container_width=False)  # Avoid auto-squeeze
-st.plotly_chart(fig_hum, use_container_width=False)
-st.plotly_chart(fig_wind, use_container_width=False)
+st.plotly_chart(fig_temp, use_container_width=True)  
+st.plotly_chart(fig_hum, use_container_width=True)
+st.plotly_chart(fig_wind, use_container_width=True)
 
 
 #############################################################
