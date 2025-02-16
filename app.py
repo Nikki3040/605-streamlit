@@ -214,16 +214,12 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-
-
-# Mapping weather conditions
 weather_map = {
     1: 'Clear',
     2: 'Misty',
     3: 'Light Rain/Snow',
-    4: 'Heavy Rain/Snow'
-}
-hour['weathersit_name'] = hour['weathersit'].map(weather_map)
+    4: 'Heavy Rain/Snow'}
+hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
 
 st.title("Effect of Weather Conditions on Bike Rentals")
 
@@ -232,15 +228,13 @@ fig_temp = px.scatter(
     hour, x='temp', y='cnt', color='weathersit_name',
     title="Effect of Temperature on Bike Rentals by Weather Condition",
     labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6
-)
+    facet_col='weathersit_name', opacity=0.6)
 fig_temp.update_layout(
     template="plotly_dark",
     font=dict(size=20),
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24)
-)
+    yaxis_title_font=dict(size=24))
 
 # **Humidity vs. Bike Rentals**
 fig_hum = px.scatter(
@@ -254,12 +248,11 @@ fig_hum.update_layout(
     font=dict(size=20),
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24)
-)
+    yaxis_title_font=dict(size=24))
 
 # **Wind Speed vs. Bike Rentals**
 fig_wind = px.scatter(
-    hour, x='windspeed', y='cnt', color='weathersit_name',
+    hour_df, x='windspeed', y='cnt', color='weathersit_name',
     title="Effect of Wind Speed on Bike Rentals by Weather Condition",
     labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
     facet_col='weathersit_name', opacity=0.6
