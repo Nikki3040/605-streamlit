@@ -231,53 +231,39 @@ st.markdown("**Analysis**: A clear trend of interaction between temperature, hum
             
 #############################################################
 
+# New 2D
+# Adjusted 2D Visualization: Wind Speed vs. Bike Rentals
 
-# Adjusted 2D Visualization: Effect of Wind Speed on Bike Usage
+st.markdown("<h4>2D. What are the effects of wind speed on bike usage?</h4>", unsafe_allow_html=True)
 
-import numpy as np
-import plotly.graph_objects as go
-import streamlit as st
-
-num_bins = 10  # Adjusted number of bins for better scaling
-
-# Creating bins for wind speed
-wind_bins = np.linspace(hour_df['windspeed'].min(), hour_df['windspeed'].max(), num_bins + 1)
-hour_df['wind_bin'] = pd.cut(hour_df['windspeed'], bins=wind_bins, include_lowest=True)
-
-# Pivot table for heatmap
-heatmap_data_wind = hour_df.pivot_table(index='wind_bin', columns='hr', values='cnt', aggfunc='mean')
-
-# Formatting bin labels
-heatmap_data_wind.index = [f"{float(bin.left):.2f} - {float(bin.right):.2f}" for bin in heatmap_data_wind.index]
-heatmap_data_wind.columns = [str(int(hour)) for hour in heatmap_data_wind.columns]
-
-# Creating heatmap figure
-fig_wind_heatmap = go.Figure(
-    data=go.Heatmap(
-        z=heatmap_data_wind.values,
-        x=heatmap_data_wind.columns,
-        y=heatmap_data_wind.index,
-        colorscale='Viridis',
-        colorbar=dict(title="Avg Bike Rentals")
-    )
+# Create scatter plot
+fig_wind1 = px.scatter(
+    hour_df, 
+    x='windspeed', 
+    y='cnt',
+    title='Effect of Wind Speed on Bike Rentals',
+    labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
+    opacity=0.5,
+    color='cnt',
+    color_continuous_scale='Viridis',  # Matches heatmap style
+    template='plotly_dark'
 )
 
-# Layout adjustments to match 2C
-fig_wind_heatmap.update_layout(
-    title="Effect of Wind Speed on Bike Rentals",
-    xaxis_title="Hour of the Day",
-    yaxis_title="Wind Speed (Normalized)",
-    template='plotly_dark',
-    font=dict(size=14),  # Matches 2C styling
-    title_font=dict(size=20),
-    xaxis_title_font=dict(size=16),
+# Adjust layout for consistency with 2C
+fig_wind1.update_layout(
+    template="plotly_dark",
+    font=dict(size=14),  # Matches 2C general font size
+    title_font=dict(size=20),  # Matches 2C title size
+    xaxis_title_font=dict(size=16),  # Matches 2C axis title size
     yaxis_title_font=dict(size=16),
-    width=900,  # Adjusted width
-    height=550  # Adjusted height
+    width=900,  # Reduce width to match 2C
+    height=550  # Reduce height to match 2C
 )
 
 # Display in Streamlit
-st.plotly_chart(fig_wind_heatmap, use_container_width=True)
+st.plotly_chart(fig_wind1, use_container_width=True)
+
+
 
 
 
