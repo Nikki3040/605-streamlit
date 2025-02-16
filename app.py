@@ -309,29 +309,43 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
+# Debugging: Ensure the dataset loads
+st.write("Dataset Loaded Successfully ✅")
+st.write(hour_df.head())  # Display first 5 rows
+
 # **Map season numbers to names**
 season_map = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
 seasonal_rentals_avg = hour_df.groupby('season')[['casual', 'registered']].mean().reset_index()
 seasonal_rentals_avg['season'] = seasonal_rentals_avg['season'].map(season_map)
 
-casual_color = "#1E90FF" 
-registered_color = "#FF6347"
+# Debugging: Check if grouping worked
+st.write("Seasonal Rental Averages ✅")
+st.write(seasonal_rentals_avg)
 
+# **Define colors**
+casual_color = "#1E90FF"  # Dodger Blue
+registered_color = "#FF6347"  # Tomato Red
+
+# **Create Stacked Bar Chart**
 fig_seasonal_stacked_avg = go.Figure()
+
 fig_seasonal_stacked_avg.add_trace(go.Bar(
     x=seasonal_rentals_avg['season'],
     y=seasonal_rentals_avg['casual'],
     name='Casual Riders',
     marker_color=casual_color,
-    opacity=0.8))
+    opacity=0.8
+))
 
 fig_seasonal_stacked_avg.add_trace(go.Bar(
     x=seasonal_rentals_avg['season'],
     y=seasonal_rentals_avg['registered'],
     name='Registered Users',
     marker_color=registered_color,
-    opacity=0.6))
+    opacity=0.6
+))
 
+# **Layout Configuration**
 fig_seasonal_stacked_avg.update_layout(
     title="Seasonal Preferences: Casual Riders vs. Registered Users (Average Rentals)",
     xaxis_title="Season",
@@ -339,12 +353,14 @@ fig_seasonal_stacked_avg.update_layout(
     barmode="stack",
     bargap=0.2,
     template='plotly_dark',
-    width=1200, height=600,
+    width=1200, height=600,  # Adjusted for Streamlit display
     font=dict(size=20),
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24))
+    yaxis_title_font=dict(size=24)
+)
 
+# **Display chart in Streamlit**
 st.title("Seasonal Preferences: Casual vs. Registered Riders")
 st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
 
