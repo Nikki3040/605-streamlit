@@ -297,17 +297,22 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+
 # Group the data
 hourly_rentals_holiday = hour_df[hour_df['holiday'] == 1].groupby('hr')[['casual', 'registered']].mean().reset_index()
 hourly_rentals_non_holiday = hour_df[hour_df['holiday'] == 0].groupby('hr')[['casual', 'registered']].mean().reset_index()
 hourly_rentals_total = hour_df.groupby('hr')[['casual', 'registered']].mean().reset_index()
+
 # Create subplots
 fig_rental_comparison = make_subplots(
     rows=3, cols=1, subplot_titles=["Holiday Rentals", "Non-Holiday Rentals", "Total Rentals"],
-    shared_xaxes=True  # Ensures the x-axis is shared across all subplots)
+    shared_xaxes=True  # Ensures the x-axis is shared across all subplots
+)
+
 # Define colors
 casual_color = "#1E90FF"
 registered_color = "#FF6347"
+
 # Add traces for Holiday Rentals
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_holiday["hr"], y=hourly_rentals_holiday["casual"],
@@ -315,6 +320,7 @@ fig_rental_comparison.add_trace(go.Bar(
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_holiday["hr"], y=hourly_rentals_holiday["registered"],
     name="Registered Users", marker_color=registered_color, opacity=0.6), row=1, col=1)
+
 # Add traces for Non-Holiday Rentals
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_non_holiday["hr"], y=hourly_rentals_non_holiday["casual"],
@@ -322,6 +328,7 @@ fig_rental_comparison.add_trace(go.Bar(
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_non_holiday["hr"], y=hourly_rentals_non_holiday["registered"],
     name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False), row=2, col=1)
+
 # Add traces for Total Rentals
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_total["hr"], y=hourly_rentals_total["casual"],
@@ -329,6 +336,7 @@ fig_rental_comparison.add_trace(go.Bar(
 fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_total["hr"], y=hourly_rentals_total["registered"],
     name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False), row=3, col=1)
+
 # Apply scaled-down formatting to match 2E
 fig_rental_comparison.update_layout(
     title="Casual Riders vs. Registered Users (Average Rentals)",
@@ -340,10 +348,14 @@ fig_rental_comparison.update_layout(
     xaxis_title_font=dict(size=16),
     yaxis_title="Avg Rentals per Hour",
     yaxis_title_font=dict(size=16),
-    margin=dict(t=60, b=60, l=50, r=50)  # Adjusted margins)
-st.plotly_chart(fig_rental_comparison, use_container_width=True)
-st.markdown("**Analysis**: The rental patterns of casual riders and registered users exhibit distinct trends based on whether it is a holiday or a non-holiday. The graphs above illustrate a clear behavioral contrast between the two groups. On holidays, casual riders display a more evenly distributed usage pattern throughout the day, with a steady increase in demand from morning to afternoon. Unlike registered users, their peak hours are morning to early evening (8 AM - 6 PM), indicating that these riders are likely engaging in leisure activities rather than commuting. In contrast, registered users follow a structured commuting pattern, which is especially evident on non-holidays. Their demand spikes dramatically during morning rush hours (8 AM) and evening rush hours (5 PM - 6 PM), aligning with typical work schedules. This group’s ridership drops significantly during midday hours, reinforcing the idea that their primary use of the bike-sharing system is for daily commuting rather than leisure. The total rentals graph confirms these trends, showing that overall bike demand is highest during commuting hours on workdays and more evenly spread on holidays. For bike-sharing systems, this suggests the need for higher bike availability during rush hours on weekdays and a balanced distribution throughout the day on holidays to accommodate varying user behaviors.")
+    margin=dict(t=60, b=60, l=50, r=50)  # Adjusted margins
+)
 
+# Display in Streamlit
+st.plotly_chart(fig_rental_comparison, use_container_width=True)
+
+
+st.markdown("**Analysis**: The rental patterns of casual riders and registered users exhibit distinct trends based on whether it is a holiday or a non-holiday. The graphs above illustrate a clear behavioral contrast between the two groups. On holidays, casual riders display a more evenly distributed usage pattern throughout the day, with a steady increase in demand from morning to afternoon. Unlike registered users, their peak hours are morning to early evening (8 AM - 6 PM), indicating that these riders are likely engaging in leisure activities rather than commuting. In contrast, registered users follow a structured commuting pattern, which is especially evident on non-holidays. Their demand spikes dramatically during morning rush hours (8 AM) and evening rush hours (5 PM - 6 PM), aligning with typical work schedules. This group’s ridership drops significantly during midday hours, reinforcing the idea that their primary use of the bike-sharing system is for daily commuting rather than leisure. The total rentals graph confirms these trends, showing that overall bike demand is highest during commuting hours on workdays and more evenly spread on holidays. For bike-sharing systems, this suggests the need for higher bike availability during rush hours on weekdays and a balanced distribution throughout the day on holidays to accommodate varying user behaviors.")
 
 #############################################################
 # VISUALIZATION 15: Do casual riders exhibit different seasonal preferences than registered riders?
