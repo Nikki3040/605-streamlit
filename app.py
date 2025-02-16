@@ -136,7 +136,7 @@ st.title("Bike Usage Trends")
 
 # Show weekly trends chart
 st.subheader("Bike Usage Trends Over the Week")
-st.plotly_chart(fig_weekly_trends_line)
+#st.plotly_chart(fig_weekly_trends_line)
 
 # Show hourly rental trends chart
 st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
