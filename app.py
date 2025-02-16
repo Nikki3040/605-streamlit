@@ -128,42 +128,24 @@ st.markdown("Analysis: This visualization reveals distinct seasonal patterns in 
             
 #############################################################
 st.subheader("Part 2. Riding with the Weather: What Influences Bike Demand?")
-
-
-
-
-
-
-
-# Show hourly rental trends chart
-st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
-st.plotly_chart(fig_hourly_rentals)
-
-
-
-
-# Impact of Temperature on Bike Rentals
+#############################################################
+# VISUALIZATION 7: Impact of Temperature on Bike Rentals
 st.subheader("Impact of Temperature on Bike Rentals")
 fig_temp = px.scatter(day_df, x='temp', y='cnt', title="Impact of Temperature on Bike Rentals",
                       labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals'},
                       color='cnt', color_continuous_scale='turbo')
 st.plotly_chart(fig_temp)
-
-# Impact of Humidity on Bike Rentals
+st.markdown("Analysis: The scatter plot shown above demonstrates a clear positive correlation between temperature and bike rentals, indicating that warmer temperatures generally lead to higher bike usage. At lower normalized temperatures (around 0.2), bike rentals remain relatively low, suggesting that colder conditions discourage ridership. As temperature increases, the number of rentals rises steadily, peaking at moderate to high normalized temperatures (between 0.6 and 0.8), where total bike rentals frequently exceed 6000. However, at the highest temperature levels, there appears to be a slight plateau, suggesting that extreme heat may not necessarily lead to increased ridership and could even discourage some users. This pattern implies that there is an optimal temperature range for bike rentals, likely in mild to warm conditions, beyond which extreme heat may act as a deterrent. Understanding this relationship between temperature and bike rentals, can aid city planners and bike-sharing programs optimize operations by ensuring adequate bike availability during peak temperature conditions while also considering the potential impact of extreme weather.")
+#############################################################
+# VISUALIZATION 8: Impact of Humidity on Bike Rentals
 st.subheader("Impact of Humidity on Bike Rentals")
 fig_humidity = px.scatter(day_df, x='hum', y='cnt', title="Impact of Humidity on Bike Rentals",
                           labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals'},
                           color='cnt', color_continuous_scale='magma')
 st.plotly_chart(fig_humidity)
+st.markdown("Analysis: The scatter plot illustrates the relationship between humidity and bike rental demand, showing a weak but noticeable trend. At lower humidity levels (below 0.4), bike rentals vary widely but tend to be lower on average, with fewer instances of peak usage. As humidity increases, rental counts remain relatively stable, suggesting that moderate humidity does not significantly impact ridership. However, at very high humidity levels (above 0.8), bike rentals appear to slightly decline, indicating that extreme humidity may discourage biking due to discomfort or unfavorable weather conditions such as heavy moisture or rain. While humidity does not exhibit a strong linear relationship with bike rentals, there may be an optimal mid-range where ridership is less affected, whereas extreme conditions—either too dry or too humid—might contribute to decreased demand. Understanding this relationship can help in predicting rental fluctuations and planning for weather-related ridership patterns.")
+#############################################################
 
-# Impact of Holidays on Bike Rentals
-st.subheader("Holiday vs Regular Day Bike Rentals")
-holiday_counts = day_df.groupby('holiday')['cnt'].sum().reset_index()
-holiday_counts['holiday'] = holiday_counts['holiday'].map({0: 'Regular Days', 1: 'Holidays'})
-fig_holiday_donut = px.pie(holiday_counts, names='holiday', values='cnt',
-                           title="Holiday vs Regular Day Bike Rentals", hole=0.4,
-                           color='holiday', color_discrete_sequence=['#1f77b4', '#ff7f0e'])
-st.plotly_chart(fig_holiday_donut)
 
 # Hourly Bike Demand Trends
 st.subheader("Hourly Bike Demand Across Days of the Week")
