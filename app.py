@@ -32,6 +32,7 @@ st.markdown("Through our analysis, we aim to answer key questions about bike-sha
 st.subheader("Dataset")
 st.markdown("The dataset provides detailed records of bike-sharing rentals in Washington, D.C., including temporal attributes such as date, year, month, hour, day of the week, and holiday/workday status, as well as weather conditions like temperature, humidity, wind speed, and general weather. It also includes user information, distinguishing between casual and registered users, along with total bike rentals. Two primary files were analyzed: hour.csv, which contains hourly bike rental data with 17,379 records, and day.csv, which includes daily bike rental data with 731 records. With this rich dataset, let's dive into the patterns that shape bike-sharing trends.")
 
+st.subheader("Methodology")
 
 st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
 
