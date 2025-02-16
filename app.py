@@ -214,7 +214,6 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
-
 # Mapping weather conditions
 weather_map = {
     1: 'Clear',
@@ -226,64 +225,71 @@ hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
 
 st.title("Effect of Weather Conditions on Bike Rentals")
 
+# Define uniform font sizes
+font_size = 18
+title_size = 24
+
 ### **1. Temperature vs. Bike Rentals**
 fig_temp = px.scatter(
     hour_df, x='temp', y='cnt', color='weathersit_name',
-    title="Temperature on Bike Rentals by Weather Condition",
+    title="Effect of Temperature on Bike Rentals by Weather Condition",
     labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6,
-    facet_col_wrap=4  # Ensures all four appear in one row
+    facet_col='weathersit_name', opacity=0.6
 )
 fig_temp.update_layout(
     template="plotly_dark",
-    font=dict(size=20),
-    title_font=dict(size=20),
-    xaxis_title_font=dict(size=20),
-    yaxis_title_font=dict(size=20),
-    width=1600, height=400,  # Adjusted size
-    margin=dict(l=50, r=50, t=60, b=60)  # Fix facet title cutoff
+    font=dict(size=font_size),  # Apply consistent font
+    title_font=dict(size=title_size),
+    xaxis_title_font=dict(size=font_size),
+    yaxis_title_font=dict(size=font_size),
+    legend_font=dict(size=font_size),
+    width=1800, height=500,
+    margin=dict(t=80, b=80, l=60, r=60)
 )
+fig_temp.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
 
 ### **2. Humidity vs. Bike Rentals**
 fig_hum = px.scatter(
     hour_df, x='hum', y='cnt', color='weathersit_name',
     title="Effect of Humidity on Bike Rentals by Weather Condition",
     labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6,
-    facet_col_wrap=4
+    facet_col='weathersit_name', opacity=0.6
 )
 fig_hum.update_layout(
     template="plotly_dark",
-    font=dict(size=18),
-    title_font=dict(size=26),
-    xaxis_title_font=dict(size=20),
-    yaxis_title_font=dict(size=20),
-    width=1600, height=400,
-    margin=dict(l=50, r=50, t=60, b=60)
+    font=dict(size=font_size),
+    title_font=dict(size=title_size),
+    xaxis_title_font=dict(size=font_size),
+    yaxis_title_font=dict(size=font_size),
+    legend_font=dict(size=font_size),
+    width=1800, height=500,
+    margin=dict(t=80, b=80, l=60, r=60)
 )
+fig_hum.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
 
 ### **3. Wind Speed vs. Bike Rentals**
 fig_wind = px.scatter(
     hour_df, x='windspeed', y='cnt', color='weathersit_name',
     title="Effect of Wind Speed on Bike Rentals by Weather Condition",
     labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6,
-    facet_col_wrap=4
+    facet_col='weathersit_name', opacity=0.6
 )
 fig_wind.update_layout(
     template="plotly_dark",
-    font=dict(size=18),
-    title_font=dict(size=26),
-    xaxis_title_font=dict(size=20),
-    yaxis_title_font=dict(size=20),
-    width=1600, height=400,
-    margin=dict(l=50, r=50, t=60, b=60)
+    font=dict(size=font_size),
+    title_font=dict(size=title_size),
+    xaxis_title_font=dict(size=font_size),
+    yaxis_title_font=dict(size=font_size),
+    legend_font=dict(size=font_size),
+    width=1800, height=500,
+    margin=dict(t=80, b=80, l=60, r=60)
 )
+fig_wind.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
 
 # **Display plots in Streamlit**
-st.plotly_chart(fig_temp, use_container_width=True)  
-st.plotly_chart(fig_hum, use_container_width=True)
-st.plotly_chart(fig_wind, use_container_width=True)
+st.plotly_chart(fig_temp, use_container_width=False)  
+st.plotly_chart(fig_hum, use_container_width=False)
+st.plotly_chart(fig_wind, use_container_width=False)
 
 
 #############################################################
