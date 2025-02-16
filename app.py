@@ -225,7 +225,7 @@ st.title("Effect of Weather Conditions on Bike Rentals")
 
 # **Temperature vs. Bike Rentals**
 fig_temp = px.scatter(
-    hour, x='temp', y='cnt', color='weathersit_name',
+    hour_df, x='temp', y='cnt', color='weathersit_name',
     title="Effect of Temperature on Bike Rentals by Weather Condition",
     labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
     facet_col='weathersit_name', opacity=0.6)
