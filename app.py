@@ -130,7 +130,6 @@ st.markdown("Analysis: This visualization reveals distinct seasonal patterns in 
 st.subheader("Part 2. Riding with the Weather: What Influences Bike Demand?")
 #############################################################
 # VISUALIZATION 7: Impact of Temperature on Bike Rentals
-st.subheader("Impact of Temperature on Bike Rentals")
 fig_temp = px.scatter(day_df, x='temp', y='cnt', title="Impact of Temperature on Bike Rentals",
                       labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals'},
                       color='cnt', color_continuous_scale='turbo')
@@ -138,7 +137,6 @@ st.plotly_chart(fig_temp)
 st.markdown("Analysis: The scatter plot shown above demonstrates a clear positive correlation between temperature and bike rentals, indicating that warmer temperatures generally lead to higher bike usage. At lower normalized temperatures (around 0.2), bike rentals remain relatively low, suggesting that colder conditions discourage ridership. As temperature increases, the number of rentals rises steadily, peaking at moderate to high normalized temperatures (between 0.6 and 0.8), where total bike rentals frequently exceed 6000. However, at the highest temperature levels, there appears to be a slight plateau, suggesting that extreme heat may not necessarily lead to increased ridership and could even discourage some users. This pattern implies that there is an optimal temperature range for bike rentals, likely in mild to warm conditions, beyond which extreme heat may act as a deterrent. Understanding this relationship between temperature and bike rentals, can aid city planners and bike-sharing programs optimize operations by ensuring adequate bike availability during peak temperature conditions while also considering the potential impact of extreme weather.")
 #############################################################
 # VISUALIZATION 8: Impact of Humidity on Bike Rentals
-st.subheader("Impact of Humidity on Bike Rentals")
 fig_humidity = px.scatter(day_df, x='hum', y='cnt', title="Impact of Humidity on Bike Rentals",
                           labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals'},
                           color='cnt', color_continuous_scale='magma')
@@ -147,17 +145,7 @@ st.markdown("Analysis: The scatter plot illustrates the relationship between hum
 #############################################################
 
 
-# Hourly Bike Demand Trends
-st.subheader("Hourly Bike Demand Across Days of the Week")
-weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
-                   4: "Thursday", 5: "Friday", 6: "Saturday"}
-hour_df["weekday"] = hour_df["weekday"].map(weekday_mapping)
-hourly_trends = hour_df.groupby(["hr", "weekday"])["cnt"].mean().reset_index()
-fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="weekday",
-                             title="Hourly Bike Demand Across Days of the Week",
-                             labels={"cnt": "Average Rentals", "hr": "Hour of Day", "weekday": "Day of the Week"},
-                             color="cnt", color_continuous_scale="viridis")
-st.plotly_chart(fig_hourly_animated)
+
 
 # Hourly Rental Trends: Holidays vs. Weekends vs. Workdays
 st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
@@ -181,45 +169,7 @@ st.plotly_chart(fig_casual_registered_area)
 
 
 
-# HOURLY RENTAL TRENDS ACROSS MONTHS
-st.subheader("Hourly Bike Rental Trends Across Months")
 
-# Map numeric month to names
-month_mapping = {
-    1: "January", 2: "February", 3: "March", 4: "April",
-    5: "May", 6: "June", 7: "July", 8: "August",
-    9: "September", 10: "October", 11: "November", 12: "December"
-}
-hour_df["month_name"] = hour_df["mnth"].map(month_mapping)
-
-# Group by hour and month to get average rentals
-hourly_monthly_rentals = hour_df.groupby(["month_name", "hr"])["cnt"].mean().reset_index()
-
-# Create an interactive faceted line plot
-fig_facet_interactive = px.line(
-    hourly_monthly_rentals, x="hr", y="cnt", color="month_name",
-    title="Hourly Bike Rental Trends Across Months",
-    labels={"cnt": "Avg Rentals", "hr": "Hour of the Day", "month_name": "Month"},
-    template="plotly_dark",
-    facet_col="month_name",
-    facet_col_wrap=4,  # Display facets in a grid format
-    line_group="month_name",
-    markers=True
-)
-
-# Remove "Month=" from facet labels
-fig_facet_interactive.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
-
-# Improve layout aesthetics
-fig_facet_interactive.update_layout(
-    font=dict(size=12),
-    showlegend=False,  # Remove legend to avoid redundancy in facets
-    height=700,
-    width=1000  # Adjust width for better readability
-)
-
-# Show the visualization
-st.plotly_chart(fig_facet_interactive)
 
 
 
