@@ -204,25 +204,6 @@ fig_casual_registered_area = px.area(hourly_comparison, x="hr", y=["casual", "re
                                      labels={"hr": "Hour of the Day", "value": "Total Users", "variable": "User Type"})
 st.plotly_chart(fig_casual_registered_area)
 
-# Bike Usage Trends Over the Week
-st.subheader("Bike Usage Trends Over the Week")
-weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
-                   4: "Thursday", 5: "Friday", 6: "Saturday"}
-day_df["weekday_name"] = day_df["weekday"].map(weekday_mapping)
-weekly_trends = day_df.groupby("weekday_name")["cnt"].mean().reset_index()
-fig_weekly_trends_line = px.line(weekly_trends, x="weekday_name", y="cnt",
-                                 title="Bike Usage Trends Over the Week",
-                                 labels={"cnt": "Average Bike Rentals", "weekday_name": "Day of the Week"},
-                                 markers=True)
-st.plotly_chart(fig_weekly_trends_line)
-
-# Distribution of Bike Rentals Across the Week
-st.subheader("Distribution of Bike Rentals Across the Week")
-fig_weekly_trends_box = px.box(day_df, x="weekday_name", y="cnt",
-                               title="Distribution of Bike Rentals Across the Week",
-                               labels={"cnt": "Total Bike Rentals", "weekday_name": "Day of the Week"},
-                               color="weekday_name")
-st.plotly_chart(fig_weekly_trends_box)
 
 
 # HOURLY RENTAL TRENDS ACROSS MONTHS
