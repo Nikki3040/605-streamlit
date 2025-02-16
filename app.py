@@ -205,32 +205,77 @@ st.plotly_chart(fig_wind1, use_container_width=True)
 
 #############################################################
 # VISUALIZATION 11: How does different weather conditions (e.g., clear, misty, rainy) affect ridership?
-fig_weather = px.box(
-    hour_df, 
-    x='weathersit_name', 
-    y='cnt', 
-    color='weathersit_name',
-    title='Bike Rentals by Weather Condition',
-    labels={'weathersit_name': 'Weather Condition', 'cnt': 'Total Bike Rentals'},
-    color_discrete_sequence=['#E63946', '#F4A261', '#2A9D8F', '#E9C46A'],
-    points=False)
-fig_weather.update_layout(
-    template="plotly_dark",
-    font=dict(size=20),
-    title_font=dict(size=32),
-    xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24),
-    width=1000,
-    height=600)
-
-fig_weather.update_traces(
-    hovertemplate="Weather Condition: %{x}<br>Min: %{y|.2f}<br>Median: %{median|.2f}<br>Max: %{upperfence|.2f}")
-st.plotly_chart(fig_weather, use_container_width=True)
 
 #############################################################
 # VISUALIZATION 12: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
 
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import numpy as np
 
+
+
+# Mapping weather conditions
+weather_map = {
+    1: 'Clear',
+    2: 'Misty',
+    3: 'Light Rain/Snow',
+    4: 'Heavy Rain/Snow'
+}
+hour['weathersit_name'] = hour['weathersit'].map(weather_map)
+
+st.title("Effect of Weather Conditions on Bike Rentals")
+
+# **Temperature vs. Bike Rentals**
+fig_temp = px.scatter(
+    hour, x='temp', y='cnt', color='weathersit_name',
+    title="Effect of Temperature on Bike Rentals by Weather Condition",
+    labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
+    facet_col='weathersit_name', opacity=0.6
+)
+fig_temp.update_layout(
+    template="plotly_dark",
+    font=dict(size=20),
+    title_font=dict(size=32),
+    xaxis_title_font=dict(size=24),
+    yaxis_title_font=dict(size=24)
+)
+
+# **Humidity vs. Bike Rentals**
+fig_hum = px.scatter(
+    hour_df, x='hum', y='cnt', color='weathersit_name',
+    title="Effect of Humidity on Bike Rentals by Weather Condition",
+    labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
+    facet_col='weathersit_name', opacity=0.6
+)
+fig_hum.update_layout(
+    template="plotly_dark",
+    font=dict(size=20),
+    title_font=dict(size=32),
+    xaxis_title_font=dict(size=24),
+    yaxis_title_font=dict(size=24)
+)
+
+# **Wind Speed vs. Bike Rentals**
+fig_wind = px.scatter(
+    hour, x='windspeed', y='cnt', color='weathersit_name',
+    title="Effect of Wind Speed on Bike Rentals by Weather Condition",
+    labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
+    facet_col='weathersit_name', opacity=0.6
+)
+fig_wind.update_layout(
+    template="plotly_dark",
+    font=dict(size=20),
+    title_font=dict(size=32),
+    xaxis_title_font=dict(size=24),
+    yaxis_title_font=dict(size=24)
+)
+
+# **Display plots in Streamlit**
+st.plotly_chart(fig_temp, use_container_width=True)
+st.plotly_chart(fig_hum, use_container_width=True)
+st.plotly_chart(fig_wind, use_container_width=True)
 
 
 
