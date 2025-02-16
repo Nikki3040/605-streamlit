@@ -47,6 +47,7 @@ st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
 #############################################################
 # VISUALIZATION 1: Bike Usage Across Different Seasons
 st.subheader("1A. How does bike usage vary across different seasons?")
+st.markdown("1A. How does bike usage vary across different seasons?")
 fig_season_box = px.box(day_df, x='season_name', y='cnt', color='season_name',
                         title="Bike Usage Across Different Seasons",
                         labels={'cnt': 'Total Bike Rentals', 'season_name': 'Season'})
