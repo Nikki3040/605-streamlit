@@ -366,6 +366,152 @@ st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
 
 #############################################################
 
+# Predictive Modelling 1
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet, BayesianRidge, HuberRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
+from sklearn.svm import SVR
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.neighbors import KNeighborsRegressor
+from xgboost import XGBRegressor
+from tabulate import tabulate
+
+# Load dataset
+file_path = "/mnt/data/hour.csv"
+hour_df = pd.read_csv(file_path)
+
+# Feature selection
+features = ['temp', 'hum', 'windspeed', 'hr', 'weekday', 'weathersit', 'holiday']
+X = hour_df[features]
+y = hour_df['cnt']
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+st.title("Bike Rentals Prediction - Model Comparison & Optimization")
+
+# **Train Multiple Models**
+st.subheader("🔍 Model Comparison")
+models = {
+    "Linear Regression": LinearRegression(),
+    "Ridge Regression": Ridge(alpha=1.0),
+    "Lasso Regression": Lasso(alpha=1.0),
+    "ElasticNet Regression": ElasticNet(alpha=1.0, l1_ratio=0.5),
+    "Bayesian Ridge Regression": BayesianRidge(),
+    "Huber Regression": HuberRegressor(),
+    "Random Forest Regression": RandomForestRegressor(n_estimators=100),
+    "Decision Tree Regression": DecisionTreeRegressor(max_depth=5),
+    "Gradient Boosting Regression": GradientBoostingRegressor(n_estimators=100, learning_rate=0.1, max_depth=3),
+    "Support Vector Regression": SVR(kernel='rbf'),
+    "K-Nearest Neighbors": KNeighborsRegressor(n_neighbors=5),
+    "XGBoost": XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=3),
+    "Extra Trees Regression": ExtraTreesRegressor(n_estimators=100)
+}
+
+# Train and evaluate models
+results = {}
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    mse = mean_squared_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    results[name] = {"MSE": mse, "R²": r2}
+
+# Display results
+results_df = pd.DataFrame(results).T
+st.write("### Model Performance Comparison")
+st.dataframe(results_df)
+
+# **Hyperparameter Tuning using GridSearchCV**
+st.subheader("⚙️ Hyperparameter Tuning with Grid Search")
+
+# Parameter grids
+param_grid_rf = {'n_estimators': [50, 100, 200], 'max_depth': [None, 10, 20, 30], 'min_samples_split': [2, 5, 10]}
+param_grid_gb = {'n_estimators': [50, 100, 200], 'learning_rate': [0.01, 0.1, 0.2], 'max_depth': [3, 5, 7]}
+param_grid_knn = {'n_neighbors': [3, 5, 7, 9], 'weights': ['uniform', 'distance'], 'p': [1, 2]}
+param_grid_dt = {'max_depth': [None, 5, 10, 20], 'min_samples_split': [2, 5, 10], 'min_samples_leaf': [1, 2, 4]}
+param_grid_et = {'n_estimators': [50, 100, 200], 'max_depth': [None, 10, 20, 30], 'min_samples_leaf': [1, 2, 4]}
+
+models_grid = {
+    "Random Forest": (RandomForestRegressor(random_state=42), param_grid_rf),
+    "Gradient Boosting": (GradientBoostingRegressor(random_state=42), param_grid_gb),
+    "K-Nearest Neighbors": (KNeighborsRegressor(), param_grid_knn),
+    "Decision Tree": (DecisionTreeRegressor(random_state=42), param_grid_dt),
+    "Extra Trees": (ExtraTreesRegressor(random_state=42), param_grid_et)
+}
+
+best_results = {}
+
+for name, (model, param_grid) in models_grid.items():
+    grid = GridSearchCV(model, param_grid, cv=5, scoring='r2', n_jobs=-1)
+    grid.fit(X_train, y_train)
+    best_results[name] = {
+        "Best Parameters": grid.best_params_,
+        "Best R² Score": grid.best_score_
+    }
+
+best_results_df = pd.DataFrame(best_results).T
+st.write("### Best Model Parameters from Grid Search")
+st.dataframe(best_results_df)
+
+# **Train the Best Model (Gradient Boosting Regressor)**
+st.subheader("🏆 Best Model - Gradient Boosting Regressor")
+
+best_params = best_results["Gradient Boosting"]["Best Parameters"]
+gb_model = GradientBoostingRegressor(**best_params, random_state=42)
+gb_model.fit(X_train, y_train)
+
+# **Feature Importance**
+feature_importance_df = pd.DataFrame({
+    "Feature": X.columns,
+    "Importance": gb_model.feature_importances_
+})
+
+fig = px.bar(
+    feature_importance_df.sort_values(by="Importance", ascending=True),
+    x="Importance",
+    y="Feature",
+    orientation="h",
+    title="Feature Importance - Gradient Boosting Regressor",
+    labels={"Importance": "Feature Importance Score", "Feature": "Features"},
+    color="Importance",
+    color_continuous_scale="Blues",
+    template="plotly_dark"
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Hourly Rental Trends: Holidays vs. Weekends vs. Workdays
 st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
 hour_df["day_type"] = hour_df.apply(lambda row: 
