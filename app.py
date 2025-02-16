@@ -144,17 +144,19 @@ st.plotly_chart(fig_humidity)
 st.markdown("Analysis: The scatter plot illustrates the relationship between humidity and bike rental demand, showing a weak but noticeable trend. At lower humidity levels (below 0.4), bike rentals vary widely but tend to be lower on average, with fewer instances of peak usage. As humidity increases, rental counts remain relatively stable, suggesting that moderate humidity does not significantly impact ridership. However, at very high humidity levels (above 0.8), bike rentals appear to slightly decline, indicating that extreme humidity may discourage biking due to discomfort or unfavorable weather conditions such as heavy moisture or rain. While humidity does not exhibit a strong linear relationship with bike rentals, there may be an optimal mid-range where ridership is less affected, whereas extreme conditions—either too dry or too humid—might contribute to decreased demand. Understanding this relationship can help in predicting rental fluctuations and planning for weather-related ridership patterns.")
 #############################################################
 # VISUALIZATION 9: Are bike rentals more affected by temperature or humidity?
+import numpy as np  # Ensure numpy is imported
+
 num_bins = 10
 
-# Binning temperature and humidity
-temp_bins = np.linspace(hour['temp'].min(), hour['temp'].max(), num_bins + 1)
-hum_bins = np.linspace(0, hour['hum'].max(), num_bins + 1)
+# Ensure 'hour_df' is used instead of 'hour'
+temp_bins = np.linspace(hour_df['temp'].min(), hour_df['temp'].max(), num_bins + 1)
+hum_bins = np.linspace(0, hour_df['hum'].max(), num_bins + 1)
 
-hour['temp_bin'] = pd.cut(hour['temp'], bins=temp_bins, include_lowest=True)
-hour['hum_bin'] = pd.cut(hour['hum'], bins=hum_bins)
+hour_df['temp_bin'] = pd.cut(hour_df['temp'], bins=temp_bins, include_lowest=True)
+hour_df['hum_bin'] = pd.cut(hour_df['hum'], bins=hum_bins)
 
 # Creating pivot table for heatmap
-heatmap_data = hour.pivot_table(index='temp_bin', columns='hum_bin', values='cnt', aggfunc='mean')
+heatmap_data = hour_df.pivot_table(index='temp_bin', columns='hum_bin', values='cnt', aggfunc='mean')
 
 # Formatting bin labels
 heatmap_data.index = [f"{float(bin.left):.2f} - {float(bin.right):.2f}" for bin in heatmap_data.index]
