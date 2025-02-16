@@ -381,13 +381,9 @@ from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.neighbors import KNeighborsRegressor
 from xgboost import XGBRegressor
-
-# **Load dataset**
-
-# **Check for missing values**
-if hour_df.isnull().sum().sum() > 0:
-    st.error("⚠️ Warning: Missing values detected in the dataset!")
-    hour_df = hour_df.dropna()
+import streamlit as st
+import pandas as pd
+from tabulate import tabulate
 
 # **Convert categorical columns to numeric**
 if 'weathersit' in hour_df.columns:
@@ -400,10 +396,6 @@ y = hour_df['cnt'].copy()
 
 # **Ensure all features are numeric**
 X = pd.get_dummies(X, drop_first=True)  # One-hot encoding for categorical columns
-
-# **Check Data Types**
-st.write("🔍 Data Types after Preprocessing")
-st.write(X.dtypes)
 
 # **Train-Test Split**
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -425,8 +417,7 @@ models = {
     "Support Vector Regression": SVR(kernel='rbf'),
     "K-Nearest Neighbors": KNeighborsRegressor(n_neighbors=5),
     "XGBoost": XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=3),
-    "Extra Trees Regression": ExtraTreesRegressor(n_estimators=100)
-}
+    "Extra Trees Regression": ExtraTreesRegressor(n_estimators=100)}
 
 # Train and evaluate models
 results = {}
@@ -445,11 +436,6 @@ results_df = pd.DataFrame(results).T
 st.write("### 📊 Model Performance Comparison")
 st.dataframe(results_df)
 
-
-import streamlit as st
-import pandas as pd
-from tabulate import tabulate
-
 # **Grid Search Results**
 results = {
     "Model": [
@@ -457,39 +443,56 @@ results = {
         "Gradient Boosting",
         "k-Nearest Neighbors",
         "Decision Tree",
-        "Extra Trees"
-    ],
+        "Extra Trees"],
     "Best Parameters": [
         "{'max_depth': 20, 'min_samples_leaf': 1}",
         "{'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}",
         "{'n_neighbors': 9, 'p': 2, 'weights': 'distance'}",
         "{'max_depth': 10, 'min_samples_leaf': 4}",
-        "{'max_depth': 20, 'min_samples_leaf': 1}"
-    ],
+        "{'max_depth': 20, 'min_samples_leaf': 1}"],
     "Best R² Score": [
         0.836,
         0.847,
         0.775,
         0.792,
-        0.835
-    ]
-}
+        0.835]}
 
-# Convert results to DataFrame
 results_df = pd.DataFrame(results)
 
-# **Display the table in Streamlit**
 st.subheader("🏆 Grid Search Results - Best Model Parameters & R² Scores")
 st.dataframe(results_df)
 
-# Optional: Print a formatted table (for debugging/logging)
-table = tabulate(results_df, headers="keys", tablefmt="fancy_grid", showindex=False)
-st.text(table)  # Show the table in Streamlit text output (for structured view)
+# **Feature Importance using Gradient Boosting Regressor**
+st.subheader("📊 Feature Importance - Gradient Boosting Regressor")
 
+# Best hyperparameters for Gradient Boosting
+best_params = {'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}
 
+# Train Gradient Boosting Model
+gb_model = GradientBoostingRegressor(**best_params, random_state=42)
+gb_model.fit(X_train, y_train)
 
+# Extract Feature Importance
+feature_importance_df = pd.DataFrame({
+    "Feature": X.columns,
+    "Importance": gb_model.feature_importances_
+})
 
+# Create Bar Chart for Feature Importance
+fig = px.bar(
+    feature_importance_df.sort_values(by="Importance", ascending=True),
+    x="Importance",
+    y="Feature",
+    orientation='h',
+    title="Feature Importance - Gradient Boosting Regressor",
+    labels={"Importance": "Feature Importance Score", "Feature": "Features"},
+    color="Importance",
+    color_continuous_scale="Blues",
+    template='plotly_dark'
+)
 
+# Display in Streamlit
+st.plotly_chart(fig, use_container_width=True)
 
 
 
