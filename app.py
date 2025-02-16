@@ -42,10 +42,26 @@ st.plotly_chart(fig_season_box)
 st.markdown("Analysis: The box plot illustrating bike rentals across seasons reveals the presence of clear seasonal trends in bike rentals, with significantly higher usage during warmer months (Spring and Summer seasons) and lower usage in colder seasons (Winter and Fall). Spring and Summer show the highest median rentals, exceeding 4000, with a wide range of variability, suggesting that factors like weather conditions and special events influence demand. Contrastingly, Winter has the lowest median rentals, around 2000, with some days experiencing near-zero usage, which may be due to typical harsh weather conditions that occur during the Winter months. Fall exhibits moderate bike usage, but with a few extreme outliers. The variability in Summer and Spring highlights fluctuating demand, while Winter and Fall rentals are more consistent but lower overall. This analysis underscores the strong influence of seasonality on bike rentals, indicating that bike-sharing programs should optimize bike availability based on seasonal trends to maximize efficiency and rider satisfaction.")
 
 # Long-term Trends in Bike Usage
-st.subheader("Long-term Trends in Bike Usage")
+#st.subheader("Long-term Trends in Bike Usage")
 fig_trend = px.line(day_df, x='dteday', y='cnt', title="Long-term Trends in Bike Usage Over the Years",
                     labels={'dteday': 'Date', 'cnt': 'Total Bike Rentals'}, markers=True)
 st.plotly_chart(fig_trend)
+st.markdown("Analysis: The time series plot shows clear long-term trends in bike usage, with strong seasonal patterns and overall fluctuations in bike rentals. There is an evident increase in bike rentals starting in early 2011, reaching peaks during the warmer months and declining in the winter, a pattern that repeats across multiple years. The highest usage is observed in mid-2012, which might be explained by either increased adoption of bike-sharing programs or favorable weather and infrastructure improvements. However, there is a visible decline in ridership toward the end of 2012 and into early 2013, likely due to seasonal effects rather than a long-term downward trend. These fluctuations indicate that while ridership has generally grown, external factors such as weather, policy changes, and infrastructure development may influence the consistency of bike usage over time.")
+
+# Hourly Bike Demand Trends
+st.subheader("Hourly Bike Demand Across Days of the Week")
+weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
+                   4: "Thursday", 5: "Friday", 6: "Saturday"}
+hour_df["weekday"] = hour_df["weekday"].map(weekday_mapping)
+hourly_trends = hour_df.groupby(["hr", "weekday"])["cnt"].mean().reset_index()
+fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="weekday",
+                             title="Hourly Bike Demand Across Days of the Week",
+                             labels={"cnt": "Average Rentals", "hr": "Hour of Day", "weekday": "Day of the Week"},
+                             color="cnt", color_continuous_scale="viridis")
+st.plotly_chart(fig_hourly_animated)
+
+
+
 
 # Impact of Temperature on Bike Rentals
 st.subheader("Impact of Temperature on Bike Rentals")
