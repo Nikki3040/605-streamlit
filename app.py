@@ -23,11 +23,8 @@ day_df['season_name'] = day_df['season'].map(season_map)
 # Set dark theme
 pio.templates.default = "plotly_dark"
 
-st.subheader("Authors: Anika Achari & Prabhnoor Virk")
-st.markdown("<h3; '>Authors: Anika Achari & Prabhnoor Virk</h3>", unsafe_allow_html=True)
-
 st.subheader("Introduction: Pedaling Towards Smarter Urban Mobility")
-st.markdown("Bike rentals vary significantly across different seasons. This box plot highlights the trends observed in Winter, Spring, Summer, and Fall.")
+st.markdown("As cities continue to grow and shift towards sustainable transportation, bike-sharing systems have emerged as a crucial component of urban mobility. They provide a flexible, eco-friendly, and cost-effective means of transportation for daily commuters, recreational riders, and tourists alike. However, understanding when and how these bike-sharing systems are utilized is essential for optimizing station locations, adjusting bike availability, and improving overall service efficiency. In this data story, we analyze the UCI Bike Sharing Dataset, which contains detailed records of bike rental activity in Washington, D.C., collected over two years (2011-2012). This dataset provides valuable insights into hourly and daily rental patterns, influenced by factors such as time of day, day of the week, seasonality, and weather conditions. By leveraging visual analytics, we explore how different user behaviors emerge based on commuting patterns, weekday vs. weekend usage, and impact of weather conditions, time of day, seasonal variations, and user behavior.")
 
 
 
