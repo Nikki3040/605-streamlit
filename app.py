@@ -208,7 +208,6 @@ st.plotly_chart(fig_wind1, use_container_width=True)
 
 #############################################################
 # VISUALIZATION 12: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -233,18 +232,19 @@ title_size = 24
 fig_temp = px.scatter(
     hour_df, x='temp', y='cnt', color='weathersit_name',
     title="Effect of Temperature on Bike Rentals by Weather Condition",
-    labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6
+    labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals'},
+    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.1  # Spreads plots out
 )
 fig_temp.update_layout(
     template="plotly_dark",
-    font=dict(size=font_size),  # Apply consistent font
+    font=dict(size=font_size),
     title_font=dict(size=title_size),
+    xaxis=dict(tickangle=-45),  # Rotates x-axis labels
     xaxis_title_font=dict(size=font_size),
     yaxis_title_font=dict(size=font_size),
     legend_font=dict(size=font_size),
-    width=1800, height=500,
-    margin=dict(t=80, b=80, l=60, r=60)
+    width=2000, height=500,  # Adjusted width for better spacing
+    margin=dict(t=100, b=100, l=80, r=80)
 )
 fig_temp.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
 
@@ -252,18 +252,19 @@ fig_temp.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Con
 fig_hum = px.scatter(
     hour_df, x='hum', y='cnt', color='weathersit_name',
     title="Effect of Humidity on Bike Rentals by Weather Condition",
-    labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6
+    labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals'},
+    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.1
 )
 fig_hum.update_layout(
     template="plotly_dark",
     font=dict(size=font_size),
     title_font=dict(size=title_size),
+    xaxis=dict(tickangle=-45),
     xaxis_title_font=dict(size=font_size),
     yaxis_title_font=dict(size=font_size),
     legend_font=dict(size=font_size),
-    width=1800, height=500,
-    margin=dict(t=80, b=80, l=60, r=60)
+    width=2000, height=500,
+    margin=dict(t=100, b=100, l=80, r=80)
 )
 fig_hum.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
 
@@ -271,18 +272,19 @@ fig_hum.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Cond
 fig_wind = px.scatter(
     hour_df, x='windspeed', y='cnt', color='weathersit_name',
     title="Effect of Wind Speed on Bike Rentals by Weather Condition",
-    labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6
+    labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals'},
+    facet_col='weathersit_name', opacity=0.6, facet_col_spacing=0.1
 )
 fig_wind.update_layout(
     template="plotly_dark",
     font=dict(size=font_size),
     title_font=dict(size=title_size),
+    xaxis=dict(tickangle=-45),
     xaxis_title_font=dict(size=font_size),
     yaxis_title_font=dict(size=font_size),
     legend_font=dict(size=font_size),
-    width=1800, height=500,
-    margin=dict(t=80, b=80, l=60, r=60)
+    width=2000, height=500,
+    margin=dict(t=100, b=100, l=80, r=80)
 )
 fig_wind.for_each_annotation(lambda a: a.update(text=a.text.replace("Weather Condition=", "").strip()))
 
