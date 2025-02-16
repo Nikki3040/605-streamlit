@@ -388,20 +388,16 @@ from tabulate import tabulate
 # **Convert categorical columns to numeric**
 if 'weathersit' in hour_df.columns:
     hour_df['weathersit'] = hour_df['weathersit'].astype(str)  # Convert to string
-
 # **Feature selection**
 features = ['temp', 'hum', 'windspeed', 'hr', 'weekday', 'weathersit', 'holiday']
 X = hour_df[features].copy()
 y = hour_df['cnt'].copy()
-
 # **Ensure all features are numeric**
 X = pd.get_dummies(X, drop_first=True)  # One-hot encoding for categorical columns
-
 # **Train-Test Split**
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 st.title("📊 Bike Rentals Prediction - Model Comparison & Optimization")
-
 # **Train Multiple Models**
 st.subheader("🔍 Model Comparison")
 models = {
@@ -456,29 +452,23 @@ results = {
         0.775,
         0.792,
         0.835]}
-
 results_df = pd.DataFrame(results)
-
 st.subheader("🏆 Grid Search Results - Best Model Parameters & R² Scores")
 st.dataframe(results_df)
 
 # **Feature Importance using Gradient Boosting Regressor**
 st.subheader("📊 Feature Importance - Gradient Boosting Regressor")
-
 # Best hyperparameters for Gradient Boosting
 best_params = {'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}
-
 # Train Gradient Boosting Model
 gb_model = GradientBoostingRegressor(**best_params, random_state=42)
 gb_model.fit(X_train, y_train)
-
 # Extract Feature Importance
 feature_importance_df = pd.DataFrame({
     "Feature": X.columns,
-    "Importance": gb_model.feature_importances_
-})
+    "Importance": gb_model.feature_importances_})
 
-# Create Bar Chart for Feature Importance
+# Bar chart for feature importance
 fig = px.bar(
     feature_importance_df.sort_values(by="Importance", ascending=True),
     x="Importance",
@@ -488,14 +478,54 @@ fig = px.bar(
     labels={"Importance": "Feature Importance Score", "Feature": "Features"},
     color="Importance",
     color_continuous_scale="Blues",
-    template='plotly_dark'
-)
-
-# Display in Streamlit
+    template='plotly_dark')
 st.plotly_chart(fig, use_container_width=True)
+st.markdown("Analysis: Based on the results of the comparative table, it can be observed that that Gradient Boosting Regression is the most effective model for predicting bike rental demand, with an R² score of 0.8469. Hour of the day emerged as the most critical factor, reflecting peak rental times during commuting hours. Temperature and weekday trends also significantly influenced demand, with higher rentals on warm days and workdays showing distinct peaks. Adverse weather conditions such as rain and snow were found to reduce rentals considerably. The presence of holidays showed varied effects on demand, with some seasonal variations. These insights suggest that bike-sharing systems can optimize availability by reallocating bikes dynamically during peak hours, adjusting pricing strategies based on weather conditions, and implementing targeted promotions to increase ridership during weekends and holidays. Ultimately, machine learning models offer a robust approach to forecasting demand, aiding both urban mobility planners and bike-sharing companies in improving operational efficiency and customer satisfaction.")
 
+#############################################################
 
+# Predictive Modelling 2
 
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.model_selection import train_test_split
+
+st.title("🚴‍♂️ Bike Rental Demand Clustering & Visualization")
+
+# Feature selection
+features = ["temp", "hum", "windspeed", "season", "weekday", "workingday", "weathersit"]
+X_full = day_df[features]
+y = day_df["cnt"]  # Target: Total rentals
+# Normalize numerical features
+scaler = StandardScaler()
+X_full_scaled = scaler.fit_transform(X_full)
+# Apply KMeans Clustering (3 Clusters)
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+day_df["demand_cluster"] = kmeans.fit_predict(X_full_scaled)
+# Demand Labels
+demand_labels = {0: "Medium Demand", 1: "High Demand", 2: "Low Demand"}
+day_df["demand_category"] = day_df["demand_cluster"].map(demand_labels)
+# KNN Setup for Decision Boundary (Using Temp & Humidity)
+X_2D = day_df[["temp", "hum"]].values
+y_2D = day_df["demand_cluster"]
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X_2D, y_2D, test_size=0.2, random_state=42)
+
+# **📌 Interactive Scatter Plot for Demand**
+st.subheader("📊 Bike Rental Demand Classification by Temperature")
+
+fig_scatter = px.scatter(
+    day_df, x="temp", y="cnt", color="demand_category",
+    title="Bike Rental Demand Classification by Temperature",
+    labels={"temp": "Temperature", "cnt": "Total Rentals", "demand_category": "Demand Category"},
+    template="plotly_dark",
+    width=800)
+st.plotly_chart(fig_scatter, use_container_width=True)
 
 
 
