@@ -214,11 +214,13 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 
+# Mapping weather conditions
 weather_map = {
     1: 'Clear',
     2: 'Misty',
     3: 'Light Rain/Snow',
-    4: 'Heavy Rain/Snow'}
+    4: 'Heavy Rain/Snow'
+}
 hour_df['weathersit_name'] = hour_df['weathersit'].map(weather_map)
 
 st.title("Effect of Weather Conditions on Bike Rentals")
@@ -228,48 +230,56 @@ fig_temp = px.scatter(
     hour_df, x='temp', y='cnt', color='weathersit_name',
     title="Effect of Temperature on Bike Rentals by Weather Condition",
     labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6)
+    facet_col='weathersit_name', opacity=0.6,
+    facet_col_wrap=2  # Break into multiple rows
+)
 fig_temp.update_layout(
     template="plotly_dark",
     font=dict(size=20),
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24))
+    yaxis_title_font=dict(size=24),
+    width=1200, height=800  # Increased size
+)
 
 # **Humidity vs. Bike Rentals**
 fig_hum = px.scatter(
     hour_df, x='hum', y='cnt', color='weathersit_name',
     title="Effect of Humidity on Bike Rentals by Weather Condition",
     labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6
+    facet_col='weathersit_name', opacity=0.6,
+    facet_col_wrap=2
 )
 fig_hum.update_layout(
     template="plotly_dark",
     font=dict(size=20),
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24))
+    yaxis_title_font=dict(size=24),
+    width=1200, height=800
+)
 
 # **Wind Speed vs. Bike Rentals**
 fig_wind = px.scatter(
     hour_df, x='windspeed', y='cnt', color='weathersit_name',
     title="Effect of Wind Speed on Bike Rentals by Weather Condition",
     labels={'windspeed': 'Wind Speed (Normalized)', 'cnt': 'Total Bike Rentals', 'weathersit_name': 'Weather Condition'},
-    facet_col='weathersit_name', opacity=0.6
+    facet_col='weathersit_name', opacity=0.6,
+    facet_col_wrap=2
 )
 fig_wind.update_layout(
     template="plotly_dark",
     font=dict(size=20),
     title_font=dict(size=32),
     xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24)
+    yaxis_title_font=dict(size=24),
+    width=1200, height=800
 )
 
 # **Display plots in Streamlit**
-st.plotly_chart(fig_temp, use_container_width=True)
-st.plotly_chart(fig_hum, use_container_width=True)
-st.plotly_chart(fig_wind, use_container_width=True)
-
+st.plotly_chart(fig_temp, use_container_width=False)  # Avoid auto-squeeze
+st.plotly_chart(fig_hum, use_container_width=False)
+st.plotly_chart(fig_wind, use_container_width=False)
 
 
 #############################################################
