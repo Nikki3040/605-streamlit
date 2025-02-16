@@ -24,7 +24,7 @@ day_df['season_name'] = day_df['season'].map(season_map)
 pio.templates.default = "plotly_dark"
 
 st.subheader("Authors: Anika Achari & Prabhnoor Virk")
-st.markdown("<h3 style='text-align: center; color: #FF4B4B;'>Authors: Anika Achari & Prabhnoor Virk</h3>", unsafe_allow_html=True)
+st.markdown("<h3; '>Authors: Anika Achari & Prabhnoor Virk</h3>", unsafe_allow_html=True)
 
 
 st.subheader("Part 1. The Rhythm of Ridership: When Do People Ride?")
