@@ -114,11 +114,8 @@ st.plotly_chart(fig_weekly_trends_box)
 st.markdown("**Analysis**: The line chart shows a gradual increase in bike rentals from Sunday to Friday, with a peak on Thursday and Friday, before dropping slightly on Saturday. This suggests that bike usage is highest during the weekdays, likely driven by commuters using bikes for work or school. The slight decline on weekends could indicate that fewer people are commuting, although there is still significant bike usage. The box plot complements this by showing the distribution and variability of bike rentals for each day. It reveals that while weekdays generally have higher median rentals, the spread is also greater, suggesting higher fluctuations in demand. This could be due to variations in weather, events, or different commuting patterns. Interestingly, weekend rentals have a wider range, indicating some days see substantial usage spikes, possibly due to recreational activities. Together, these two visuals suggest that bike rentals are primarily driven by weekday commuting patterns, but weekends still see significant usage, albeit with more variability. This insight can be useful for bike-sharing companies or city planners to optimize availability based on expected demand throughout the week.")
 
 #############################################################
-# VISUALIZATION 6: Trends by Weekdays, Holidays, and Non-Holiday
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-
+# VISUALIZATION 6: Holiday and Workday Trends in Ridership
+st.markdown("<h4>1E. How do bike rental patterns differ between workdays and holidays throughout the day?</h4>", unsafe_allow_html=True)
 # Convert date columns to datetime format
 day_df["dteday"] = pd.to_datetime(day_df["dteday"])
 hour_df["dteday"] = pd.to_datetime(hour_df["dteday"])
@@ -143,11 +140,10 @@ fig_hourly_rentals = px.line(
 fig_hourly_rentals.update_traces(line=dict(width=3))
 fig_hourly_rentals.update_layout(legend_title_text="Day Type")
 st.plotly_chart(fig_hourly_rentals, use_container_width=True)
-
-
+st.markdown("**Analysis**: The line chart highlights key differences in bike rental patterns between workdays and holidays. On workdays, rentals peak sharply around 8 AM and 5-6 PM, aligning with commuting hours, indicating that many users rely on bike-sharing for work or school travel. In contrast, holiday rentals are more evenly distributed throughout the day, suggesting that usage is more recreational. Overall, rentals are higher on workdays, especially during peak hours, reinforcing the role of bike-sharing in daily commutes. These insights can help optimize bike availability, ensuring sufficient supply during peak commuting hours while maintaining balanced distribution for recreational riders on holidays.")
 
 #############################################################
-# VISUALIZATION 6: Hourly Bike Rental Trends Across Months
+# VISUALIZATION 7: Hourly Bike Rental Trends Across Months
 st.markdown("<h4>1F. How does bike rental demand fluctuate across different months of the year? Are there noticeable seasonal patterns in hourly usage?</h4>", unsafe_allow_html=True)
 # Map numeric month to names
 month_mapping = {
@@ -178,7 +174,7 @@ st.markdown("**Analysis**: This visualization reveals distinct seasonal patterns
 #############################################################
 st.subheader("Part 2. Riding with the Weather: What Influences Bike Demand?")
 #############################################################
-# VISUALIZATION 7: Impact of Temperature on Bike Rentals
+# VISUALIZATION 8: Impact of Temperature on Bike Rentals
 st.markdown("<h4>2A. What is the impact of temperature on bike rentals? (e.g., is there an optimal temperature for bike rentals?)</h4>", unsafe_allow_html=True)
 fig_temp = px.scatter(day_df, x='temp', y='cnt', title="Impact of Temperature on Bike Rentals",
                       labels={'temp': 'Temperature (Normalized)', 'cnt': 'Total Bike Rentals'},
@@ -187,7 +183,7 @@ st.plotly_chart(fig_temp)
 st.markdown("**Analysis**: The scatter plot shown above demonstrates a clear positive correlation between temperature and bike rentals, indicating that warmer temperatures generally lead to higher bike usage. At lower normalized temperatures (around 0.2), bike rentals remain relatively low, suggesting that colder conditions discourage ridership. As temperature increases, the number of rentals rises steadily, peaking at moderate to high normalized temperatures (between 0.6 and 0.8), where total bike rentals frequently exceed 6000. However, at the highest temperature levels, there appears to be a slight plateau, suggesting that extreme heat may not necessarily lead to increased ridership and could even discourage some users. This pattern implies that there is an optimal temperature range for bike rentals, likely in mild to warm conditions, beyond which extreme heat may act as a deterrent. Understanding this relationship between temperature and bike rentals, can aid city planners and bike-sharing programs optimize operations by ensuring adequate bike availability during peak temperature conditions while also considering the potential impact of extreme weather.")
 
 #############################################################
-# VISUALIZATION 8: Impact of Humidity on Bike Rentals
+# VISUALIZATION 9: Impact of Humidity on Bike Rentals
 st.markdown("<h4>2B. How does humidity influence bike rental demand?</h4>", unsafe_allow_html=True)
 fig_humidity = px.scatter(day_df, x='hum', y='cnt', title="Impact of Humidity on Bike Rentals",
                           labels={'hum': 'Humidity (Normalized)', 'cnt': 'Total Bike Rentals'},
@@ -196,7 +192,7 @@ st.plotly_chart(fig_humidity)
 st.markdown("**Analysis**: The scatter plot illustrates the relationship between humidity and bike rental demand, showing a weak but noticeable trend. At lower humidity levels (below 0.4), bike rentals vary widely but tend to be lower on average, with fewer instances of peak usage. As humidity increases, rental counts remain relatively stable, suggesting that moderate humidity does not significantly impact ridership. However, at very high humidity levels (above 0.8), bike rentals appear to slightly decline, indicating that extreme humidity may discourage biking due to discomfort or unfavorable weather conditions such as heavy moisture or rain. While humidity does not exhibit a strong linear relationship with bike rentals, there may be an optimal mid-range where ridership is less affected, whereas extreme conditions—either too dry or too humid—might contribute to decreased demand. Understanding this relationship can help in predicting rental fluctuations and planning for weather-related ridership patterns.")
 
 #############################################################
-# VISUALIZATION 9: Are bike rentals more affected by temperature or humidity?
+# VISUALIZATION 10: Are bike rentals more affected by temperature or humidity?
 st.markdown("<h4>2C. Are bike rentals more affected by temperature or humidity?</h4>", unsafe_allow_html=True)
 import numpy as np  
 num_bins = 10
@@ -234,7 +230,7 @@ st.plotly_chart(fig_heatmap, use_container_width=True)
 st.markdown("**Analysis**: A clear trend of interaction between temperature, humidity, and bike rentals, emerges from the heatmap. The intensity of rentals is higher in mid to high-range temperatures (0.5 - 0.9 normalized scale), where demand increases significantly. The most significant observation is the sharp increase in bike rentals when temperatures are at their peak, suggesting that warmer weather encourages higher ridership. In contrast, humidity exhibits a more gradual and less pronounced effect on rentals. While extreme humidity levels (both low and high) seem to slightly suppress demand, bike rentals remain relatively stable across most humidity ranges. This suggests that while riders may be slightly deterred by excessive humidity, temperature plays a far greater role in influencing ridership patterns. The brightest yellow sections (indicating the highest rental volumes) align with warmer temperatures rather than specific humidity levels. This reinforces the idea that bike-sharing systems should prioritize temperature forecasts over humidity when optimizing fleet distribution and availability.")
             
 #############################################################
-# VISUALIZATION 10: What are the effects of wind speed on bike usage?
+# VISUALIZATION 11: What are the effects of wind speed on bike usage?
 st.markdown("<h4>2D. What are the effects of wind speed on bike usage?</h4>", unsafe_allow_html=True)
 # Create scatter plot
 fig_wind1 = px.scatter(
@@ -258,7 +254,7 @@ st.plotly_chart(fig_wind1, use_container_width=True)
 st.markdown("**Analysis**: The scatter plot reveals an interesting insight: wind speed has a relatively weak impact on total bike rentals. The density of high-rental points remains fairly consistent across lower wind speeds (0.0 - 0.5 normalized scale), suggesting that most riders are not significantly discouraged by mild to moderate wind conditions. However, as wind speed increases beyond 0.5 normalized scale, rental numbers begin to decline, with fewer instances of high usage. This trend indicates that while riders may tolerate light winds, stronger winds likely dissuade potential users, reducing ridership. The bright yellow clusters are concentrated in low-wind conditions, suggesting that bike-sharing programs should account for high-wind days when predicting demand. Although wind speed is not as influential as temperature, extreme wind conditions could warrant strategic bike redistribution to areas with more shelter or alternative transport options.")
 
 #############################################################
-# VISUALIZATION 11: How does different weather conditions (e.g., clear, misty, rainy) affect ridership?
+# VISUALIZATION 12: How does different weather conditions (e.g., clear, misty, rainy) affect ridership?
 
 import streamlit as st
 import pandas as pd
@@ -292,13 +288,13 @@ fig_weather.update_traces(
 st.plotly_chart(fig_weather, use_container_width=True)
 
 #############################################################
-# VISUALIZATION 12: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
+# VISUALIZATION 13: How do temperature, humidity, and wind speed influence bike rental patterns under different weather conditions, and which factor has the strongest impact in each scenario?
 
 
 #############################################################
 st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
 #############################################################
-# VISUALIZATION 13: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
+# VISUALIZATION 14: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
 
 import streamlit as st
 import pandas as pd
@@ -358,7 +354,7 @@ fig_rental_comparison.update_layout(
 st.plotly_chart(fig_rental_comparison, use_container_width=True)
 
 #############################################################
-# VISUALIZATION 14: Do casual riders exhibit different seasonal preferences than registered riders?
+# VISUALIZATION 15: Do casual riders exhibit different seasonal preferences than registered riders?
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
