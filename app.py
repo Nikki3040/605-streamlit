@@ -344,9 +344,9 @@ fig_rental_comparison.add_trace(go.Bar(
     x=hourly_rentals_total["hr"], y=hourly_rentals_total["registered"],
     name="Registered Users", marker_color=registered_color, opacity=0.6, showlegend=False), row=3, col=1)
 fig_rental_comparison.update_xaxes(title_text="Hour of the Day", row=3, col=1)
-fig_rental_comparison.update_yaxes(title_text="Avg Rentals per Hour", row=1, col=1)
-fig_rental_comparison.update_yaxes(title_text="Avg Rentals per Hour", row=2, col=1)
-fig_rental_comparison.update_yaxes(title_text="Avg Rentals per Hour", row=3, col=1)
+fig_rental_comparison.update_yaxes(title_text="Avg Rentals/Hour", row=1, col=1)
+fig_rental_comparison.update_yaxes(title_text="Avg Rentals/Hour", row=2, col=1)
+fig_rental_comparison.update_yaxes(title_text="Avg Rentals/Hour", row=3, col=1)
 
 fig_rental_comparison.update_layout(
     title="Casual Riders vs. Registered Users (Average Rentals)",
