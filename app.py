@@ -65,20 +65,13 @@ st.markdown("**Analysis**: The time series plot shows clear long-term trends in 
 
 # VISUALIZATION 3: Hourly Bike Demand Across Days of the Week
 st.markdown("<h4>1C. How does bike demand fluctuate throughout the day?</h4>", unsafe_allow_html=True)
-
-# Correctly map weekdays
 weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
                    4: "Thursday", 5: "Friday", 6: "Saturday"}
 hour_df["weekday"] = hour_df["weekday"].map(weekday_mapping)
-
-# **Ensure correct categorical ordering**
 weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 hour_df["weekday"] = pd.Categorical(hour_df["weekday"], categories=weekday_order, ordered=True)
-
-# Group by hour and weekday
 hourly_trends = hour_df.groupby(["hr", "weekday"])["cnt"].mean().reset_index()
 
-# **Create animated bar chart with correct day order**
 fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="weekday",
                              title="Hourly Bike Demand Across Days of the Week",
                              labels={"cnt": "Average Rentals", "hr": "Hour of Day", "weekday": "Day of the Week"},
@@ -86,25 +79,6 @@ fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="we
                              category_orders={"weekday": weekday_order})  # Explicitly enforce order
 
 st.plotly_chart(fig_hourly_animated, use_container_width=True)
-
-
-
-
-
-
-######
-
-# VISUALIZATION 3: Hourly Bike Demand Across Days of the Week
-st.markdown("<h4>1C. How does bike demand fluctuate throughout the day?</h4>", unsafe_allow_html=True)
-weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
-                   4: "Thursday", 5: "Friday", 6: "Saturday"}
-hour_df["weekday"] = hour_df["weekday"].map(weekday_mapping)
-hourly_trends = hour_df.groupby(["hr", "weekday"])["cnt"].mean().reset_index()
-fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="weekday",
-                             title="Hourly Bike Demand Across Days of the Week",
-                             labels={"cnt": "Average Rentals", "hr": "Hour of Day", "weekday": "Day of the Week"},
-                             color="cnt", color_continuous_scale="viridis")
-st.plotly_chart(fig_hourly_animated)
 st.markdown("**Analysis**: The interactive bar chart provides a detailed view of hourly bike demand across different days of the week, offering insights into how usage patterns vary between weekdays and weekends. On weekdays (Monday to Friday), there are two distinct peaks in bike rentals: one in the morning between 7-9 AM and another in the evening between 4-7 PM. These trends indicate that a significant portion of users rely on bike-sharing services for commuting to work or school. In contrast, weekends (Saturday and Sunday) exhibit a more gradual increase in demand throughout the day, with peak usage occurring later in the morning and early afternoon, around 10 AM - 6 PM. This suggests a shift from structured commuting-based rentals to recreational or leisurely bike rides. Late-night and early-morning bike rentals remain consistently low across all days, with minimal activity between 12 AM and 5 AM, indicating limited demand during these hours. However, weekend nights show slightly higher late-night rentals, likely due to social outings or nightlife activities. Additionally, Fridays stand out as a transitional day, displaying characteristics of both weekday commuting behavior and increasing evening leisure activity. Unlike other weekdays, Friday’s evening peak extends later into the night, reflecting a gradual shift into weekend patterns. Overall, this visualization highlights the clear distinction between weekday and weekend bike rental behaviors. Weekdays are characterized by structured demand tied to work and school schedules, while weekends cater more to flexible, leisure-oriented biking. These insights can be valuable for bike-sharing companies and urban planners, helping them optimize bike availability, adjust station placements, and enhance overall user experience based on demand fluctuations.")
 
 #############################################################
