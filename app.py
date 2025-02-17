@@ -393,6 +393,7 @@ fig_seasonal_stacked_avg.update_layout(
 st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
 st.markdown("**Analysis**: Casual riders show a strong preference for warmer seasons, with ridership peaking during summer and fall. Their usage is significantly lower in winter, indicating that they are more sensitive to weather conditions, likely due to recreational and leisure-based riding patterns. The consistent increase in warmer months suggests that these riders take advantage of comfortable weather conditions for biking. Registered users, on the other hand, maintain a steady ridership pattern across all seasons, with only a slight dip in winter. This suggests that they use bike-sharing services primarily for commuting or daily routines, making them less affected by seasonal changes compared to casual users. For bike-sharing providers, this insight highlights the need to increase bike availability in warmer months to accommodate higher casual ridership while maintaining a stable fleet year-round for registered users. Additionally, targeted promotions or incentives in winter may help boost casual rider engagement during colder months.")
 
+#############################################################
 st.subheader("Part 4. Predictive Modelling to Better Understand Bike Rental Demand")
 #############################################################
 
@@ -513,7 +514,7 @@ st.markdown("Analysis: Based on the results of the comparative table, it can be 
 
 #############################################################
 
-# Predictive Modelling 2
+# Predictive Modelling 2 (ANIKA)
 
 import streamlit as st
 import pandas as pd
@@ -561,30 +562,17 @@ st.plotly_chart(fig_scatter, use_container_width=True)
 
 
 
+# CONCLUSION, LIMITATIONS, FUTURE DIRECTIONS
+st.subheader("Conclusion")
+st.markdown("The analysis of the UCI Bike Sharing Dataset highlights key insights into how various temporal and environmental factors influence bike rental demand. The analysis reveals distinct usage patterns across different times of the day, weekdays versus weekends, and seasonal variations. Commuter-driven demand peaks during morning and evening rush hours on weekdays, while leisure-based riding is more prevalent on weekends and holidays. Weather conditions, particularly temperature, play a significant role in determining rental volumes, with higher ridership observed in warmer months and clear weather. Furthermore, casual riders and registered users exhibit differing behaviors, with casual riders being more sensitive to seasonal changes, while registered users maintain a consistent usage pattern throughout the year. The predictive modeling results indicate that Gradient Boosting Regression is the most effective approach for forecasting bike rental demand. The findings suggest that bike-sharing services can enhance operational efficiency by dynamically reallocating bikes based on predicted demand, optimizing availability during peak hours, and implementing strategies to mitigate weather-related ridership fluctuations. These insights can guide urban planners, policymakers, and bike-sharing companies in improving service reliability, station distribution, and customer experience, ultimately contributing to the development of more sustainable and efficient urban transportation systems.")
+
+st.subheader("LIMITATIONS")
+st.markdown("Despite providing valuable insights into bike-sharing trends, this study has certain limitations. The dataset is limited to Washington, D.C., covering only two years (2011-2012), which may not fully capture long-term trends or recent shifts in urban mobility patterns. Additionally, while the analysis considers key weather and temporal factors, other potential influences such as infrastructure changes, policy interventions, and socioeconomic factors are not accounted for.")
+
+st.subheader("FUTURE DIRECTIONS")
+st.markdown("For future research, expanding the dataset to include more recent and diverse geographical locations could provide a broader perspective on bike-sharing trends. Integrating real-time data sources, such as live weather updates, traffic conditions, and user demand predictions, can enhance the accuracy of forecasting models. Additionally, exploring the impact of policy changes, infrastructure improvements, and emerging mobility trends would further refine strategies for optimizing bike-sharing networks and promoting sustainable urban transportation.")
 
 
-
-
-
-# Hourly Rental Trends: Holidays vs. Weekends vs. Workdays
-st.subheader("Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays")
-hour_df["day_type"] = hour_df.apply(lambda row: 
-                                    "Holiday" if row["holiday"] == 1 else 
-                                    ("Weekend" if row["weekday"] in [0, 6] else "Workday"), axis=1)
-hourly_avg = hour_df.groupby(["hr", "day_type"])["cnt"].mean().reset_index()
-fig_hourly_rentals = px.line(hourly_avg, x="hr", y="cnt", color="day_type",
-                             title="Hourly Bike Rental Trends: Holidays vs. Weekends vs. Workdays",
-                             labels={"hr": "Hour of the Day", "cnt": "Average Rentals", "day_type": "Day Type"},
-                             markers=True)
-st.plotly_chart(fig_hourly_rentals)
-
-# Hourly Distribution of Casual vs. Registered Users
-st.subheader("Hourly Distribution of Casual vs. Registered Users")
-hourly_comparison = hour_df.groupby("hr").agg({"casual": "sum", "registered": "sum"}).reset_index()
-fig_casual_registered_area = px.area(hourly_comparison, x="hr", y=["casual", "registered"],
-                                     title="Hourly Distribution of Casual vs. Registered Users",
-                                     labels={"hr": "Hour of the Day", "value": "Total Users", "variable": "User Type"})
-st.plotly_chart(fig_casual_registered_area)
 
 
 
