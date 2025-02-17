@@ -377,7 +377,7 @@ fig_seasonal_stacked_avg.add_trace(go.Bar(
     opacity=0.6))
 
 fig_seasonal_stacked_avg.update_layout(
-    title="Casual Riders vs. Registered Users (Average Rentals)",
+    title="Seasonal Preferences: Casual Riders vs. Registered Users (Average Rentals)",
     xaxis_title="Season",
     yaxis_title="Avg Rentals per Hour",
     barmode="stack",
