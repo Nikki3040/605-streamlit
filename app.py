@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 
 st.title("Unlocking the Secrets of Bike-Sharing: A Data Story")
 
-st.subheader("Group 2: Anika Achari & Prabhnoor Virk")
+st.subheader("Authors: Anika Achari & Prabhnoor Virk")
 
 # Load the dataset once
 @st.cache_data
