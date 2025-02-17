@@ -62,6 +62,38 @@ st.plotly_chart(fig_trend)
 st.markdown("**Analysis**: The time series plot shows clear long-term trends in bike usage, with strong seasonal patterns and overall fluctuations in bike rentals. There is an evident increase in bike rentals starting in early 2011, reaching peaks during the warmer months and declining in the winter, a pattern that repeats across multiple years. The highest usage is observed in mid-2012, which might be explained by either increased adoption of bike-sharing programs or favorable weather and infrastructure improvements. However, there is a visible decline in ridership toward the end of 2012 and into early 2013, likely due to seasonal effects rather than a long-term downward trend. These fluctuations indicate that while ridership has generally grown, external factors such as weather, policy changes, and infrastructure development may influence the consistency of bike usage over time.")
 
 #############################################################
+
+# VISUALIZATION 3: Hourly Bike Demand Across Days of the Week
+st.markdown("<h4>1C. How does bike demand fluctuate throughout the day?</h4>", unsafe_allow_html=True)
+
+# Correctly map weekdays
+weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
+                   4: "Thursday", 5: "Friday", 6: "Saturday"}
+hour_df["weekday"] = hour_df["weekday"].map(weekday_mapping)
+
+# **Ensure correct categorical ordering**
+weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+hour_df["weekday"] = pd.Categorical(hour_df["weekday"], categories=weekday_order, ordered=True)
+
+# Group by hour and weekday
+hourly_trends = hour_df.groupby(["hr", "weekday"])["cnt"].mean().reset_index()
+
+# **Create animated bar chart with correct day order**
+fig_hourly_animated = px.bar(hourly_trends, x="hr", y="cnt", animation_frame="weekday",
+                             title="Hourly Bike Demand Across Days of the Week",
+                             labels={"cnt": "Average Rentals", "hr": "Hour of Day", "weekday": "Day of the Week"},
+                             color="cnt", color_continuous_scale="viridis",
+                             category_orders={"weekday": weekday_order})  # Explicitly enforce order
+
+st.plotly_chart(fig_hourly_animated, use_container_width=True)
+
+
+
+
+
+
+######
+
 # VISUALIZATION 3: Hourly Bike Demand Across Days of the Week
 st.markdown("<h4>1C. How does bike demand fluctuate throughout the day?</h4>", unsafe_allow_html=True)
 weekday_mapping = {0: "Sunday", 1: "Monday", 2: "Tuesday", 3: "Wednesday",
@@ -564,13 +596,13 @@ st.markdown("**Analysis**: The scatter plot presents a K-Means clustering-based 
 ###################################################################
 
 # CONCLUSION, LIMITATIONS, FUTURE DIRECTIONS
-st.subheader("Conclusion")
+st.subheader("Conclusions")
 st.markdown("The analysis of the UCI Bike Sharing Dataset highlights key insights into how various temporal and environmental factors influence bike rental demand. The analysis reveals distinct usage patterns across different times of the day, weekdays versus weekends, and seasonal variations. Commuter-driven demand peaks during morning and evening rush hours on weekdays, while leisure-based riding is more prevalent on weekends and holidays. Weather conditions, particularly temperature, play a significant role in determining rental volumes, with higher ridership observed in warmer months and clear weather. Furthermore, casual riders and registered users exhibit differing behaviors, with casual riders being more sensitive to seasonal changes, while registered users maintain a consistent usage pattern throughout the year. The predictive modeling results indicate that Gradient Boosting Regression is the most effective approach for forecasting bike rental demand. The findings suggest that bike-sharing services can enhance operational efficiency by dynamically reallocating bikes based on predicted demand, optimizing availability during peak hours, and implementing strategies to mitigate weather-related ridership fluctuations. These insights can guide urban planners, policymakers, and bike-sharing companies in improving service reliability, station distribution, and customer experience, ultimately contributing to the development of more sustainable and efficient urban transportation systems.")
 
-st.subheader("LIMITATIONS")
+st.subheader("Limitations")
 st.markdown("Despite providing valuable insights into bike-sharing trends, this study has certain limitations. The dataset is limited to Washington, D.C., covering only two years (2011-2012), which may not fully capture long-term trends or recent shifts in urban mobility patterns. Additionally, while the analysis considers key weather and temporal factors, other potential influences such as infrastructure changes, policy interventions, and socioeconomic factors are not accounted for.")
 
-st.subheader("FUTURE DIRECTIONS")
+st.subheader("Future Directions")
 st.markdown("For future research, expanding the dataset to include more recent and diverse geographical locations could provide a broader perspective on bike-sharing trends. Integrating real-time data sources, such as live weather updates, traffic conditions, and user demand predictions, can enhance the accuracy of forecasting models. Additionally, exploring the impact of policy changes, infrastructure improvements, and emerging mobility trends would further refine strategies for optimizing bike-sharing networks and promoting sustainable urban transportation.")
 
 
