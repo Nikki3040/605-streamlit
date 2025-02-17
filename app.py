@@ -397,9 +397,8 @@ st.markdown("**Analysis**: Casual riders show a strong preference for warmer sea
 st.subheader("Part 4. Predictive Modelling to Better Understand Bike Rental Demand")
 #############################################################
 
-# VISUALIZATION 16: Predictive Modeling 1 - Bike Rental Predictions
+# VISUALIZATION 15: Predictive Modeling 1 - Bike Rental Predictions
 st.markdown("<h4>4A. Predictive Modeling - Bike Rental Predictions</h4>", unsafe_allow_html=True)
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -413,22 +412,17 @@ from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.neighbors import KNeighborsRegressor
 from xgboost import XGBRegressor
-
 # Convert categorical columns to numeric
 if 'weathersit' in hour_df.columns:
     hour_df['weathersit'] = hour_df['weathersit'].astype(str)  # Convert to string
-
 # Feature selection
 features = ['temp', 'hum', 'windspeed', 'hr', 'weekday', 'weathersit', 'holiday']
 X = hour_df[features].copy()
 y = hour_df['cnt'].copy()
-
 # Ensure all features are numeric
 X = pd.get_dummies(X, drop_first=True)  # One-hot encoding for categorical columns
-
 # Train-Test Split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
 # **Train Multiple Models**
 models = {
     "Linear Regression": LinearRegression(),
@@ -444,7 +438,6 @@ models = {
     "K-Nearest Neighbors": KNeighborsRegressor(n_neighbors=5),
     "XGBoost": XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=3),
     "Extra Trees Regression": ExtraTreesRegressor(n_estimators=100)}
-
 # Train and evaluate models
 results = {}
 for name, model in models.items():
@@ -456,12 +449,11 @@ for name, model in models.items():
         results[name] = {"MSE": mse, "R²": r2}
     except Exception as e:
         results[name] = {"MSE": "Error", "R²": str(e)}  # Capture errors
-
 # Display results
 results_df = pd.DataFrame(results).T
-st.subheader("Model Performance Comparison")
+st.markdown("<h4>Model Performance Comparison</h4>", unsafe_allow_html=True)
+#st.subheader("Model Performance Comparison")
 st.dataframe(results_df)
-
 # **Grid Search Results**
 results = {
     "Model": [
@@ -483,24 +475,22 @@ results = {
         0.792,
         0.835]}
 results_df = pd.DataFrame(results)
-st.subheader("Grid Search Results - Best Model Parameters & R² Scores")
+st.markdown("<h4>Grid Search Results - Best Model Parameters & R² Scores</h4>", unsafe_allow_html=True)
+#st.subheader("Grid Search Results - Best Model Parameters & R² Scores")
 st.dataframe(results_df)
-
 # **Feature Importance using Gradient Boosting Regressor**
-st.subheader("Feature Importance - Gradient Boosting Regressor")
+st.markdown("<h4>Feature Importance - Gradient Boosting Regressor</h4>", unsafe_allow_html=True)
+#st.subheader("Feature Importance - Gradient Boosting Regressor")
 
 # Best hyperparameters for Gradient Boosting
 best_params = {'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}
-
 # Train Gradient Boosting Model
 gb_model = GradientBoostingRegressor(**best_params, random_state=42)
 gb_model.fit(X_train, y_train)
-
 # Extract Feature Importance
 feature_importance_df = pd.DataFrame({
     "Feature": X.columns,
     "Importance": gb_model.feature_importances_})
-
 # Bar chart for feature importance
 fig = px.bar(
     feature_importance_df.sort_values(by="Importance", ascending=True),
@@ -512,141 +502,84 @@ fig = px.bar(
     color="Importance",
     color_continuous_scale="Blues",
     template='plotly_dark')
-
-# ✅ Scaled Down Layout (Matches 3A/3B)
 fig.update_layout(
-    width=900, height=550,  # ✅ Adjusted dimensions
-    font=dict(size=14),  # ✅ Consistent font size
-    title_font=dict(size=20),  # ✅ Same as 3A
+    width=900, height=550, 
+    font=dict(size=14),
+    title_font=dict(size=20),
     xaxis_title_font=dict(size=16),
     yaxis_title_font=dict(size=16),
     margin=dict(t=60, b=60, l=50, r=50))
-
-# Display in Streamlit
-st.plotly_chart(fig, use_container_width=True)
-
-
-
-#######
-# Predictive Modelling 1 (Noor)
-import streamlit as st
-import pandas as pd
-import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet, BayesianRidge, HuberRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
-from sklearn.svm import SVR
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.neighbors import KNeighborsRegressor
-from xgboost import XGBRegressor
-import streamlit as st
-import pandas as pd
-from tabulate import tabulate
-
-# **Convert categorical columns to numeric**
-if 'weathersit' in hour_df.columns:
-    hour_df['weathersit'] = hour_df['weathersit'].astype(str)  # Convert to string
-# **Feature selection**
-features = ['temp', 'hum', 'windspeed', 'hr', 'weekday', 'weathersit', 'holiday']
-X = hour_df[features].copy()
-y = hour_df['cnt'].copy()
-# **Ensure all features are numeric**
-X = pd.get_dummies(X, drop_first=True)  # One-hot encoding for categorical columns
-# **Train-Test Split**
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-st.title("Bike Rentals Prediction - Model Comparison & Optimization")
-# **Train Multiple Models**
-#st.subheader("🔍 Model Comparison")
-models = {
-    "Linear Regression": LinearRegression(),
-    "Ridge Regression": Ridge(alpha=1.0),
-    "Lasso Regression": Lasso(alpha=1.0),
-    "ElasticNet Regression": ElasticNet(alpha=1.0, l1_ratio=0.5),
-    "Bayesian Ridge Regression": BayesianRidge(),
-    "Huber Regression": HuberRegressor(),
-    "Random Forest Regression": RandomForestRegressor(n_estimators=100),
-    "Decision Tree Regression": DecisionTreeRegressor(max_depth=5),
-    "Gradient Boosting Regression": GradientBoostingRegressor(n_estimators=100, learning_rate=0.1, max_depth=3),
-    "Support Vector Regression": SVR(kernel='rbf'),
-    "K-Nearest Neighbors": KNeighborsRegressor(n_neighbors=5),
-    "XGBoost": XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=3),
-    "Extra Trees Regression": ExtraTreesRegressor(n_estimators=100)}
-
-# Train and evaluate models
-results = {}
-for name, model in models.items():
-    try:
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
-        mse = mean_squared_error(y_test, y_pred)
-        r2 = r2_score(y_test, y_pred)
-        results[name] = {"MSE": mse, "R²": r2}
-    except Exception as e:
-        results[name] = {"MSE": "Error", "R²": str(e)}  # Capture errors
-
-# Display results
-results_df = pd.DataFrame(results).T
-st.write("###Model Performance Comparison")
-st.dataframe(results_df)
-
-# **Grid Search Results**
-results = {
-    "Model": [
-        "Random Forest",
-        "Gradient Boosting",
-        "k-Nearest Neighbors",
-        "Decision Tree",
-        "Extra Trees"],
-    "Best Parameters": [
-        "{'max_depth': 20, 'min_samples_leaf': 1}",
-        "{'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}",
-        "{'n_neighbors': 9, 'p': 2, 'weights': 'distance'}",
-        "{'max_depth': 10, 'min_samples_leaf': 4}",
-        "{'max_depth': 20, 'min_samples_leaf': 1}"],
-    "Best R² Score": [
-        0.836,
-        0.847,
-        0.775,
-        0.792,
-        0.835]}
-results_df = pd.DataFrame(results)
-st.subheader("Grid Search Results - Best Model Parameters & R² Scores")
-st.dataframe(results_df)
-
-# **Feature Importance using Gradient Boosting Regressor**
-st.subheader("Feature Importance - Gradient Boosting Regressor")
-# Best hyperparameters for Gradient Boosting
-best_params = {'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}
-# Train Gradient Boosting Model
-gb_model = GradientBoostingRegressor(**best_params, random_state=42)
-gb_model.fit(X_train, y_train)
-# Extract Feature Importance
-feature_importance_df = pd.DataFrame({
-    "Feature": X.columns,
-    "Importance": gb_model.feature_importances_})
-
-# Bar chart for feature importance
-fig = px.bar(
-    feature_importance_df.sort_values(by="Importance", ascending=True),
-    x="Importance",
-    y="Feature",
-    orientation='h',
-    title="Feature Importance - Gradient Boosting Regressor",
-    labels={"Importance": "Feature Importance Score", "Feature": "Features"},
-    color="Importance",
-    color_continuous_scale="Blues",
-    template='plotly_dark')
 st.plotly_chart(fig, use_container_width=True)
 st.markdown("**Analysis**: Based on the results of the comparative table, it can be observed that that Gradient Boosting Regression is the most effective model for predicting bike rental demand, with an R² score of 0.8469. Hour of the day emerged as the most critical factor, reflecting peak rental times during commuting hours. Temperature and weekday trends also significantly influenced demand, with higher rentals on warm days and workdays showing distinct peaks. Adverse weather conditions such as rain and snow were found to reduce rentals considerably. The presence of holidays showed varied effects on demand, with some seasonal variations. These insights suggest that bike-sharing systems can optimize availability by reallocating bikes dynamically during peak hours, adjusting pricing strategies based on weather conditions, and implementing targeted promotions to increase ridership during weekends and holidays. Ultimately, machine learning models offer a robust approach to forecasting demand, aiding both urban mobility planners and bike-sharing companies in improving operational efficiency and customer satisfaction.")
 
 #############################################################
 
-# Predictive Modelling 2 (ANIKA)
+# VISUALIZATION 16: Predictive Modeling 2 - KNN CLUSTERING (ANIKA)
+st.markdown("<h4>4B. Clustering-Based Demand Classification </h4>", unsafe_allow_html=True)
 
+
+
+# VISUALIZATION 17: Predictive Modeling 2 - Clustering-Based Demand Classification
+st.markdown("<h4>4B. Predictive Modeling - Clustering-Based Demand Classification</h4>", unsafe_allow_html=True)
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+from sklearn.model_selection import train_test_split
+
+# Feature selection
+features = ["temp", "hum", "windspeed", "season", "weekday", "workingday", "weathersit"]
+X_full = day_df[features]
+y = day_df["cnt"]  # Target: Total rentals
+
+# Normalize numerical features
+scaler = StandardScaler()
+X_full_scaled = scaler.fit_transform(X_full)
+
+# Apply KMeans Clustering (3 Clusters)
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+day_df["demand_cluster"] = kmeans.fit_predict(X_full_scaled)
+
+# Assign human-readable labels
+demand_labels = {0: "Medium Demand", 1: "High Demand", 2: "Low Demand"}
+day_df["demand_category"] = day_df["demand_cluster"].map(demand_labels)
+
+# KNN Setup for Decision Boundary (Using Temp & Humidity)
+X_2D = day_df[["temp", "hum"]].values
+y_2D = day_df["demand_cluster"]
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X_2D, y_2D, test_size=0.2, random_state=42)
+
+# **Bike Rental Demand Classification by Temperature**
+st.subheader("Bike Rental Demand Classification by Temperature")
+
+fig_scatter = px.scatter(
+    day_df, x="temp", y="cnt", color="demand_category",
+    title="Bike Rental Demand Classification by Temperature",
+    labels={"temp": "Temperature", "cnt": "Total Rentals", "demand_category": "Demand Category"},
+    template="plotly_dark")
+
+# ✅ Scaled Down Layout (Matches 3A/3B/4A)
+fig_scatter.update_layout(
+    width=900, height=550,  # ✅ Adjusted dimensions
+    font=dict(size=14),  # ✅ Consistent font size
+    title_font=dict(size=20),  # ✅ Same as 3A/3B/4A
+    xaxis_title_font=dict(size=16),
+    yaxis_title_font=dict(size=16),
+    margin=dict(t=60, b=60, l=50, r=50))
+
+# Display in Streamlit
+st.plotly_chart(fig_scatter, use_container_width=True)
+
+
+
+
+########
 import streamlit as st
 import pandas as pd
 import numpy as np
