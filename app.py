@@ -350,24 +350,16 @@ st.markdown("**Analysis**: The rental patterns of casual riders and registered u
 # VISUALIZATION 15: Do casual riders exhibit different seasonal preferences than registered riders?
 st.markdown("<h4>3B. Do casual riders exhibit different seasonal preferences than registered riders?</h4>", unsafe_allow_html=True)
 
-
-
-# VISUALIZATION 15: Do casual riders exhibit different seasonal preferences than registered riders?
-st.markdown("<h4>3B. Do casual riders exhibit different seasonal preferences than registered riders?</h4>", unsafe_allow_html=True)
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-
 # Map season numbers to season names
 season_map = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
 seasonal_rentals_avg = hour_df.groupby('season')[['casual', 'registered']].mean().reset_index()
 seasonal_rentals_avg['season'] = seasonal_rentals_avg['season'].map(season_map)
-
 # Define colors
 casual_color = "#1E90FF"
 registered_color = "#FF6347"
-
 # Create stacked bar chart
 fig_seasonal_stacked_avg = go.Figure()
 fig_seasonal_stacked_avg.add_trace(go.Bar(
@@ -384,7 +376,6 @@ fig_seasonal_stacked_avg.add_trace(go.Bar(
     marker_color=registered_color,
     opacity=0.6))
 
-# ✅ Scaled down layout to match 3A
 fig_seasonal_stacked_avg.update_layout(
     title="Casual Riders vs. Registered Users (Average Rentals)",
     xaxis_title="Season",
@@ -392,64 +383,15 @@ fig_seasonal_stacked_avg.update_layout(
     barmode="stack",
     bargap=0.2,
     template='plotly_dark',
-    width=900, height=550,  # ✅ Adjusted size to match 3A
-    font=dict(size=14),  # ✅ Matched 3A font sizes
-    title_font=dict(size=20),  # ✅ Same as 3A
+    width=900, height=550,
+    font=dict(size=14),
+    title_font=dict(size=20),
     xaxis_title_font=dict(size=16),
     yaxis_title_font=dict(size=16),
     margin=dict(t=60, b=60, l=50, r=50)
 )
-
-# ✅ Removed extra title in Streamlit for consistency with 3A
 st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
-
-
-
-
-###
-import streamlit as st
-import pandas as pd
-import plotly.graph_objects as go
-
-season_map = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
-seasonal_rentals_avg = hour_df.groupby('season')[['casual', 'registered']].mean().reset_index()
-seasonal_rentals_avg['season'] = seasonal_rentals_avg['season'].map(season_map)
-
-casual_color = "#1E90FF" 
-registered_color = "#FF6347" 
-
-fig_seasonal_stacked_avg = go.Figure()
-fig_seasonal_stacked_avg.add_trace(go.Bar(
-    x=seasonal_rentals_avg['season'],
-    y=seasonal_rentals_avg['casual'],
-    name='Casual Riders',
-    marker_color=casual_color,
-    opacity=0.8))
-
-fig_seasonal_stacked_avg.add_trace(go.Bar(
-    x=seasonal_rentals_avg['season'],
-    y=seasonal_rentals_avg['registered'],
-    name='Registered Users',
-    marker_color=registered_color,
-    opacity=0.6))
-
-fig_seasonal_stacked_avg.update_layout(
-    title="Casual Riders vs. Registered Users (Average Rentals)",
-    xaxis_title="Season",
-    yaxis_title="Average Rentals per Hour",
-    barmode="stack",
-    bargap=0.2,
-    template='plotly_dark',
-    width=1200, height=600,  # Adjusted for Streamlit display
-    font=dict(size=20),
-    title_font=dict(size=32),
-    xaxis_title_font=dict(size=24),
-    yaxis_title_font=dict(size=24)
-)
-
-# **Display chart in Streamlit**
-st.title("Seasonal Preferences: Casual vs. Registered Riders")
-st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
+st.markdown("**Analysis**: Casual riders show a strong preference for warmer seasons, with ridership peaking during summer and fall. Their usage is significantly lower in winter, indicating that they are more sensitive to weather conditions, likely due to recreational and leisure-based riding patterns. The consistent increase in warmer months suggests that these riders take advantage of comfortable weather conditions for biking. Registered users, on the other hand, maintain a steady ridership pattern across all seasons, with only a slight dip in winter. This suggests that they use bike-sharing services primarily for commuting or daily routines, making them less affected by seasonal changes compared to casual users. For bike-sharing providers, this insight highlights the need to increase bike availability in warmer months to accommodate higher casual ridership while maintaining a stable fleet year-round for registered users. Additionally, targeted promotions or incentives in winter may help boost casual rider engagement during colder months.")
 
 #############################################################
 
