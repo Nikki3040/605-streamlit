@@ -305,7 +305,9 @@ hourly_rentals_total = hour_df.groupby('hr')[['casual', 'registered']].mean().re
 fig_rental_comparison = make_subplots(
     rows=3, cols=1, 
     subplot_titles=["Holiday Rentals", "Non-Holiday Rentals", "Total Rentals"],
-    shared_xaxes=True  # Ensures the x-axis is shared across all subplots)
+    shared_xaxes=True
+)
+
 casual_color = "#1E90FF"
 registered_color = "#FF6347"
 # Add traces for Holiday Rentals
