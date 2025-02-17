@@ -427,9 +427,9 @@ X = pd.get_dummies(X, drop_first=True)  # One-hot encoding for categorical colum
 # **Train-Test Split**
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-st.title("📊 Bike Rentals Prediction - Model Comparison & Optimization")
+st.title("Bike Rentals Prediction - Model Comparison & Optimization")
 # **Train Multiple Models**
-st.subheader("🔍 Model Comparison")
+#st.subheader("🔍 Model Comparison")
 models = {
     "Linear Regression": LinearRegression(),
     "Ridge Regression": Ridge(alpha=1.0),
@@ -459,7 +459,7 @@ for name, model in models.items():
 
 # Display results
 results_df = pd.DataFrame(results).T
-st.write("### 📊 Model Performance Comparison")
+st.write("###Model Performance Comparison")
 st.dataframe(results_df)
 
 # **Grid Search Results**
@@ -483,11 +483,11 @@ results = {
         0.792,
         0.835]}
 results_df = pd.DataFrame(results)
-st.subheader("🏆 Grid Search Results - Best Model Parameters & R² Scores")
+st.subheader("Grid Search Results - Best Model Parameters & R² Scores")
 st.dataframe(results_df)
 
 # **Feature Importance using Gradient Boosting Regressor**
-st.subheader("📊 Feature Importance - Gradient Boosting Regressor")
+st.subheader("Feature Importance - Gradient Boosting Regressor")
 # Best hyperparameters for Gradient Boosting
 best_params = {'learning_rate': 0.1, 'max_depth': 7, 'min_samples_leaf': 3}
 # Train Gradient Boosting Model
@@ -510,7 +510,7 @@ fig = px.bar(
     color_continuous_scale="Blues",
     template='plotly_dark')
 st.plotly_chart(fig, use_container_width=True)
-st.markdown("Analysis: Based on the results of the comparative table, it can be observed that that Gradient Boosting Regression is the most effective model for predicting bike rental demand, with an R² score of 0.8469. Hour of the day emerged as the most critical factor, reflecting peak rental times during commuting hours. Temperature and weekday trends also significantly influenced demand, with higher rentals on warm days and workdays showing distinct peaks. Adverse weather conditions such as rain and snow were found to reduce rentals considerably. The presence of holidays showed varied effects on demand, with some seasonal variations. These insights suggest that bike-sharing systems can optimize availability by reallocating bikes dynamically during peak hours, adjusting pricing strategies based on weather conditions, and implementing targeted promotions to increase ridership during weekends and holidays. Ultimately, machine learning models offer a robust approach to forecasting demand, aiding both urban mobility planners and bike-sharing companies in improving operational efficiency and customer satisfaction.")
+st.markdown("**Analysis**: Based on the results of the comparative table, it can be observed that that Gradient Boosting Regression is the most effective model for predicting bike rental demand, with an R² score of 0.8469. Hour of the day emerged as the most critical factor, reflecting peak rental times during commuting hours. Temperature and weekday trends also significantly influenced demand, with higher rentals on warm days and workdays showing distinct peaks. Adverse weather conditions such as rain and snow were found to reduce rentals considerably. The presence of holidays showed varied effects on demand, with some seasonal variations. These insights suggest that bike-sharing systems can optimize availability by reallocating bikes dynamically during peak hours, adjusting pricing strategies based on weather conditions, and implementing targeted promotions to increase ridership during weekends and holidays. Ultimately, machine learning models offer a robust approach to forecasting demand, aiding both urban mobility planners and bike-sharing companies in improving operational efficiency and customer satisfaction.")
 
 #############################################################
 
