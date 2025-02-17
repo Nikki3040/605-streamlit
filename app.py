@@ -304,7 +304,6 @@ st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
 #############################################################
 # VISUALIZATION 13: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
 
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -318,8 +317,7 @@ hourly_rentals_total = hour_df.groupby('hr')[['casual', 'registered']].mean().re
 fig_rental_comparison = make_subplots(
     rows=3, cols=1, 
     subplot_titles=["Holiday Rentals", "Non-Holiday Rentals", "Total Rentals"],
-    shared_xaxes=True,
-    vertical_spacing=0.1  # Adds spacing between subplots
+    shared_xaxes=True
 )
 
 casual_color = "#1E90FF"
@@ -352,17 +350,18 @@ fig_rental_comparison.add_trace(go.Bar(
 # ✅ **Ensure X-Axis Label Appears Across All Subplots**
 fig_rental_comparison.update_xaxes(title_text="Hour of the Day", row=3, col=1)
 
-# ✅ **Fix Y-Axis Label Placement (Shared Across All Rows)**
+# ✅ **Ensure Y-Axis Labels Appear on ALL Subplots**
+fig_rental_comparison.update_yaxes(title_text="Avg Rentals per Hour", row=1, col=1)
+fig_rental_comparison.update_yaxes(title_text="Avg Rentals per Hour", row=2, col=1)
+fig_rental_comparison.update_yaxes(title_text="Avg Rentals per Hour", row=3, col=1)
+
 fig_rental_comparison.update_layout(
     title="Casual Riders vs. Registered Users (Average Rentals)",
     template='plotly_dark',
     width=900, height=550,  
     font=dict(size=14),  
     title_font=dict(size=20),  
-    yaxis=dict(title="Avg Rentals per Hour", title_standoff=15),  # **Single Y-Axis Label**
-    yaxis2=dict(title="", showticklabels=False),  # Hide duplicate labels
-    yaxis3=dict(title="", showticklabels=False),
-    margin=dict(t=60, b=60, l=60, r=50)  # Adjust left margin for y-label
+    margin=dict(t=60, b=60, l=50, r=50)
 )
 
 st.plotly_chart(fig_rental_comparison, use_container_width=True)
@@ -372,7 +371,11 @@ st.plotly_chart(fig_rental_comparison, use_container_width=True)
 
 
 
-#################
+
+
+
+
+##############
 st.markdown("<h4>3A. How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?</h4>", unsafe_allow_html=True)
 import streamlit as st
 import pandas as pd
