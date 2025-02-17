@@ -515,11 +515,6 @@ st.markdown("**Analysis**: Based on the results of the comparative table, it can
 #############################################################
 
 # VISUALIZATION 16: Predictive Modeling 2 - KNN CLUSTERING (ANIKA)
-st.markdown("<h4>4B. Clustering-Based Demand Classification </h4>", unsafe_allow_html=True)
-
-
-
-# VISUALIZATION 17: Predictive Modeling 2 - Clustering-Based Demand Classification
 st.markdown("<h4>4B. Predictive Modeling - Clustering-Based Demand Classification</h4>", unsafe_allow_html=True)
 
 import streamlit as st
@@ -530,33 +525,24 @@ import plotly.graph_objects as go
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
-
 # Feature selection
 features = ["temp", "hum", "windspeed", "season", "weekday", "workingday", "weathersit"]
 X_full = day_df[features]
 y = day_df["cnt"]  # Target: Total rentals
-
 # Normalize numerical features
 scaler = StandardScaler()
 X_full_scaled = scaler.fit_transform(X_full)
-
 # Apply KMeans Clustering (3 Clusters)
 kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
 day_df["demand_cluster"] = kmeans.fit_predict(X_full_scaled)
-
-# Assign human-readable labels
+# Assign labels
 demand_labels = {0: "Medium Demand", 1: "High Demand", 2: "Low Demand"}
 day_df["demand_category"] = day_df["demand_cluster"].map(demand_labels)
-
 # KNN Setup for Decision Boundary (Using Temp & Humidity)
 X_2D = day_df[["temp", "hum"]].values
 y_2D = day_df["demand_cluster"]
-
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X_2D, y_2D, test_size=0.2, random_state=42)
-
-# **Bike Rental Demand Classification by Temperature**
-st.subheader("Bike Rental Demand Classification by Temperature")
 
 fig_scatter = px.scatter(
     day_df, x="temp", y="cnt", color="demand_category",
@@ -564,64 +550,16 @@ fig_scatter = px.scatter(
     labels={"temp": "Temperature", "cnt": "Total Rentals", "demand_category": "Demand Category"},
     template="plotly_dark")
 
-# ✅ Scaled Down Layout (Matches 3A/3B/4A)
 fig_scatter.update_layout(
-    width=900, height=550,  # ✅ Adjusted dimensions
-    font=dict(size=14),  # ✅ Consistent font size
-    title_font=dict(size=20),  # ✅ Same as 3A/3B/4A
+    width=900, height=550, 
+    font=dict(size=14), 
+    title_font=dict(size=20),
     xaxis_title_font=dict(size=16),
     yaxis_title_font=dict(size=16),
     margin=dict(t=60, b=60, l=50, r=50))
 
-# Display in Streamlit
 st.plotly_chart(fig_scatter, use_container_width=True)
-
-
-
-
-########
-import streamlit as st
-import pandas as pd
-import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans
-from sklearn.model_selection import train_test_split
-
-st.title("Bike Rental Demand Clustering & Visualization")
-
-# Feature selection
-features = ["temp", "hum", "windspeed", "season", "weekday", "workingday", "weathersit"]
-X_full = day_df[features]
-y = day_df["cnt"]  # Target: Total rentals
-# Normalize numerical features
-scaler = StandardScaler()
-X_full_scaled = scaler.fit_transform(X_full)
-# Apply KMeans Clustering (3 Clusters)
-kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
-day_df["demand_cluster"] = kmeans.fit_predict(X_full_scaled)
-# Demand Labels
-demand_labels = {0: "Medium Demand", 1: "High Demand", 2: "Low Demand"}
-day_df["demand_category"] = day_df["demand_cluster"].map(demand_labels)
-# KNN Setup for Decision Boundary (Using Temp & Humidity)
-X_2D = day_df[["temp", "hum"]].values
-y_2D = day_df["demand_cluster"]
-# Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X_2D, y_2D, test_size=0.2, random_state=42)
-
-st.subheader("Bike Rental Demand Classification by Temperature")
-fig_scatter = px.scatter(
-    day_df, x="temp", y="cnt", color="demand_category",
-    title="Bike Rental Demand Classification by Temperature",
-    labels={"temp": "Temperature", "cnt": "Total Rentals", "demand_category": "Demand Category"},
-    template="plotly_dark",
-    width=800)
-st.plotly_chart(fig_scatter, use_container_width=True)
-
-
-
-
+st.markdown("**Analysis**: The scatter plot presents a K-Means clustering-based demand classification for bike rentals, categorized into Low, Medium, and High Demand clusters based on temperature. The trend suggests a strong positive correlation between temperature and total bike rentals. The low-demand cluster (red) is concentrated at lower temperatures, indicating that cold weather significantly reduces ridership. The medium-demand cluster (blue) appears to be more spread out, covering moderate temperatures where bike rentals fluctuate. The high-demand cluster (green) emerges at higher temperatures, confirming that warmer weather attracts more bike riders. This clustering analysis reinforces the idea that temperature plays a critical role in determining demand for bike rentals. Warmer temperatures likely make cycling more comfortable and appealing, while colder conditions deter casual riders. The presence of medium demand in some mid-range temperatures suggests that other factors, such as humidity or wind speed, may also influence ridership patterns. These insights can help bike-sharing programs optimize fleet distribution, ensuring more bikes are available during peak demand seasons while reducing excess supply in colder months.")
 
 ###################################################################
 
