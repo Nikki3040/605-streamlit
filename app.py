@@ -343,7 +343,6 @@ fig_rental_comparison.update_layout(
     yaxis_title="Avg Rentals per Hour",
     yaxis_title_font=dict(size=16),
     margin=dict(t=60, b=60, l=50, r=50))
-
 st.plotly_chart(fig_rental_comparison, use_container_width=True)
 st.markdown("**Analysis**: The rental patterns of casual riders and registered users exhibit distinct trends based on whether it is a holiday or a non-holiday. The graphs above illustrate a clear behavioral contrast between the two groups. On holidays, casual riders display a more evenly distributed usage pattern throughout the day, with a steady increase in demand from morning to afternoon. Unlike registered users, their peak hours are morning to early evening (8 AM - 6 PM), indicating that these riders are likely engaging in leisure activities rather than commuting. In contrast, registered users follow a structured commuting pattern, which is especially evident on non-holidays. Their demand spikes dramatically during morning rush hours (8 AM) and evening rush hours (5 PM - 6 PM), aligning with typical work schedules. This group’s ridership drops significantly during midday hours, reinforcing the idea that their primary use of the bike-sharing system is for daily commuting rather than leisure. The total rentals graph confirms these trends, showing that overall bike demand is highest during commuting hours on workdays and more evenly spread on holidays. For bike-sharing systems, this suggests the need for higher bike availability during rush hours on weekdays and a balanced distribution throughout the day on holidays to accommodate varying user behaviors.")
 
@@ -351,6 +350,63 @@ st.markdown("**Analysis**: The rental patterns of casual riders and registered u
 # VISUALIZATION 15: Do casual riders exhibit different seasonal preferences than registered riders?
 st.markdown("<h4>3B. Do casual riders exhibit different seasonal preferences than registered riders?</h4>", unsafe_allow_html=True)
 
+
+
+# VISUALIZATION 15: Do casual riders exhibit different seasonal preferences than registered riders?
+st.markdown("<h4>3B. Do casual riders exhibit different seasonal preferences than registered riders?</h4>", unsafe_allow_html=True)
+
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+
+# Map season numbers to season names
+season_map = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
+seasonal_rentals_avg = hour_df.groupby('season')[['casual', 'registered']].mean().reset_index()
+seasonal_rentals_avg['season'] = seasonal_rentals_avg['season'].map(season_map)
+
+# Define colors
+casual_color = "#1E90FF"
+registered_color = "#FF6347"
+
+# Create stacked bar chart
+fig_seasonal_stacked_avg = go.Figure()
+fig_seasonal_stacked_avg.add_trace(go.Bar(
+    x=seasonal_rentals_avg['season'],
+    y=seasonal_rentals_avg['casual'],
+    name='Casual Riders',
+    marker_color=casual_color,
+    opacity=0.8))
+
+fig_seasonal_stacked_avg.add_trace(go.Bar(
+    x=seasonal_rentals_avg['season'],
+    y=seasonal_rentals_avg['registered'],
+    name='Registered Users',
+    marker_color=registered_color,
+    opacity=0.6))
+
+# ✅ Scaled down layout to match 3A
+fig_seasonal_stacked_avg.update_layout(
+    title="Casual Riders vs. Registered Users (Average Rentals)",
+    xaxis_title="Season",
+    yaxis_title="Avg Rentals per Hour",
+    barmode="stack",
+    bargap=0.2,
+    template='plotly_dark',
+    width=900, height=550,  # ✅ Adjusted size to match 3A
+    font=dict(size=14),  # ✅ Matched 3A font sizes
+    title_font=dict(size=20),  # ✅ Same as 3A
+    xaxis_title_font=dict(size=16),
+    yaxis_title_font=dict(size=16),
+    margin=dict(t=60, b=60, l=50, r=50)
+)
+
+# ✅ Removed extra title in Streamlit for consistency with 3A
+st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
+
+
+
+
+###
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
