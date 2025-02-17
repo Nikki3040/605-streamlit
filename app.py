@@ -302,9 +302,9 @@ st.markdown("**Analysis**: Weather plays a crucial role in shaping bike-sharing 
 #############################################################
 st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
 #############################################################
-# VISUALIZATION 13: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
+# VISUALIZATION 13: How do casual riders and registered users differ in their rental patterns, on holidays compared to non-holidays? Which time of day is most popular for casual users versus registered users?
 
-st.markdown("<h4>3A. How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?</h4>", unsafe_allow_html=True)
+st.markdown("<h4>3A. How do casual riders and registered users differ in their rental patterns, on holidays compared to non-holidays? Which time of day is most popular for casual users versus registered users?</h4>", unsafe_allow_html=True)
 
 import streamlit as st
 import pandas as pd
