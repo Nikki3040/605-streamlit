@@ -362,7 +362,7 @@ st.markdown("**Analysis**: The rental patterns of casual riders and registered u
 
 #############################################################
 # VISUALIZATION 14: Do casual riders exhibit different seasonal preferences than registered riders?
-st.markdown("<h4>3B. Do casual riders exhibit different seasonal preferences than registered riders?</h4>", unsafe_allow_html=True)
+st.markdown("<h4>3B. Do casual riders exhibit different seasonal preferences compared to registered riders?</h4>", unsafe_allow_html=True)
 
 import streamlit as st
 import pandas as pd
