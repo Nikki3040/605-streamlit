@@ -408,7 +408,7 @@ st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
 st.markdown("**Analysis**: Casual riders show a strong preference for warmer seasons, with ridership peaking during summer and fall. Their usage is significantly lower in winter, indicating that they are more sensitive to weather conditions, likely due to recreational and leisure-based riding patterns. The consistent increase in warmer months suggests that these riders take advantage of comfortable weather conditions for biking. Registered users, on the other hand, maintain a steady ridership pattern across all seasons, with only a slight dip in winter. This suggests that they use bike-sharing services primarily for commuting or daily routines, making them less affected by seasonal changes compared to casual users. For bike-sharing providers, this insight highlights the need to increase bike availability in warmer months to accommodate higher casual ridership while maintaining a stable fleet year-round for registered users. Additionally, targeted promotions or incentives in winter may help boost casual rider engagement during colder months.")
 
 #############################################################
-st.subheader("Part 4. Predictive Modelling to Better Understand Bike Rental Demand")
+st.subheader("Part 4. Unlocking Insights with Predictive Modelling – Forecasting Bike Rental Demand")
 #############################################################
 
 # VISUALIZATION 15: Predictive Modeling 1 - Bike Rental Predictions
