@@ -112,6 +112,29 @@ st.plotly_chart(fig_weekly_trends_line)
 
 #############################################################
 # VISUALIZATION 5: Distribution of Bike Rentals Across the Week
+
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+
+# **Ensure Correct Weekday Order**
+weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+day_df["weekday_name"] = pd.Categorical(day_df["weekday_name"], categories=weekday_order, ordered=True)
+
+# **Create Box Plot with Correct Weekday Order**
+fig_weekly_trends_box = px.box(
+    day_df, x="weekday_name", y="cnt",
+    title="Distribution of Bike Rentals Across the Week",
+    labels={"cnt": "Total Bike Rentals", "weekday_name": "Day of the Week"},
+    color="weekday_name",
+    category_orders={"weekday_name": weekday_order}  # **Explicitly enforce order**
+)
+
+st.plotly_chart(fig_weekly_trends_box, use_container_width=True)
+
+
+
+#####
 fig_weekly_trends_box = px.box(day_df, x="weekday_name", y="cnt",
                                title="Distribution of Bike Rentals Across the Week",
                                labels={"cnt": "Total Bike Rentals", "weekday_name": "Day of the Week"},
