@@ -290,7 +290,7 @@ st.markdown("**Analysis**: Weather plays a crucial role in shaping bike-sharing 
 #############################################################
 st.subheader("Part 3. Who’s Riding? Comparing Casual and Registered Users")
 #############################################################
-# VISUALIZATION 14: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
+# VISUALIZATION 13: How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?
 st.markdown("<h4>3A. How do casual riders and registered users differ in their rental patterns, compare on holiday and non-holiday? Which time of day is most popular for casual users versus registered users?</h4>", unsafe_allow_html=True)
 import streamlit as st
 import pandas as pd
@@ -347,7 +347,7 @@ st.plotly_chart(fig_rental_comparison, use_container_width=True)
 st.markdown("**Analysis**: The rental patterns of casual riders and registered users exhibit distinct trends based on whether it is a holiday or a non-holiday. The graphs above illustrate a clear behavioral contrast between the two groups. On holidays, casual riders display a more evenly distributed usage pattern throughout the day, with a steady increase in demand from morning to afternoon. Unlike registered users, their peak hours are morning to early evening (8 AM - 6 PM), indicating that these riders are likely engaging in leisure activities rather than commuting. In contrast, registered users follow a structured commuting pattern, which is especially evident on non-holidays. Their demand spikes dramatically during morning rush hours (8 AM) and evening rush hours (5 PM - 6 PM), aligning with typical work schedules. This group’s ridership drops significantly during midday hours, reinforcing the idea that their primary use of the bike-sharing system is for daily commuting rather than leisure. The total rentals graph confirms these trends, showing that overall bike demand is highest during commuting hours on workdays and more evenly spread on holidays. For bike-sharing systems, this suggests the need for higher bike availability during rush hours on weekdays and a balanced distribution throughout the day on holidays to accommodate varying user behaviors.")
 
 #############################################################
-# VISUALIZATION 15: Do casual riders exhibit different seasonal preferences than registered riders?
+# VISUALIZATION 14: Do casual riders exhibit different seasonal preferences than registered riders?
 st.markdown("<h4>3B. Do casual riders exhibit different seasonal preferences than registered riders?</h4>", unsafe_allow_html=True)
 
 import streamlit as st
@@ -393,10 +393,10 @@ fig_seasonal_stacked_avg.update_layout(
 st.plotly_chart(fig_seasonal_stacked_avg, use_container_width=True)
 st.markdown("**Analysis**: Casual riders show a strong preference for warmer seasons, with ridership peaking during summer and fall. Their usage is significantly lower in winter, indicating that they are more sensitive to weather conditions, likely due to recreational and leisure-based riding patterns. The consistent increase in warmer months suggests that these riders take advantage of comfortable weather conditions for biking. Registered users, on the other hand, maintain a steady ridership pattern across all seasons, with only a slight dip in winter. This suggests that they use bike-sharing services primarily for commuting or daily routines, making them less affected by seasonal changes compared to casual users. For bike-sharing providers, this insight highlights the need to increase bike availability in warmer months to accommodate higher casual ridership while maintaining a stable fleet year-round for registered users. Additionally, targeted promotions or incentives in winter may help boost casual rider engagement during colder months.")
 
+st.subheader("Part 4. Predictive Modelling to Better Understand Bike Rental Demand")
 #############################################################
 
-# Predictive Modelling 1
-
+# Predictive Modelling 1 (Noor)
 import streamlit as st
 import pandas as pd
 import numpy as np
