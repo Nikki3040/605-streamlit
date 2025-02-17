@@ -7,6 +7,8 @@ import plotly.graph_objects as go
 
 st.title("Unlocking the Secrets of Bike-Sharing: A Data Story")
 
+st.subheader("Group 2: Anika Achari & Prabhnoor Virk")
+
 # Load the dataset once
 @st.cache_data
 def load_data():
@@ -577,7 +579,7 @@ st.markdown("**Analysis**: The scatter plot presents a K-Means clustering-based 
 
 ###################################################################
 
-# CONCLUSION, LIMITATIONS, FUTURE DIRECTIONS
+# CONCLUSION, LIMITATIONS, FUTURE DIRECTIONS, REFERENCES 
 st.subheader("Conclusions")
 st.markdown("The analysis of the UCI Bike Sharing Dataset highlights key insights into how various temporal and environmental factors influence bike rental demand. The analysis reveals distinct usage patterns across different times of the day, weekdays versus weekends, and seasonal variations. Commuter-driven demand peaks during morning and evening rush hours on weekdays, while leisure-based riding is more prevalent on weekends and holidays. Weather conditions, particularly temperature, play a significant role in determining rental volumes, with higher ridership observed in warmer months and clear weather. Furthermore, casual riders and registered users exhibit differing behaviors, with casual riders being more sensitive to seasonal changes, while registered users maintain a consistent usage pattern throughout the year. The predictive modeling results indicate that Gradient Boosting Regression is the most effective approach for forecasting bike rental demand. The findings suggest that bike-sharing services can enhance operational efficiency by dynamically reallocating bikes based on predicted demand, optimizing availability during peak hours, and implementing strategies to mitigate weather-related ridership fluctuations. These insights can guide urban planners, policymakers, and bike-sharing companies in improving service reliability, station distribution, and customer experience, ultimately contributing to the development of more sustainable and efficient urban transportation systems.")
 
@@ -587,10 +589,10 @@ st.markdown("Despite providing valuable insights into bike-sharing trends, this 
 st.subheader("Future Directions")
 st.markdown("For future research, expanding the dataset to include more recent and diverse geographical locations could provide a broader perspective on bike-sharing trends. Integrating real-time data sources, such as live weather updates, traffic conditions, and user demand predictions, can enhance the accuracy of forecasting models. Additionally, exploring the impact of policy changes, infrastructure improvements, and emerging mobility trends would further refine strategies for optimizing bike-sharing networks and promoting sustainable urban transportation.")
 
-
-
-
-
+st.subheader("References")
+st.markdown("1.  M. Lichman, “Bike Sharing Dataset,” UCI Machine Learning Repository, 2013. [Online]. Available: https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset. [Accessed: 1 Feb 2025].")
+st.markdown("2.   A. Author, “Plotly: Beautiful Data Visualization Made Easy,” Medium, [Online]. Available: https://medium.com/swlh/plotly-beautiful-data-visualization-made-easy-3f7e48864706. [Accessed: 5 Feb 2025].")
+st.markdown("3.   A. Author, “Gradient Boosting Regressor Explained: A Visual Guide with Code Examples,” Medium, [Online]. Available: https://medium.com/towards-data-science/gradient-boosting-regressor-explained-a-visual-guide-with-code-examples-c098d1ae425c. [Accessed: 7 Feb 2025].")
 
 
 
