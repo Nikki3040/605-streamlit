@@ -113,15 +113,8 @@ st.plotly_chart(fig_weekly_trends_line)
 #############################################################
 # VISUALIZATION 5: Distribution of Bike Rentals Across the Week
 
-import streamlit as st
-import plotly.express as px
-import pandas as pd
-
-# **Ensure Correct Weekday Order**
 weekday_order = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 day_df["weekday_name"] = pd.Categorical(day_df["weekday_name"], categories=weekday_order, ordered=True)
-
-# **Create Box Plot with Correct Weekday Order**
 fig_weekly_trends_box = px.box(
     day_df, x="weekday_name", y="cnt",
     title="Distribution of Bike Rentals Across the Week",
@@ -129,17 +122,7 @@ fig_weekly_trends_box = px.box(
     color="weekday_name",
     category_orders={"weekday_name": weekday_order}  # **Explicitly enforce order**
 )
-
 st.plotly_chart(fig_weekly_trends_box, use_container_width=True)
-
-
-
-#####
-fig_weekly_trends_box = px.box(day_df, x="weekday_name", y="cnt",
-                               title="Distribution of Bike Rentals Across the Week",
-                               labels={"cnt": "Total Bike Rentals", "weekday_name": "Day of the Week"},
-                               color="weekday_name")
-st.plotly_chart(fig_weekly_trends_box)
 st.markdown("**Analysis**: The line chart shows a gradual increase in bike rentals from Sunday to Friday, with a peak on Thursday and Friday, before dropping slightly on Saturday. This suggests that bike usage is highest during the weekdays, likely driven by commuters using bikes for work or school. The slight decline on weekends could indicate that fewer people are commuting, although there is still significant bike usage. The box plot complements this by showing the distribution and variability of bike rentals for each day. It reveals that while weekdays generally have higher median rentals, the spread is also greater, suggesting higher fluctuations in demand. This could be due to variations in weather, events, or different commuting patterns. Interestingly, weekend rentals have a wider range, indicating some days see substantial usage spikes, possibly due to recreational activities. Together, these two visuals suggest that bike rentals are primarily driven by weekday commuting patterns, but weekends still see significant usage, albeit with more variability. This insight can be useful for bike-sharing companies or city planners to optimize availability based on expected demand throughout the week.")
 
 #############################################################
